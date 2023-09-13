@@ -1,6 +1,17 @@
 <div class="d-flex flex-column" style="height: 100%;">
   <div style="height: calc(100% - 1.5rem);">
-      <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
   </div>
-  <div class="border border-top" style="height: 1.5rem;"></div>
+  <div class="border-top d-flex flex-row-reverse" style="height: 1.5rem;">
+    <div class="d-flex flex-row align-items-center toolbar-item mx-2" (click)="onDarkModeToggle()">
+      <svg *ngIf="dark_mode" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
+        <use xlink:href="#moon" />
+      </svg>
+      <svg *ngIf="!dark_mode" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+        <use xlink:href="#sun" />
+      </svg>
+      <span *ngIf="dark_mode" class="mx-1" style=" font-size: 0.7rem;">Dark Mode</span>
+      <span *ngIf="!dark_mode" class="mx-1" style=" font-size: 0.7rem;">Light Mode</span>
+    </div>
+  </div>
 </div>

@@ -1,10 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageComponent } from './page/page.component';
+import { CpuComponent } from './page/cpu/cpu.component';
+import { MemoryComponent } from './page/memory/memory.component';
+import { ProcessesComponent } from './page/processes/processes.component';
+import { DiskComponent } from './page/disk/disk.component';
 
 const routes: Routes = [
-  {path: 'page', component: PageComponent},
-  {path: '', redirectTo: 'page', pathMatch: 'full'}
+  {path: 'page', component: PageComponent, children:[
+    {path: 'cpu', component: CpuComponent},
+    {path: 'memory', component: MemoryComponent},
+    {path: 'disk', component: DiskComponent},
+    {path: 'processes', component: ProcessesComponent},
+  ]},
+  
+  {path: '', redirectTo: 'page/cpu', pathMatch: 'full'}
 ];
 
 @NgModule({

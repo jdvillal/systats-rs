@@ -34,7 +34,7 @@
           <span>&nbsp; CPU</span>
         </li>
   
-        <li class="py-2 px-3 menu-li d-flex align-items-center" [routerLink]="'ram'" (click)="on_page_clicked('ram')"
+        <li class="py-2 px-3 menu-li d-flex align-items-center" [routerLink]="'memory'" (click)="on_page_clicked('ram')"
           [ngClass]="{'active': current_page === 'ram'}">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-memory"
             viewBox="0 0 16 16">
@@ -56,7 +56,7 @@
           <span>&nbsp;DISK</span>
         </li>
   
-        <li class="py-2 px-3 menu-li d-flex align-items-center" [routerLink]="'gpu'" (click)="on_page_clicked('gpu')"
+        <!-- <li class="py-2 px-3 menu-li d-flex align-items-center" [routerLink]="'gpu'" (click)="on_page_clicked('gpu')"
           [ngClass]="{'active': current_page === 'gpu'}">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gpu-card"
             viewBox="0 0 16 16">
@@ -67,7 +67,7 @@
               d="M3 12.5h3.5v1a.5.5 0 0 1-.5.5H3.5a.5.5 0 0 1-.5-.5v-1Zm4 1v-1h4v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5Z" />
           </svg>
           <span>&nbsp;GPU</span>
-        </li>
+        </li> -->
   
         <li class="py-2 px-3 menu-li d-flex align-items-center" [routerLink]="'processes'"
           (click)="on_page_clicked('processes')" [ngClass]="{'active': current_page === 'processes'}">
