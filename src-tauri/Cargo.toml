@@ -18,6 +18,8 @@ tauri-build = { version = "1.4.0", features = [] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.4.0", features = [] }
+tungstenite = "0.20.0"
+sysinfo = "0.29.10"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.

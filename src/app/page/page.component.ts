@@ -22,7 +22,6 @@ export class PageComponent {
 
   on_page_clicked(page: string){
     this.current_page = page;
-    console.log(page);
   }
 
   ngOnInit() {
