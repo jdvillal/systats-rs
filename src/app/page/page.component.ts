@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./page.component.css']
 })
 export class PageComponent {
-  current_tab = "";
+  //current_tab = "";
   current_page = "cpu";
 
   dark_mode = false;
