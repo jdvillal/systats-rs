@@ -3,8 +3,6 @@ use std::{sync::{Arc, Mutex}, net::TcpStream, ops::DerefMut};
 use sysinfo::{System, SystemExt, CpuExt};
 use tungstenite::WebSocket;
 
-
-
 //MULTICORE
 pub fn handle_timelapse_multicore_utilization_websocket(
     timelapse_data_arc: Arc<Mutex<Vec<Vec<f32>>>>,
@@ -23,6 +21,7 @@ pub fn handle_timelapse_multicore_utilization_websocket(
         }
         std::thread::sleep(std::time::Duration::from_millis(500));
     }
+    println!("websocket closed");
 }
 
 pub fn handle_current_multicore_utilization_websocket(
@@ -43,6 +42,7 @@ pub fn handle_current_multicore_utilization_websocket(
         }
         std::thread::sleep(std::time::Duration::from_millis(500));
     }
+    println!("websocket closed");
 }
 //END MULTICORE
 
@@ -75,6 +75,7 @@ pub fn handle_timelapse_singlecore_utilization_websocket(
         }
         std::thread::sleep(std::time::Duration::from_millis(500));
     }
+    println!("websocket closed");
 }
 
 pub fn handle_current_singlecore_utilization_websocket(
@@ -99,5 +100,6 @@ pub fn handle_current_singlecore_utilization_websocket(
         }
         std::thread::sleep(std::time::Duration::from_millis(500));
     }
+    println!("websocket closed");
 }
 //END SINGLECORE

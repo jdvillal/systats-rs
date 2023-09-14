@@ -10,6 +10,7 @@ import { CurrentMulticoreUsageComponent } from './cpu/current-multicore-usage/cu
 import { TimelapseMulticoreUsageComponent } from './cpu/timelapse-multicore-usage/timelapse-multicore-usage.component';
 import { CurrentSinglecoreUsageComponent } from './cpu/current-singlecore-usage/current-singlecore-usage.component';
 import { NgChartsModule } from 'ng2-charts';
+import { TimelapseSingleUsageComponent } from './cpu/timelapse-multicore-usage/timelapse-single-usage/timelapse-single-usage.component';
 
 
 
@@ -18,8 +19,7 @@ import { NgChartsModule } from 'ng2-charts';
         MemoryComponent,
         DiskComponent,
         ProcessesComponent,
-        TimelapseMulticoreUsageComponent,
-        CurrentSinglecoreUsageComponent
+        CurrentSinglecoreUsageComponent,
     ],
     exports: [RouterModule],
     imports: [

@@ -75,5 +75,6 @@ export class CurrentMulticoreUsageComponent {
 
   ngOnDestroy(){
     this.eventsSubscription.unsubscribe();
+    this.socket.close();
   }
 }
