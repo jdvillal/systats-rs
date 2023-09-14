@@ -1,8 +1,10 @@
 use std::{sync::{Arc, Mutex}, net::TcpListener, thread};
 use tungstenite::accept;
+use crate::streamers;
+
 use self::cpu::start_cpu_monitor;
 
-mod cpu;
+pub mod cpu;
 
 enum MonitoringRequestType{
     CpuCurrentSingleCoreUsage,
@@ -47,16 +49,16 @@ pub fn initialize_monitors(){
                 use MonitoringRequestType as MRT;
                 match resquest_type{
                     MRT::CpuCurrentSingleCoreUsage => {
-                        cpu::handle_current_singlecore_utilization_websocket(websocket);
+                        streamers::cpu::handle_current_singlecore_utilization_websocket(websocket);
                     },
                     MRT::CpuCurrentMultiCoreUsage => {
-                        cpu::handle_current_multicore_utilization_websocket(websocket);
+                        streamers::cpu::handle_current_multicore_utilization_websocket(websocket);
                     },
                     MRT::CpuTimelapseSingleCoreUsage => {
-                        cpu::handle_timelapse_singlecore_utilization_websocket(cpu_timelapse_data_arc, websocket);
+                        streamers::cpu::handle_timelapse_singlecore_utilization_websocket(cpu_timelapse_data_arc, websocket);
                     },
                     MRT::CpuTimelapseMultiCoreUsage => {
-                        cpu::handle_timelapse_multicore_utilization_websocket(cpu_timelapse_data_arc, websocket);
+                        streamers::cpu::handle_timelapse_multicore_utilization_websocket(cpu_timelapse_data_arc, websocket);
                     },
                     MRT::Unknown => {
                         println!("Unkown request, closing socket!");
