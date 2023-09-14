@@ -1,7 +1,7 @@
 <div class="page-container" style="min-height: 100%;">
     <div class="d-flex flex-column" style="min-height: 100%;">
         <h2>CPU Utilization</h2>
-        <app-current-multicore-usage [core_count]="24"></app-current-multicore-usage>
-
+        <app-current-multicore-usage [core_count_ready_event]="eventsSubject.asObservable()"></app-current-multicore-usage>
+        
     </div>
 </div>

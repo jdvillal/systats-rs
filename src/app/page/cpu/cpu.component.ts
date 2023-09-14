@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { invoke } from "@tauri-apps/api/tauri";
 import { CurrentMulticoreUsageComponent } from './current-multicore-usage/current-multicore-usage.component';
 import { TimelapseMulticoreUsageComponent } from './timelapse-multicore-usage/timelapse-multicore-usage.component';
+import { CpuInfo } from 'src/app/types/cpu-types';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-cpu',
@@ -10,20 +13,21 @@ import { TimelapseMulticoreUsageComponent } from './timelapse-multicore-usage/ti
   imports: [CurrentMulticoreUsageComponent]
 })
 export class CpuComponent {
+  eventsSubject: Subject<number> = new Subject<number>();
   socket!: WebSocket;
+  cpu_info: CpuInfo = { vendor_id: '', brand: '', max_frequency: 0, physical_core_count: 0, logical_core_count: 0 };
+  ngOnInit() {
+    this.get_cpu_information();
+  }
 
-  ngOnInit(){
-
-      /* this.socket = new WebSocket("ws://127.0.0.1:9001");
-
-      this.socket.onopen = ()=>{
-        this.socket.send("cpu_timelapse_multicore_usage")
-      }
-  
-      this.socket.onmessage = (event) =>{
-        //console.log(event.data)
-        console.log(JSON.parse(event.data))
-      } */
-    }
+  get_cpu_information(): void {
+    //event.preventDefault();
+    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+    invoke<CpuInfo>("get_cpu_information", {}).then((res) => {
+      console.log(res)
+      this.cpu_info = res;
+      this.eventsSubject.next(this.cpu_info.logical_core_count);
+    });
+  }
 
 }

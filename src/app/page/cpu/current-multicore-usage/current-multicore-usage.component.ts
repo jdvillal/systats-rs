@@ -1,6 +1,8 @@
-import { Component, ViewChild, HostListener, Input } from '@angular/core';
+import { Component, ViewChild, HostListener, Input, EventEmitter } from '@angular/core';
+import { event } from '@tauri-apps/api';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-current-multicore-usage',
@@ -10,14 +12,16 @@ import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
   imports: [NgChartsModule]
 })
 export class CurrentMulticoreUsageComponent {
-  @Input() core_count: number = 0;
+  private eventsSubscription!: Subscription;
+  @Input() core_count_ready_event!: Observable<number>;
+
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     // Handle the resize event here
     console.log('Window resized!');
-    
+
     this.chart.chart?.resize();
     // Add your code to handle the resize event
   }
@@ -38,39 +42,38 @@ export class CurrentMulticoreUsageComponent {
     //maintainAspectRatio: false,
     //aspectRatio: 5.0, 
     scales: {
-      x: {display: true,},
-      y: {display: true, max: 100}
+      x: { display: true, },
+      y: { display: true, max: 100 }
     },
-    plugins: { legend: { display: false }}
+    plugins: { legend: { display: false } }
   };
 
   constructor() {
   }
 
   ngOnInit() {
-    //Wait for the parent component to get cpu information (core count is needed to start rendering this component canvas)
-    //TODO: find a way to not depend on timeouts
-    this.sleep(100).then(() => {
-      this.barChartData.labels = [];
-      for (let i = 0; i < this.core_count; i++) {
-        this.barChartData.labels.push(`core-${i+1}`);
-      }
-  
-      this.socket = new WebSocket("ws://127.0.0.1:9001");
-      this.socket.onopen = () => {
-        this.socket.send("cpu_current_multicore_usage")
-      }
-      this.socket.onmessage = (event) => {
-        //console.log(event.data)
-        let data = JSON.parse(event.data) as number[]
-        this.barChartData.datasets[0].data = data;
-        if (this.chart) this.chart.update();
-      }
-    })
+    this.eventsSubscription = this.core_count_ready_event.subscribe((core_count) => {
+      this.onCoreCountReady(core_count);
+    });
   }
 
-  sleep(time: number) {
-    return new Promise((resolve) => setTimeout(resolve, time));
+  public onCoreCountReady(core_count: number) {
+    this.barChartData.labels = [];
+    for (let i = 0; i < core_count; i++) {
+      this.barChartData.labels.push(`core-${i + 1}`);
+    }
+    this.socket = new WebSocket("ws://127.0.0.1:9001");
+    this.socket.onopen = () => {
+      this.socket.send("cpu_current_multicore_usage")
+    }
+    this.socket.onmessage = (event) => {
+      let data = JSON.parse(event.data) as number[]
+      this.barChartData.datasets[0].data = data;
+      if (this.chart) this.chart.update();
+    }
   }
-  
+
+  ngOnDestroy(){
+    this.eventsSubscription.unsubscribe();
+  }
 }
