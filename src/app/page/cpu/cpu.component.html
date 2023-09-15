@@ -1,7 +1,43 @@
 <div class="page-container" style="min-height: 100%;">
+
     <div class="d-flex flex-column" style="min-height: 100%;">
-        <h2>CPU Utilization</h2>
-        <!-- <app-current-multicore-usage [core_count_ready_event]="core_count_ready_subject.asObservable()"></app-current-multicore-usage> -->
-        <app-timelapse-multicore-usage [core_count_ready_event]="core_count_ready_subject.asObservable()"></app-timelapse-multicore-usage>
+        <h1>CPU</h1>
+        <div class="d-flex flex-row justify-content-start align-items-center">
+            <div class="dropdown" data-bs-toggle="dropdown">
+                <div class="btn-secondary dropdown-toggle">
+                    <span>Utilization over the last 60 seconds</span>
+                </div>
+                <ul class="dropdown-menu">
+                    <li (click)="set_current_chart('current')">
+                        <span class="dropdown-item">
+                            Current
+                            <svg *ngIf="current_chart=='current'" xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                <path
+                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                            </svg>
+                        </span>
+                    </li>
+                    <li (click)="set_current_chart('timelapse')">
+                        <span class="dropdown-item">
+                            Last minute
+                            <svg *ngIf="current_chart=='timelapse'" xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                                <path
+                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+                            </svg>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <app-current-multicore-usage *ngIf="current_chart=='current'"
+            [core_count_ready_event]="core_count_ready_subject.asObservable()"
+            [core_count]="this.cpu_info.logical_core_count"></app-current-multicore-usage>
+        <app-timelapse-multicore-usage *ngIf="current_chart=='timelapse'"
+            [core_count_ready_event]="core_count_ready_subject.asObservable()"
+            [core_count]="this.cpu_info.logical_core_count"></app-timelapse-multicore-usage>
     </div>
+
 </div>

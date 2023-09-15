@@ -16,6 +16,8 @@ export class TimelapseSingleUsageComponent {
 
   @Input() core_number: number = 0;//todo: delete this
   @Input() core_data: number[] = [];
+  @Input() x_scale = 1;
+  @Input() y_scale = 1;
 
   @ViewChild('core_chart') chart?: ElementRef<HTMLCanvasElement>;
 
@@ -23,8 +25,8 @@ export class TimelapseSingleUsageComponent {
 
   default_width = 120;
   default_height = 100;
-  x_scale = 1.5;
-  y_scale = 0.5;
+  //x_scale = 1.5;
+  //y_scale = 0.5;
 
   constructor(
     private signalService: CpuDataUpdateServiceService
@@ -54,7 +56,7 @@ export class TimelapseSingleUsageComponent {
       this.chart_context?.moveTo(i * this.x_scale, (100 * this.y_scale) - (this.core_data[i]));
       this.chart_context?.lineTo((i + 1) * this.x_scale, (100 * this.y_scale) - (this.core_data[i + 1]));
     }
-    this.chart_context.strokeStyle = "#ad2f33"//"#bd153f"
+    this.chart_context.strokeStyle = "#bd1934"//"#bd153f"
     this.chart_context?.stroke();
 
   }

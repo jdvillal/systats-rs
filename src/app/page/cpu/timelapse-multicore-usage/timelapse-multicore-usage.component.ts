@@ -16,22 +16,36 @@ import { ChartConfiguration } from 'chart.js';
 export class TimelapseMulticoreUsageComponent {
   private eventsSubscription!: Subscription;
   @Input() core_count_ready_event!: Observable<number>;
+  @Input() core_count!: number;
 
   public socket!: WebSocket;
 
   public cores_data:number[][] = [];
+
+  x_scale = 1.5;
+  y_scale = 0.75;
 
   constructor(
     private signalService: CpuDataUpdateServiceService
   ){}
 
   ngOnInit(){
+    if(this.core_count){
+      console.log("timelapse => core count was ready");
+      this.onCoreCountReady(this.core_count)
+      return;
+    }
+    console.log("timelapse => core count not ready, subscribing to on ready event" );
     this.eventsSubscription = this.core_count_ready_event.subscribe((core_count) => {
       this.onCoreCountReady(core_count);
     });
   }
 
   ngOnDestroy() {
+    console.log("closing timelapse")
+    if(this.eventsSubscription){
+      this.eventsSubscription.unsubscribe();
+    }
     if (this.socket) {
       this.socket.close();
     }

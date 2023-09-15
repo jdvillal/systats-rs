@@ -15,12 +15,14 @@ export class CurrentMulticoreUsageComponent {
   private eventsSubscription!: Subscription;
   @Input() core_count_ready_event!: Observable<number>;
 
+  @Input() core_count!: number;
+
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
     // Handle the resize event here
-    console.log('Window resized!');
+    //console.log('Window resized!');
 
     this.chart.chart?.resize();
     // Add your code to handle the resize event
@@ -52,6 +54,12 @@ export class CurrentMulticoreUsageComponent {
   }
 
   ngOnInit() {
+    if(this.core_count){
+      console.log("current => core count was ready");
+      this.onCoreCountReady(this.core_count);
+      return
+    }
+    console.log("current => core count not ready, subscribing to onready event");
     this.eventsSubscription = this.core_count_ready_event.subscribe((core_count) => {
       this.onCoreCountReady(core_count);
     });
@@ -64,6 +72,7 @@ export class CurrentMulticoreUsageComponent {
     }
     this.socket = new WebSocket("ws://127.0.0.1:9001");
     this.socket.onopen = () => {
+      console.log("current => websocket is open");
       this.socket.send("cpu_current_multicore_usage")
     }
     this.socket.onmessage = (event) => {
@@ -74,7 +83,13 @@ export class CurrentMulticoreUsageComponent {
   }
 
   ngOnDestroy(){
-    this.eventsSubscription.unsubscribe();
-    this.socket.close();
+    console.group("closing current");
+    if(this.eventsSubscription){
+      this.eventsSubscription.unsubscribe();
+    }
+    //TODO: check why this close operation thows an error on console
+    if(this.socket){
+      this.socket.close();
+    }
   }
 }
