@@ -1,9 +1,9 @@
 {
   "build": {
-    "beforeBuildCommand": "ng build",
-    "beforeDevCommand": "ng serve",
+    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "npm run start",
     "devPath": "http://localhost:4200",
-    "distDir": "../dist"
+    "distDir": "../dist/systats-rs"
   },
   "package": {
     "productName": "systats-rs",
@@ -28,7 +28,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.core.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
