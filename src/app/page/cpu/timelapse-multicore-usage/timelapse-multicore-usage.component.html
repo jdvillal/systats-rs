@@ -1,5 +1,5 @@
 <div class="d-flex flex-wrap">
-    <div *ngFor="let core_data of cores_data; index as i">
-        <app-timelapse-single-usage [core_data]="core_data" [core_number]="i"></app-timelapse-single-usage>
-    </div>
+    <!-- <div *ngFor="let core_data of cores_data; index as i"> -->
+        <app-timelapse-single-usage *ngFor="let core_data of cores_data; index as i" [core_data]="core_data" [core_number]="i"></app-timelapse-single-usage>
+    <!-- </div> -->
 </div>
