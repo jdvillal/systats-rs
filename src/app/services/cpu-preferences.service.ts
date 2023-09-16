@@ -27,14 +27,18 @@ export class CpuPreferencesService {
     };
     localStorage.setItem('cpu-pref', JSON.stringify(pref));
     CpuPreferencesService.preferences = pref;
-    return pref;
+    return CpuPreferencesService.preferences;
   }
 
   public get_cpu_preferences(): CpuPreferences{
+    if(CpuPreferencesService.preferences != undefined){
+      return CpuPreferencesService.preferences
+    }
     let pref_str = localStorage.getItem('cpu-pref');
-    if(pref_str){
+    if(pref_str != undefined){
       let pref = JSON.parse(pref_str) as CpuPreferences;
-      return pref;
+      CpuPreferencesService.preferences = pref;
+      return CpuPreferencesService.preferences;
     }
     return this.set_default_preferences();
   }

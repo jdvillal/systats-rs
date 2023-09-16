@@ -26,20 +26,27 @@ export class TimelapseMulticoreUsageComponent {
 
   x_scale = 1.5;
   y_scale = 0.75;
-  chart_color = "#bd1934";
+  line_color = "#bd1934";
 
   preferences: CpuPreferences = this.getPreferences();
 
   constructor(
     private core_data_update_notifier: CpuDataUpdateNotifierService,
     private prefrencesService: CpuPreferencesService
-  ){}
+  ){
+    let pref = this.prefrencesService.get_cpu_preferences();
+    this.x_scale = pref.timelapse.x_scale;
+    this.y_scale = pref.timelapse.y_scale;
+    this.line_color = pref.timelapse.line_color;
+
+  }
 
   getPreferences(): CpuPreferences{
     return this.prefrencesService.get_cpu_preferences();
   }
 
   ngOnInit(){
+    
     if(this.core_count){
       this.onCoreCountReady(this.core_count)
       return;

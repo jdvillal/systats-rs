@@ -11,7 +11,7 @@
                             [core_data]="demo_data"
                             [x_scale]="demo_x_scale"
                             [y_scale]="demo_y_scale"
-                            [chart_color]="demo_chart_color">
+                            [line_color]="demo_line_color">
                         </app-timelapse-single-usage>
                 </div>
                 <div class="d-flex flex-column">
@@ -29,7 +29,7 @@
                     </div>
                     <div>
                         <label for="exampleColorInput" class="form-label">Line chart color</label>
-                        <input #chart_color_picker type="color" class="form-control form-control-color" id="exampleColorInput" [value]="this.demo_chart_color" title="Choose your color"
+                        <input #chart_color_picker type="color" class="form-control form-control-color" id="exampleColorInput" [value]="this.demo_line_color" title="Choose your color"
                             (change)="set_chart_color(chart_color_picker.value)">
                     </div>
 

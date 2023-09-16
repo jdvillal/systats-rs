@@ -19,7 +19,7 @@ export class TimelapseSingleUsageComponent {
   @Input() core_data: number[] = [];
   @Input() x_scale = 1;
   @Input() y_scale = 1;
-  @Input() chart_color: string = "#bd1934";
+  @Input() line_color: string = "#bd1934";
 
   @ViewChild('core_chart') chart?: ElementRef<HTMLCanvasElement>;
 
@@ -54,7 +54,7 @@ export class TimelapseSingleUsageComponent {
       this.chart_context?.moveTo(i * this.x_scale, (100 * this.y_scale) - (this.core_data[i] * this.y_scale));
       this.chart_context?.lineTo((i + 1) * this.x_scale, (100 * this.y_scale) - (this.core_data[i + 1] * this.y_scale));
     }
-    this.chart_context.strokeStyle = this.chart_color;
+    this.chart_context.strokeStyle = this.line_color;
     this.chart_context?.stroke();
 
   }
