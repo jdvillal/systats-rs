@@ -1,8 +1,7 @@
 <div class="page-container" style="min-height: 100%;">
-
     <div class="d-flex flex-column" style="min-height: 100%;">
         <h1>CPU</h1>
-        <div class="d-flex flex-row justify-content-start align-items-center">
+        <div class="d-flex flex-row justify-content-between align-items-center">
             <div class="dropdown" data-bs-toggle="dropdown">
                 <div class="btn-secondary dropdown-toggle">
                     <span *ngIf="current_chart_type=='timelapse'">Utilization over the last 60 seconds</span>
@@ -31,6 +30,7 @@
                     </li>
                 </ul>
             </div>
+            <span class="cpu-brand-span">{{cpu_info.brand}}</span>
         </div>
         <app-current-multicore-usage *ngIf="current_chart_type=='current'"
             [core_count_ready_event]="core_count_ready_subject.asObservable()"
@@ -40,4 +40,11 @@
             [core_count]="this.cpu_info.logical_core_count"></app-timelapse-multicore-usage>
     </div>
     <app-current-singlecore-usage></app-current-singlecore-usage>
+    <div class="card px-2 py-2">
+        <span>{{cpu_info.brand}}</span>
+        <span>{{cpu_info.vendor_id}}</span>
+        <span>{{cpu_info.physical_core_count}}</span>
+        <span>{{cpu_info.logical_core_count}}</span>
+        <span>{{cpu_info.max_frequency}}</span>
+    </div>
 </div>

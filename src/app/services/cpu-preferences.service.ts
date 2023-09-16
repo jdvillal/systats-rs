@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { invoke } from '@tauri-apps/api';
 import { CpuPreferences } from '../types/cpu-types';
 
 @Injectable({
@@ -11,6 +10,7 @@ export class CpuPreferencesService {
 
   public set_default_preferences(): CpuPreferences{
     let pref: CpuPreferences = {
+      version: 0.01,
       general: {
         default_chart: 'current'
       },
@@ -46,10 +46,5 @@ export class CpuPreferencesService {
   public save(){
     localStorage.setItem('cpu-pref', JSON.stringify(CpuPreferencesService.preferences));
   };
-
-  /* public set_preferences(pref: CpuPreferences){
-    localStorage.setItem('cpu-pref', JSON.stringify(pref));
-    CpuPreferencesService.preferences = pref;
-  } */
 
 }

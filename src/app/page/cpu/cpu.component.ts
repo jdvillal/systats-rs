@@ -27,7 +27,6 @@ export class CpuComponent {
   socket!: WebSocket;
   cpu_info: CpuInfo = { vendor_id: '', brand: '', max_frequency: 0, physical_core_count: 0, logical_core_count: 0 };
 
-
   current_chart_type: 'timelapse'|'current' = 'timelapse';
   ngOnInit() {
     this.get_cpu_information();

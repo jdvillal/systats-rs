@@ -6,3 +6,7 @@
     cursor: pointer;
     background-color: rgba(141, 141, 141, 0.301);
 }
+.cpu-brand-span{
+    font-size: 1.3rem;
+    padding-left: 1rem;
+}

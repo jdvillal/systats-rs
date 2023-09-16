@@ -7,6 +7,7 @@ export interface CpuInfo{
 }
 
 export interface CpuPreferences{
+    version: number,
     general: {
         default_chart: 'current' | 'timelapse',
     },
