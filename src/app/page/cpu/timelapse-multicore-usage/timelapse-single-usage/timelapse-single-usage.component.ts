@@ -3,6 +3,7 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription, fromEvent } from 'rxjs';
 import { CpuDataUpdateNotifierService } from '../service/cpu-data-update-notifier.service';
+import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
 
 @Component({
   selector: 'app-timelapse-single-usage',
@@ -22,10 +23,12 @@ export class TimelapseSingleUsageComponent {
 
   @ViewChild('core_chart') chart?: ElementRef<HTMLCanvasElement>;
 
+
   private chart_context!: CanvasRenderingContext2D;
 
   constructor(
-    private updateNotifier: CpuDataUpdateNotifierService
+    private updateNotifier: CpuDataUpdateNotifierService,
+    public prefService: CpuPreferencesService
   ) { }
 
   ngOnInit() {}

@@ -6,6 +6,8 @@ import { CpuDataUpdateNotifierService } from './service/cpu-data-update-notifier
 import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 import { AppearanceSettingComponent } from './appearance-setting/appearance-setting.component';
+import { CpuPreferences } from 'src/app/types/cpu-types';
+import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
 
 @Component({
   selector: 'app-timelapse-multicore-usage',
@@ -26,9 +28,16 @@ export class TimelapseMulticoreUsageComponent {
   y_scale = 0.75;
   chart_color = "#bd1934";
 
+  preferences: CpuPreferences = this.getPreferences();
+
   constructor(
-    private core_data_update_notifier: CpuDataUpdateNotifierService
+    private core_data_update_notifier: CpuDataUpdateNotifierService,
+    private prefrencesService: CpuPreferencesService
   ){}
+
+  getPreferences(): CpuPreferences{
+    return this.prefrencesService.get_cpu_preferences();
+  }
 
   ngOnInit(){
     if(this.core_count){

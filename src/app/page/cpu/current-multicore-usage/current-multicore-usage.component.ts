@@ -31,7 +31,7 @@ export class CurrentMulticoreUsageComponent {
   public barChartData: ChartConfiguration<'bar'>['data'] = {
     labels: [],
     datasets: [
-      { data: [], label: 'Usage' }
+      { data: [], label: 'Usage', backgroundColor: 'limegreen' }
     ]
   };
 
