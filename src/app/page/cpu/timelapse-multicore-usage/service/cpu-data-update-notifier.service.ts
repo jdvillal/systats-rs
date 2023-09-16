@@ -4,15 +4,14 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class CpuDataUpdateServiceService {
+export class CpuDataUpdateNotifierService {
 
   constructor() { }
 
   private messageSource = new Subject<void>();
   message$ = this.messageSource.asObservable();
 
-  sendMessage(){
+  notifyAll(){
     this.messageSource.next();
   }
-
 }

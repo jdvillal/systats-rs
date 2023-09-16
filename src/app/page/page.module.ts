@@ -11,6 +11,8 @@ import { TimelapseMulticoreUsageComponent } from './cpu/timelapse-multicore-usag
 import { CurrentSinglecoreUsageComponent } from './cpu/current-singlecore-usage/current-singlecore-usage.component';
 import { NgChartsModule } from 'ng2-charts';
 import { TimelapseSingleUsageComponent } from './cpu/timelapse-multicore-usage/timelapse-single-usage/timelapse-single-usage.component';
+import { AppearanceSettingsComponent } from './cpu/timelapse-muticore-usage/appearance-settings/appearance-settings.component';
+import { AppearanceSettingComponent } from './cpu/timelapse-multicore-usage/appearance-setting/appearance-setting.component';
 
 
 
@@ -19,6 +21,8 @@ import { TimelapseSingleUsageComponent } from './cpu/timelapse-multicore-usage/t
         MemoryComponent,
         DiskComponent,
         ProcessesComponent,
+        AppearanceSettingsComponent,
+        AppearanceSettingComponent,
     ],
     exports: [RouterModule],
     imports: [

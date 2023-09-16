@@ -1,5 +1,5 @@
 <div class="d-flex flex-row-reverse">
-    <div type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <div type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#timelapse-multicore-chart-setting-modal">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
             class="bi bi-sliders2 settings-icon" viewBox="0 0 16 16">
             <path fill-rule="evenodd"
@@ -8,47 +8,16 @@
     </div>
 
 </div>
-<div class="d-flex flex-wrap justify-content-center ">
-    <!-- <div *ngFor="let core_data of cores_data; index as i"> -->
+<div class="d-flex flex-wrap justify-content-center mt-1">
     <app-timelapse-single-usage *ngFor="let core_data of cores_data; index as i" [core_data]="core_data"
-        [core_number]="i" [x_scale]="x_scale" [y_scale]="y_scale">
+        [core_number]="i"
+        [x_scale]="x_scale"
+        [y_scale]="y_scale"
+        [chart_color]="chart_color">
     </app-timelapse-single-usage>
-    <!-- </div> -->
 </div>
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Timelapse chart settings</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="d-flex justify-content-center">
-                        <app-timelapse-single-usage style="margin: auto;"
-                            [core_data]="test_data"
-                            [x_scale]="test_x_scale"
-                            [y_scale]="test_y_scale">
-                        </app-timelapse-single-usage>
-                </div>
-                <div class="d-flex flex-column">
-                    <div>
-                        <label for="customRange3" class="form-label">X Axis</label>
-                        <input #x_scale_slider type="range" class="form-range" min="0.1" max="4" step="0.05" id="customRange3" (change)="set_x_scale(x_scale_slider.value)">
-                    </div>
-                    <div>
-                        <label for="customRange3" class="form-label">Y Axis</label>
-                        <input #y_scale_slider type="range" class="form-range" min="0.1" max="4" step="0.05" id="customRange3" (change)="set_y_scale(y_scale_slider.value)">
-                    </div>
+<app-appearance-setting [(x_scale)]="x_scale" [(y_scale)]="y_scale" [(chart_color)]="chart_color"></app-appearance-setting>
 
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal" (click)="apply_changes()">Apply changes</button>
-            </div>
-        </div>
-    </div>
-</div>

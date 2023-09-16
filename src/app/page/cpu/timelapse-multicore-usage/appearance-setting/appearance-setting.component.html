@@ -1,0 +1,44 @@
+<div class="modal fade" id="timelapse-multicore-chart-setting-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Timelapse chart settings</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                        <app-timelapse-single-usage style="margin: auto;"
+                            [core_data]="demo_data"
+                            [x_scale]="demo_x_scale"
+                            [y_scale]="demo_y_scale"
+                            [chart_color]="demo_chart_color">
+                        </app-timelapse-single-usage>
+                </div>
+                <div class="d-flex flex-column">
+                    <div>
+                        <label for="customRange3" class="form-label">X Axis</label>
+                        <input #x_scale_slider type="range" class="form-range" min="0.1" max="4" step="0.05" id="customRange3"
+                            [value]="demo_x_scale"
+                            (change)="set_x_scale(x_scale_slider.value)">
+                    </div>
+                    <div>
+                        <label for="customRange3" class="form-label">Y Axis</label>
+                        <input #y_scale_slider type="range" class="form-range" min="0.1" max="4" step="0.05" id="customRange3"
+                            [value]="demo_y_scale"
+                            (change)="set_y_scale(y_scale_slider.value)">
+                    </div>
+                    <div>
+                        <label for="exampleColorInput" class="form-label">Line chart color</label>
+                        <input #chart_color_picker type="color" class="form-control form-control-color" id="exampleColorInput" [value]="this.demo_chart_color" title="Choose your color"
+                            (change)="set_chart_color(chart_color_picker.value)">
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal" (click)="apply_changes()">Apply changes</button>
+            </div>
+        </div>
+    </div>
+</div>

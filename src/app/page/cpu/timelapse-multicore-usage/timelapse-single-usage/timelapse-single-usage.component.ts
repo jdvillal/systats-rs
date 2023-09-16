@@ -1,8 +1,8 @@
-import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription, fromEvent } from 'rxjs';
-import { CpuDataUpdateServiceService } from '../service/cpu-data-update-service.service';
+import { CpuDataUpdateNotifierService } from '../service/cpu-data-update-notifier.service';
 
 @Component({
   selector: 'app-timelapse-single-usage',
@@ -18,18 +18,14 @@ export class TimelapseSingleUsageComponent {
   @Input() core_data: number[] = [];
   @Input() x_scale = 1;
   @Input() y_scale = 1;
+  @Input() chart_color: string = "#bd1934";
 
   @ViewChild('core_chart') chart?: ElementRef<HTMLCanvasElement>;
 
-  chart_context!: CanvasRenderingContext2D;
-
-  default_width = 120;
-  default_height = 100;
-  //x_scale = 1.5;
-  //y_scale = 0.5;
+  private chart_context!: CanvasRenderingContext2D;
 
   constructor(
-    private signalService: CpuDataUpdateServiceService
+    private updateNotifier: CpuDataUpdateNotifierService
   ) { }
 
   ngOnInit() {}
@@ -38,7 +34,7 @@ export class TimelapseSingleUsageComponent {
     if (!this.chart) return;
     this.chart_context = this.chart?.nativeElement.getContext("2d") as CanvasRenderingContext2D;
 
-    this.eventsSubscription = this.signalService.message$.subscribe(() => {
+    this.eventsSubscription = this.updateNotifier.message$.subscribe(() => {
       if (this.core_number >= 0) {
         this.update_chart();
       }
@@ -55,7 +51,7 @@ export class TimelapseSingleUsageComponent {
       this.chart_context?.moveTo(i * this.x_scale, (100 * this.y_scale) - (this.core_data[i] * this.y_scale));
       this.chart_context?.lineTo((i + 1) * this.x_scale, (100 * this.y_scale) - (this.core_data[i + 1] * this.y_scale));
     }
-    this.chart_context.strokeStyle = "#bd1934"//"#bd153f"
+    this.chart_context.strokeStyle = this.chart_color;
     this.chart_context?.stroke();
 
   }
