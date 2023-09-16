@@ -42,7 +42,6 @@ export class TimelapseSingleUsageComponent {
       if (this.core_number >= 0) {
         this.update_chart();
       }
-
     });
   }
   ngOnDestroy() {

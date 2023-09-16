@@ -12,7 +12,6 @@ export class CurrentSinglecoreUsageComponent {
 
 
   ngOnInit() {
-
     this.socket = new WebSocket("ws://127.0.0.1:9001");
 
     this.socket.onopen = () => {
@@ -20,9 +19,14 @@ export class CurrentSinglecoreUsageComponent {
     }
 
     this.socket.onmessage = (event) => {
-      console.log(event.data);
       let data = JSON.parse(event.data) as number[];
       this.current_utilization = Math.round(data[0] * 10) / 10
+    }
+  }
+
+  ngOnDestroy(){
+    if(this.socket && this.socket.readyState === WebSocket.OPEN){
+      this.socket.close();
     }
   }
 

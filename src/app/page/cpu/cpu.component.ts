@@ -28,7 +28,7 @@ export class CpuComponent {
   cpu_info: CpuInfo = { vendor_id: '', brand: '', max_frequency: 0, physical_core_count: 0, logical_core_count: 0 };
 
 
-  current_chart_type: 'timelapse'|'current' = 'current';
+  current_chart_type: 'timelapse'|'current' = 'timelapse';
   ngOnInit() {
     this.get_cpu_information();
   }
@@ -43,7 +43,6 @@ export class CpuComponent {
 
   public set_current_chart_type(chart_type: 'current' | 'timelapse'){
     this.current_chart_type = chart_type;
-    //this.core_count_ready_subject.next(this.cpu_info.logical_core_count);
   }
 
 }

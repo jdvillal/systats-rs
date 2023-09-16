@@ -1,10 +1,54 @@
-<div class="d-flex flex-wrap justify-content-center pt-2">
+<div class="d-flex flex-row-reverse">
+    <div type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            class="bi bi-sliders2 settings-icon" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M10.5 1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4H1.5a.5.5 0 0 1 0-1H10V1.5a.5.5 0 0 1 .5-.5ZM12 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-6.5 2A.5.5 0 0 1 6 6v1.5h8.5a.5.5 0 0 1 0 1H6V10a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM1 8a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 1 8Zm9.5 2a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V13H1.5a.5.5 0 0 1 0-1H10v-1.5a.5.5 0 0 1 .5-.5Zm1.5 2.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z" />
+        </svg>
+    </div>
+
+</div>
+<div class="d-flex flex-wrap justify-content-center ">
     <!-- <div *ngFor="let core_data of cores_data; index as i"> -->
-    <app-timelapse-single-usage *ngFor="let core_data of cores_data; index as i"
-        [core_data]="core_data"
-        [core_number]="i"
-        [x_scale]="x_scale"
-        [y_scale]="y_scale">
+    <app-timelapse-single-usage *ngFor="let core_data of cores_data; index as i" [core_data]="core_data"
+        [core_number]="i" [x_scale]="x_scale" [y_scale]="y_scale">
     </app-timelapse-single-usage>
     <!-- </div> -->
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Timelapse chart settings</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                        <app-timelapse-single-usage style="margin: auto;"
+                            [core_data]="test_data"
+                            [x_scale]="test_x_scale"
+                            [y_scale]="test_y_scale">
+                        </app-timelapse-single-usage>
+                </div>
+                <div class="d-flex flex-column">
+                    <div>
+                        <label for="customRange3" class="form-label">X Axis</label>
+                        <input #x_scale_slider type="range" class="form-range" min="0.1" max="4" step="0.05" id="customRange3" (change)="set_x_scale(x_scale_slider.value)">
+                    </div>
+                    <div>
+                        <label for="customRange3" class="form-label">Y Axis</label>
+                        <input #y_scale_slider type="range" class="form-range" min="0.1" max="4" step="0.05" id="customRange3" (change)="set_y_scale(y_scale_slider.value)">
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal" (click)="apply_changes()">Apply changes</button>
+            </div>
+        </div>
+    </div>
 </div>
