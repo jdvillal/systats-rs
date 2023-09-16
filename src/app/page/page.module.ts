@@ -19,7 +19,6 @@ import { TimelapseSingleUsageComponent } from './cpu/timelapse-multicore-usage/t
         MemoryComponent,
         DiskComponent,
         ProcessesComponent,
-        CurrentSinglecoreUsageComponent,
     ],
     exports: [RouterModule],
     imports: [

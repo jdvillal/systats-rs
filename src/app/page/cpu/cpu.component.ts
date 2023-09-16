@@ -6,13 +6,20 @@ import { CpuInfo } from 'src/app/types/cpu-types';
 import { Subject } from 'rxjs';
 import { TimelapseSingleUsageComponent } from './timelapse-multicore-usage/timelapse-single-usage/timelapse-single-usage.component';
 import { CommonModule } from '@angular/common';
+import { CurrentSinglecoreUsageComponent } from './current-singlecore-usage/current-singlecore-usage.component';
 
 @Component({
   selector: 'app-cpu',
   templateUrl: './cpu.component.html',
   styleUrls: ['./cpu.component.css'],
   standalone: true,
-  imports: [CurrentMulticoreUsageComponent, TimelapseMulticoreUsageComponent, TimelapseSingleUsageComponent, CommonModule]
+  imports: [
+    CurrentMulticoreUsageComponent,
+    TimelapseMulticoreUsageComponent,
+    TimelapseSingleUsageComponent,
+    CommonModule,
+    CurrentSinglecoreUsageComponent
+  ]
 })
 export class CpuComponent {
   core_count_ready_subject: Subject<number> = new Subject<number>();
@@ -21,7 +28,7 @@ export class CpuComponent {
   cpu_info: CpuInfo = { vendor_id: '', brand: '', max_frequency: 0, physical_core_count: 0, logical_core_count: 0 };
 
 
-  current_chart: 'timelapse'|'current' = 'current';
+  current_chart_type: 'timelapse'|'current' = 'current';
   ngOnInit() {
     this.get_cpu_information();
   }
@@ -34,9 +41,9 @@ export class CpuComponent {
     });
   }
 
-  public set_current_chart(chart_type: 'current' | 'timelapse'){
-    this.current_chart = chart_type;
-    this.core_count_ready_subject.next(this.cpu_info.logical_core_count);
+  public set_current_chart_type(chart_type: 'current' | 'timelapse'){
+    this.current_chart_type = chart_type;
+    //this.core_count_ready_subject.next(this.cpu_info.logical_core_count);
   }
 
 }

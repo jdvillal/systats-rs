@@ -1,0 +1,21 @@
+.bar{
+    min-width: 100%;
+    min-height: 32px;
+    position: relative;
+    border-radius: 0px !important;
+}
+.inner-bar{
+    position: absolute;
+    left: 0;
+    top: 0;
+    min-height: 30px;
+    background-color:rgb(83, 212, 23);
+}
+.utilization-label{
+    position: absolute;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color:rgb(226, 67, 192);
+}

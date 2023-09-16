@@ -53,8 +53,8 @@ export class TimelapseSingleUsageComponent {
     this.chart_context.clearRect(0, 0, 120 * this.x_scale, 100 * this.y_scale);
     this.chart_context.beginPath();
     for (let i = 0; i < this.core_data.length - 1; i++) {
-      this.chart_context?.moveTo(i * this.x_scale, (100 * this.y_scale) - (this.core_data[i]));
-      this.chart_context?.lineTo((i + 1) * this.x_scale, (100 * this.y_scale) - (this.core_data[i + 1]));
+      this.chart_context?.moveTo(i * this.x_scale, (100 * this.y_scale) - (this.core_data[i] * this.y_scale));
+      this.chart_context?.lineTo((i + 1) * this.x_scale, (100 * this.y_scale) - (this.core_data[i + 1] * this.y_scale));
     }
     this.chart_context.strokeStyle = "#bd1934"//"#bd153f"
     this.chart_context?.stroke();
