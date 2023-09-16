@@ -31,22 +31,19 @@ export class TimelapseMulticoreUsageComponent {
 
   ngOnInit(){
     if(this.core_count){
-      console.log("timelapse => core count was ready");
       this.onCoreCountReady(this.core_count)
       return;
     }
-    console.log("timelapse => core count not ready, subscribing to on ready event" );
     this.eventsSubscription = this.core_count_ready_event.subscribe((core_count) => {
       this.onCoreCountReady(core_count);
     });
   }
 
   ngOnDestroy() {
-    console.log("closing timelapse")
     if(this.eventsSubscription){
       this.eventsSubscription.unsubscribe();
     }
-    if (this.socket) {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.close();
     }
   }
