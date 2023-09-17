@@ -41,10 +41,38 @@
     </div>
     <app-current-singlecore-usage></app-current-singlecore-usage>
     <div class="card px-2 py-2">
-        <span>{{cpu_info.brand}}</span>
-        <span>{{cpu_info.vendor_id}}</span>
-        <span>{{cpu_info.physical_core_count}}</span>
-        <span>{{cpu_info.logical_core_count}}</span>
-        <span>{{cpu_info.max_frequency}}</span>
+        
+        <div>
+            <div class="d-flex flex-row flex-wrap  mb-4">
+                <div class="d-flex">
+                    <table>
+                        <tr>
+                            <th>Brand</th>
+                            <td>{{cpu_info.brand}}</td>
+                        </tr>
+            
+                        <tr>
+                            <th>Vendor</th>
+                            <td>{{cpu_info.vendor_id}}</td>
+                        </tr>
+                        <tr>
+                            <th>Max frequency</th>
+                            <td>{{cpu_info.max_frequency}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="d-flex mt-2">
+                    <div  class="d-flex flex-column align-items-center mx-2 px-2 py-2 card">
+                        <span class="value-span">{{cpu_info.physical_core_count}}</span>
+                        <span class="">Cores</span>
+                    </div>
+                    <div  class="d-flex flex-column align-items-center mx-2 px-2 py-2 card">
+                        <span class="value-span">{{cpu_info.logical_core_count}}</span>
+                        <span class="">Logical processors</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
     </div>
 </div>

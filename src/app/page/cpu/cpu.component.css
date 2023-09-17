@@ -10,3 +10,12 @@
     font-size: 1.3rem;
     padding-left: 1rem;
 }
+th{
+    padding-right: 2rem !important;
+}
+.value-span{
+    font-size: 1.5rem;
+}
+.bold-text{
+    font-weight: bold;
+}

@@ -1,38 +1,38 @@
 ul {
-    padding-left: 0 !important;
-  }
-  
-  .menu-title {
-    font-size: 1.6rem;
-  }
-  
-  .menu-li:hover {
-    cursor: pointer;
-    background-color: rgba(238, 151, 0, 0.253);
-  }
-  
-  .active {
-    background-color: rgb(230, 149, 1) !important;
-    color: black;
-  }
-  
-  /* scrollbar width */
-  .custom-scrollbar-css::-webkit-scrollbar {
-    width: 5px;
-  }
-  
-  /* scrollbar track */
-  .custom-scrollbar-css::-webkit-scrollbar-track {
-    background: #e7e7e73a;
-  }
-  
-  /* scrollbar handle */
-  .custom-scrollbar-css::-webkit-scrollbar-thumb {
-    border-radius: 1rem;
-    background-color: #00d2ff;
-    background-image: linear-gradient(to top, #a0a0a0 0%, #b4b4b4 100%);
-  }
-  
-  .toolbar-item:hover{
-    cursor: pointer;
-  }
+  padding-left: 0 !important;
+}
+
+.menu-title {
+  font-size: 1.6rem;
+}
+
+.menu-li:hover {
+  cursor: pointer;
+  background-color: rgba(238, 151, 0, 0.253);
+}
+
+.active {
+  background-color: rgb(230, 149, 1) !important;
+  color: black;
+}
+
+/* scrollbar width */
+.custom-scrollbar-css::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* scrollbar track */
+.custom-scrollbar-css::-webkit-scrollbar-track {
+  background: #e7e7e73a;
+}
+
+/* scrollbar handle */
+.custom-scrollbar-css::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: #00d2ff;
+  background-image: linear-gradient(to top, #a0a0a0 0%, #b4b4b4 100%);
+}
+
+.toolbar-item:hover {
+  cursor: pointer;
+}
