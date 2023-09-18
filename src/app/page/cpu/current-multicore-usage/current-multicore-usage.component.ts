@@ -3,18 +3,19 @@ import { event } from '@tauri-apps/api';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription } from 'rxjs';
-
+import { AppearanceSettingComponent } from './appearance-setting/appearance-setting.component';
+import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-current-multicore-usage',
   templateUrl: './current-multicore-usage.component.html',
   styleUrls: ['./current-multicore-usage.component.css'],
   standalone: true,
-  imports: [NgChartsModule]
+  imports: [NgChartsModule, AppearanceSettingComponent, CommonModule]
 })
 export class CurrentMulticoreUsageComponent {
   private eventsSubscription!: Subscription;
   @Input() core_count_ready_event!: Observable<number>;
-
   @Input() core_count!: number;
 
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
@@ -27,11 +28,19 @@ export class CurrentMulticoreUsageComponent {
   socket!: WebSocket;
   public barChartLegend = false;
   public barChartPlugins = [];
+  
+  public bars_color: string = '';
+  public background_color: string = '';
+
+  constructor(private preferencesService: CpuPreferencesService){
+    this.bars_color = this.preferencesService.get_cpu_preferences().current.bars_color;
+    this.background_color = this.preferencesService.get_cpu_preferences().current.background;
+  }
 
   public barChartData: ChartConfiguration<'bar'>['data'] = {
     labels: [],
     datasets: [
-      { data: [], label: 'Usage', backgroundColor: 'limegreen' }
+      { data: [], label: 'Usage', backgroundColor: this.bars_color}
     ]
   };
 
@@ -45,9 +54,6 @@ export class CurrentMulticoreUsageComponent {
     },
     plugins: { legend: { display: false } }
   };
-
-  constructor() {
-  }
 
   ngOnInit() {
     if(this.core_count){
@@ -71,7 +77,8 @@ export class CurrentMulticoreUsageComponent {
     this.socket.onmessage = (event) => {
       let data = JSON.parse(event.data) as number[]
       this.barChartData.datasets[0].data = data;
-      if (this.chart) this.chart.update();
+      this.barChartData.datasets[0].backgroundColor = this.bars_color;
+      this.chart.update();
     }
   }
 

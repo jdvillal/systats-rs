@@ -12,7 +12,7 @@ export interface CpuPreferences{
         default_chart: 'current' | 'timelapse',
     },
     current: {
-        bar_color: string,
+        bars_color: string,
         background: string
     },
     timelapse: {

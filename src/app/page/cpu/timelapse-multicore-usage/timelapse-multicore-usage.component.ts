@@ -28,8 +28,6 @@ export class TimelapseMulticoreUsageComponent {
   y_scale = 0.75;
   line_color = "#bd1934";
 
-  preferences: CpuPreferences = this.getPreferences();
-
   constructor(
     private core_data_update_notifier: CpuDataUpdateNotifierService,
     private prefrencesService: CpuPreferencesService
@@ -39,10 +37,6 @@ export class TimelapseMulticoreUsageComponent {
     this.y_scale = pref.timelapse.y_scale;
     this.line_color = pref.timelapse.line_color;
 
-  }
-
-  getPreferences(): CpuPreferences{
-    return this.prefrencesService.get_cpu_preferences();
   }
 
   ngOnInit(){

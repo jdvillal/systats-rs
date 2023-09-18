@@ -15,7 +15,7 @@ export class CpuPreferencesService {
         default_chart: 'current'
       },
       current: {
-        bar_color: '#2ae24c',
+        bars_color: '#2ae24c',
         background: '#b66ffd15'
       },
       timelapse: {

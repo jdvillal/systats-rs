@@ -2,13 +2,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TimelapseSingleUsageComponent } from '../timelapse-single-usage/timelapse-single-usage.component';
 import { CpuDataUpdateNotifierService } from '../service/cpu-data-update-notifier.service';
 import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @Component({
   selector: 'app-appearance-setting',
   templateUrl: './appearance-setting.component.html',
   styleUrls: ['./appearance-setting.component.css'],
   standalone: true,
-  imports: [TimelapseSingleUsageComponent]
+  imports: [TimelapseSingleUsageComponent, ColorPickerModule]
 })
 export class AppearanceSettingComponent {
   @Input() x_scale!: number;
@@ -41,7 +42,6 @@ export class AppearanceSettingComponent {
   }
 
   public set_chart_color(new_color: string){
-    console.log(new_color);
     this.demo_line_color = new_color;
     this.update_notifier.notifyAll();
   }
@@ -50,12 +50,10 @@ export class AppearanceSettingComponent {
     this.x_scaleChange.emit(this.demo_x_scale)
     this.y_scaleChange.emit(this.demo_y_scale)
     this.line_colorChange.emit(this.demo_line_color);
-    console.log('before => ',this.prefService.get_cpu_preferences());
     this.prefService.get_cpu_preferences().timelapse.x_scale = this.demo_x_scale;
     this.prefService.get_cpu_preferences().timelapse.y_scale = this.demo_y_scale;
     this.prefService.get_cpu_preferences().timelapse.line_color = this.demo_line_color;
     this.prefService.save();
-    console.log('after => ',this.prefService.get_cpu_preferences());
     
   }
 
