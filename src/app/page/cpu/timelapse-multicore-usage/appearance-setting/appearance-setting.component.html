@@ -27,12 +27,13 @@
                             [value]="demo_y_scale"
                             (change)="set_y_scale(y_scale_slider.value)">
                     </div>
-                    <div>
-                        <label for="exampleColorInput" class="form-label">Line chart color</label>
-                        <input #chart_color_picker type="color" class="form-control form-control-color" id="exampleColorInput" [value]="this.demo_line_color" title="Choose your color"
-                            (change)="set_chart_color(chart_color_picker.value)">
+                    <div class="d-flex align-items-center mt-1">
+                        
+                        <input #line_color_picker id="line_color_input" class="form-control-sm color-input" 
+                            [(colorPicker)]="demo_line_color"
+                            [style.background]="demo_line_color"/>
+                        <label for="line_color_input" >Chart lines color</label>    
                     </div>
-
                 </div>
             </div>
             <div class="modal-footer">
