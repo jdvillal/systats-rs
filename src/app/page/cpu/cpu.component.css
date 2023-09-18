@@ -19,3 +19,8 @@ th{
 .bold-text{
     font-weight: bold;
 }
+.bi-fire:hover{
+    cursor: pointer;
+    color: gray;
+    /*color: rgb(255, 100, 0);*/
+}
