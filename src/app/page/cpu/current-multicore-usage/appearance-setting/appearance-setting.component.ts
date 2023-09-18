@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ColorPickerModule } from 'ngx-color-picker';
 import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
 
 @Component({
   selector: 'app-appearance-setting',
   templateUrl: './appearance-setting.component.html',
   styleUrls: ['./appearance-setting.component.css'],
-  standalone: true
+  standalone: true,
+  imports: [ColorPickerModule]
 })
 export class AppearanceSettingComponent {
   @Input() bars_color!: string;
@@ -16,23 +18,16 @@ export class AppearanceSettingComponent {
   constructor(private prefrencesService: CpuPreferencesService){
   }
 
+
+  public demo_bars_color!: string;
+  public demo_background_color!: string;
   ngOnInit(){
     this.demo_bars_color = this.bars_color;
     this.demo_background_color = this.background_color;
-    console.log('background is ===>', this.background_color);
   }
 
-  public demo_bars_color!: string;
-  public set_bar_color(color: string){
-    this.demo_bars_color = color;
-    
-  }
+  
 
-  public demo_background_color!: string;
-  public set_background_color(color: string){
-    console.log("picked background color ===>", color);
-    //this.demo_background_color = color;
-  }
 
   apply_changes(){
     this.prefrencesService.get_cpu_preferences().current.bars_color = this.demo_bars_color;

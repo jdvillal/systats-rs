@@ -7,15 +7,17 @@
             </div>
             <div class="modal-body">
                 <div class="d-flex flex-column">
-                    <div>
-                        <label for="bars_color_input" class="form-label">Bars color</label>
-                        <input #bars_color_picker type="color" class="form-control form-control-color" id="bars_color_input" [value]="this.demo_bars_color" title="Choose your color"
-                            (change)="set_bar_color(bars_color_picker.value)">
+                    <div class="d-flex align-items-center">
+                        <input #bars_color_picker id="bars_color_picker" class="form-control-sm color-input"
+                        [(colorPicker)]="demo_bars_color"
+                        [style.background]="demo_bars_color"/>
+                        <label for="bars_color_picker">Bars color</label>
                     </div>
-                    <div>
-                        <label for="background_color_input" class="form-label">Background color</label>
-                        <input #background_color_picker type="color" id="background_color_input" [value]="this.demo_background_color" title="Choose your color"
-                        (change)="set_background_color(background_color_picker.value)">
+                    <div class="d-flex align-items-center mt-1">
+                        <input #background_color_picker id="background_color_picker" class="form-control-sm color-input"
+                        [(colorPicker)]="demo_background_color"
+                        [style.background]="demo_background_color"/>
+                        <label for="background_color_picker">Background</label>
                     </div>
                 </div>
             </div>

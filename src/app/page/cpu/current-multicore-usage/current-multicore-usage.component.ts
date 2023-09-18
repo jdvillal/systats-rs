@@ -35,7 +35,6 @@ export class CurrentMulticoreUsageComponent {
   constructor(private preferencesService: CpuPreferencesService){
     this.bars_color = this.preferencesService.get_cpu_preferences().current.bars_color;
     this.background_color = this.preferencesService.get_cpu_preferences().current.background;
-    console.log('background is ==>' , this.background_color);
   }
 
   public barChartData: ChartConfiguration<'bar'>['data'] = {
@@ -55,9 +54,6 @@ export class CurrentMulticoreUsageComponent {
     },
     plugins: { legend: { display: false } }
   };
-
-  
-  
 
   ngOnInit() {
     if(this.core_count){
@@ -82,7 +78,7 @@ export class CurrentMulticoreUsageComponent {
       let data = JSON.parse(event.data) as number[]
       this.barChartData.datasets[0].data = data;
       this.barChartData.datasets[0].backgroundColor = this.bars_color;
-      if (this.chart) this.chart.update();
+      this.chart.update();
     }
   }
 
