@@ -1,0 +1,28 @@
+<div class="modal fade" id="current-multicore-chart-setting-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Timelapse chart settings</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-column">
+                    <div>
+                        <label for="bars_color_input" class="form-label">Bars color</label>
+                        <input #bars_color_picker type="color" class="form-control form-control-color" id="bars_color_input" [value]="this.demo_bars_color" title="Choose your color"
+                            (change)="set_bar_color(bars_color_picker.value)">
+                    </div>
+                    <div>
+                        <label for="background_color_input" class="form-label">Background color</label>
+                        <input #background_color_picker type="color" id="background_color_input" [value]="this.demo_background_color" title="Choose your color"
+                        (change)="set_background_color(background_color_picker.value)">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal" (click)="apply_changes()">Apply changes</button>
+            </div>
+        </div>
+    </div>
+</div>
