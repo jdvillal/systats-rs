@@ -21,3 +21,21 @@ pub fn handle_timelapse_memory_utilization_websocket(
     }
     println!("websocket closed");
 }
+
+pub fn handle_current_mememory_swap_usage_websocket(
+    mut websocket: WebSocket<TcpStream>,
+){
+    let mut sys = System::new_all();
+    loop{
+        sys.refresh_memory();
+        let current_mem = sys.used_memory();
+        let current_swap = sys.used_swap();
+        let resp_msg = format!("[{},{}]", current_mem, current_swap);
+        let res = websocket.send(resp_msg.into());
+        if res.is_err(){
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(500))
+    }
+    println!("websocket closed");
+}

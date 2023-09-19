@@ -12,7 +12,8 @@ enum MonitoringRequestType{
     CpuCurrentMultiCoreUsage,
     CpuTimelapseSingleCoreUsage,
     CpuTimelapseMultiCoreUsage,
-    MemoryTimelapse,
+    MemoryTimelapseUsage,
+    MemorySwapCurrentUsage,
     Unknown
 }
 
@@ -27,7 +28,9 @@ impl MonitoringRequestType{
         }else if msg == "cpu_timelapse_multicore_usage"{
             return Self::CpuTimelapseMultiCoreUsage;
         }else if msg == "memory_timelapse_usage"{
-            return Self::MemoryTimelapse;
+            return Self::MemoryTimelapseUsage;
+        }else if msg == "memory_swap_current_usage"{
+            return Self::MemorySwapCurrentUsage
         }
         return Self::Unknown;
     }
@@ -72,8 +75,11 @@ pub fn initialize_monitors(){
                     MRT::CpuTimelapseMultiCoreUsage => {
                         streamers::cpu::handle_timelapse_multicore_utilization_websocket(cpu_timelapse_data_arc, websocket);
                     },
-                    MRT::MemoryTimelapse => {
+                    MRT::MemoryTimelapseUsage => {
                         streamers::memory::handle_timelapse_memory_utilization_websocket(memory_timelapse_data_arc, websocket);
+                    },
+                    MRT::MemorySwapCurrentUsage => {
+                        streamers::memory::handle_current_mememory_swap_usage_websocket(websocket);
                     },
                     MRT::Unknown => {
                         println!("Unkown request, closing socket!");
