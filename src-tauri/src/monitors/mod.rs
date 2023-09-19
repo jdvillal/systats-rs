@@ -2,15 +2,17 @@ use std::{sync::{Arc, Mutex}, net::TcpListener, thread};
 use tungstenite::accept;
 use crate::streamers;
 
-use self::cpu::start_cpu_monitor;
+use self::{cpu::start_cpu_monitor, memory::start_memory_monitor};
 
 pub mod cpu;
+pub mod memory;
 
 enum MonitoringRequestType{
     CpuCurrentSingleCoreUsage,
     CpuCurrentMultiCoreUsage,
     CpuTimelapseSingleCoreUsage,
     CpuTimelapseMultiCoreUsage,
+    MemoryTimelapse,
     Unknown
 }
 
@@ -24,6 +26,8 @@ impl MonitoringRequestType{
             return Self::CpuTimelapseSingleCoreUsage;
         }else if msg == "cpu_timelapse_multicore_usage"{
             return Self::CpuTimelapseMultiCoreUsage;
+        }else if msg == "memory_timelapse_usage"{
+            return Self::MemoryTimelapse;
         }
         return Self::Unknown;
     }
@@ -34,12 +38,20 @@ pub fn initialize_monitors(){
     let cpu_timelapse_data: Vec<Vec<f32>> = Vec::new();
     let cpu_timelapse_data_arc = Arc::new(Mutex::new(cpu_timelapse_data));
 
+    //vec of memory usage
+    let memory_timelapse_data: Vec<u64> = Vec::new();
+    let memory_timelapse_data_arc = Arc::new(Mutex::new(memory_timelapse_data));
+
+
+
     start_cpu_monitor(Arc::clone(&cpu_timelapse_data_arc));
+    start_memory_monitor(Arc::clone(&memory_timelapse_data_arc));
 
     let server = TcpListener::bind("127.0.0.1:9001").unwrap();
     thread::spawn(move ||{
         for stream in server.incoming(){
             let cpu_timelapse_data_arc = Arc::clone(&cpu_timelapse_data_arc);
+            let memory_timelapse_data_arc = Arc::clone(&memory_timelapse_data_arc);
             thread::spawn(move||{
                 let mut websocket = accept(stream.unwrap()).unwrap();
                 let msg = websocket.read().unwrap().to_string();
@@ -59,6 +71,9 @@ pub fn initialize_monitors(){
                     },
                     MRT::CpuTimelapseMultiCoreUsage => {
                         streamers::cpu::handle_timelapse_multicore_utilization_websocket(cpu_timelapse_data_arc, websocket);
+                    },
+                    MRT::MemoryTimelapse => {
+                        streamers::memory::handle_timelapse_memory_utilization_websocket(memory_timelapse_data_arc, websocket);
                     },
                     MRT::Unknown => {
                         println!("Unkown request, closing socket!");

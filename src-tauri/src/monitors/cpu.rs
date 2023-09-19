@@ -1,12 +1,10 @@
 use std::{
-    net::TcpStream,
     ops::DerefMut,
     sync::{Arc, Mutex},
     thread,
 };
 
 use sysinfo::{CpuExt, System, SystemExt};
-use tungstenite::WebSocket;
 
 pub fn start_cpu_monitor(cpu_timelapse_data_arc: Arc<Mutex<Vec<Vec<f32>>>>) {
     thread::spawn(move || {

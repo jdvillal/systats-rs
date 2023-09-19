@@ -8,7 +8,8 @@ fn main() {
     monitors::initialize_monitors();
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-          handlers::cpu::get_cpu_information
+          handlers::cpu::get_cpu_information,
+          handlers::memory::get_memory_information
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
