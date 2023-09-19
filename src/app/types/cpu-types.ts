@@ -6,10 +6,12 @@ export interface CpuInfo{
     logical_core_count: number,
 }
 
+export type CpuChartType = 'current' | 'timelapse'
+
 export interface CpuPreferences{
     version: number,
     general: {
-        default_chart: 'current' | 'timelapse',
+        default_chart: CpuChartType
     },
     current: {
         bars_color: string,

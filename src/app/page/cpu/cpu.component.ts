@@ -1,12 +1,13 @@
-import { Component} from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { invoke } from "@tauri-apps/api/tauri";
 import { CurrentMulticoreUsageComponent } from './current-multicore-usage/current-multicore-usage.component';
 import { TimelapseMulticoreUsageComponent } from './timelapse-multicore-usage/timelapse-multicore-usage.component';
-import { CpuInfo } from 'src/app/types/cpu-types';
+import { CpuChartType, CpuInfo } from 'src/app/types/cpu-types';
 import { Subject } from 'rxjs';
 import { TimelapseSingleUsageComponent } from './timelapse-multicore-usage/timelapse-single-usage/timelapse-single-usage.component';
 import { CommonModule } from '@angular/common';
 import { CurrentSinglecoreUsageComponent } from './current-singlecore-usage/current-singlecore-usage.component';
+import { PagesStateService } from 'src/app/services/pages-state.service';
 
 @Component({
   selector: 'app-cpu',
@@ -25,9 +26,18 @@ export class CpuComponent {
   core_count_ready_subject: Subject<number> = new Subject<number>();
   core_count!: number;  
   cpu_info: CpuInfo = { vendor_id: '', brand: '', max_frequency: 0, physical_core_count: 0, logical_core_count: 0 };
+ 
+  current_chart_type: CpuChartType = 'timelapse';
 
-  current_chart_type: 'timelapse'|'current' = 'timelapse';
+  constructor(
+    private pagesStateService: PagesStateService
+  ){}
+
   ngOnInit() {
+    let current_chart_type = this.pagesStateService.get_page_state().current_cpu_chart_type;
+    if(current_chart_type){
+      this.current_chart_type = current_chart_type;
+    } 
     this.get_cpu_information();
   }
 
@@ -39,8 +49,9 @@ export class CpuComponent {
     });
   }
 
-  public set_current_chart_type(chart_type: 'current' | 'timelapse'){
+  public set_current_chart_type(chart_type: CpuChartType){
     this.current_chart_type = chart_type;
+    this.pagesStateService.get_page_state().current_cpu_chart_type = chart_type;
   }
 
 }
