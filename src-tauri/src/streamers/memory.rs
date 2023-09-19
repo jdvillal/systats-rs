@@ -1,5 +1,5 @@
 use std::{sync::{Arc, Mutex}, net::TcpStream, ops::DerefMut};
-use sysinfo::{System, SystemExt, CpuExt};
+use sysinfo::{System, SystemExt};
 use tungstenite::WebSocket;
 
 pub fn handle_timelapse_memory_utilization_websocket(

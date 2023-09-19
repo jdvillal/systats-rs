@@ -1,5 +1,5 @@
 use serde::{Serialize, Deserialize};
-use sysinfo::{System, SystemExt, CpuExt};
+use sysinfo::{System, SystemExt};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct MemoryInfo {
