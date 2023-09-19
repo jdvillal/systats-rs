@@ -64,7 +64,6 @@ export class CurrentMemoryUsageComponent {
     }
     this.socket.onmessage = (event) => {
       let data = JSON.parse(event.data) as number[];
-      console.log(this.format_meassure_unit(data[3] - data[2]));
       this.used = data[0];
       this.used_perc = total_mem - data[0];
       this.doughnutChartDatasets[0].data = [data[0], total_mem - data[0]]

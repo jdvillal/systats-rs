@@ -2,7 +2,7 @@
     <div class="d-flex flex-column" style="min-height: 100%;">
         <div class="d-flex justify-content-between">
             <h1>Memory</h1>
-            <span>{{memInfo.total}}</span>
+            <span *ngIf="memInfo">{{memInfo.total}}</span>
         </div>
         <!-- <span *ngIf="current_chart_type=='timelapse'">% Utilization over the last 60 seconds</span> -->
         <app-timelapse-memory-usage

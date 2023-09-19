@@ -26,9 +26,8 @@ export class MemoryComponent {
 
   get_memory_information(): void {
     invoke<MemoryInfo>("get_memory_information", {}).then((res) => {
-      this.memInfo = res;
+      this.memInfo = res as MemoryInfo;
       this.total_memory = this.memInfo.total;
-      console.log(this.memInfo);
       this.memory_info_ready_subject.next(this.memInfo.total);
       
     });

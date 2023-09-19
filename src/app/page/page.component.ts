@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CpuPreferencesService } from '../services/cpu-preferences.service';
 import { PagesStateService } from '../services/pages-state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-page',
@@ -20,13 +21,21 @@ export class PageComponent {
     });
   }*/
 
+
   on_page_clicked(page: string){
     this.current_page = page;
   }
 
-  constructor(private cpuPref: CpuPreferencesService, private stateService: PagesStateService){}
+  constructor(
+    private cpuPref: CpuPreferencesService,
+    private stateService: PagesStateService,
+    private router: Router
+    ){}
 
   ngOnInit() {
-
+    let current_route = this.router.url;
+    let page = current_route.split('/page/')[1];
+    this.current_page = page;
+    console.log(this.current_page);
   }
 }
