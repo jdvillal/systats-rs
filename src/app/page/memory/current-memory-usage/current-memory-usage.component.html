@@ -1,0 +1,13 @@
+<div class="d-flex flex-row mt-3 align-items-center" style="max-height: 20rem;">
+    <canvas baseChart #chart style="max-width: 18vw; max-height: 18vw;"
+        [labels]="doughnutChartLabels"
+        [datasets]="doughnutChartDatasets"
+        [options]="doughnutChartOptions"
+        [legend]="true"
+        [type]="'doughnut'">
+    </canvas>
+    <div class="d-flex flex-column align-items-center">
+        <p>Used  {{this.format_meassure_unit(this.used)}} ({{this.format_meassure_percent(this.used)}}) of</p>
+        <p>{{this.format_meassure_unit(this.total_memory)}}</p>
+    </div>
+</div>

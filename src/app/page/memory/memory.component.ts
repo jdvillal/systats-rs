@@ -4,13 +4,14 @@ import { invoke } from '@tauri-apps/api';
 import { Subject } from 'rxjs';
 import { MemoryInfo } from 'src/app/types/memory-types';
 import { TimelapseMemoryUsageComponent } from './timelapse-memory-usage/timelapse-memory-usage.component';
+import { CurrentMemoryUsageComponent } from './current-memory-usage/current-memory-usage.component';
 
 @Component({
   selector: 'app-memory',
   templateUrl: './memory.component.html',
   styleUrls: ['./memory.component.css'],
   standalone: true,
-  imports: [CommonModule, TimelapseMemoryUsageComponent]
+  imports: [CommonModule, TimelapseMemoryUsageComponent, CurrentMemoryUsageComponent]
 })
 export class MemoryComponent {
   public memory_info_ready_subject: Subject<number> = new Subject<number>();

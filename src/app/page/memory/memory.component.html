@@ -2,44 +2,22 @@
     <div class="d-flex flex-column" style="min-height: 100%;">
         <div class="d-flex justify-content-between">
             <h1>Memory</h1>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-fire" viewBox="0 0 16 16">
-                <path d="M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16Zm0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15Z"/>
-            </svg>
+            <span>{{memInfo.total}}</span>
         </div>
-        <div class="d-flex flex-row justify-content-between align-items-center">
-            <div class="dropdown" data-bs-toggle="dropdown">
-                <div class="btn-secondary dropdown-toggle">
-                    <span *ngIf="current_chart_type=='timelapse'">Utilization over the last 60 seconds</span>
-                    <span *ngIf="current_chart_type=='current'">Current utilization</span>
-                </div>
-                <ul class="dropdown-menu">
-                    <li (click)="set_current_chart_type('current')">
-                        <span class="dropdown-item">
-                            Current
-                            <svg *ngIf="current_chart_type=='current'" xmlns="http://www.w3.org/2000/svg" width="16"
-                                height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                                <path
-                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                            </svg>
-                        </span>
-                    </li>
-                    <li (click)="set_current_chart_type('timelapse')">
-                        <span class="dropdown-item">
-                            Last minute
-                            <svg *ngIf="current_chart_type=='timelapse'" xmlns="http://www.w3.org/2000/svg" width="16"
-                                height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                                <path
-                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                            </svg>
-                        </span>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <!-- <span *ngIf="current_chart_type=='timelapse'">% Utilization over the last 60 seconds</span> -->
         <app-timelapse-memory-usage
             [total_memory]="this.total_memory"
             [mem_info_ready_observable] = "this.memory_info_ready_subject.asObservable()"
         ></app-timelapse-memory-usage>
+        <div clas="d-flex flex-row">
+            <app-current-memory-usage
+                [total_memory]="this.total_memory"
+                [mem_info_ready_observable] = "this.memory_info_ready_subject.asObservable()"
+            ></app-current-memory-usage>
+            <div>
+
+            </div>
+        </div>
     </div>
 
 </div>

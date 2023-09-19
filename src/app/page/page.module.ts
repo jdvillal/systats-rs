@@ -6,6 +6,7 @@ import { DiskComponent } from './disk/disk.component';
 import { ProcessesComponent } from './processes/processes.component';
 import { CurrentMulticoreUsageComponent } from './cpu/current-multicore-usage/current-multicore-usage.component';
 import { NgChartsModule } from 'ng2-charts';
+import { CurrentMemoryUsageComponent } from './memory/current-memory-usage/current-memory-usage.component';
 
 
 
