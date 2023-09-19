@@ -1,5 +1,5 @@
 <div class="d-flex flex-row mt-3 align-items-center me-auto">
-    <canvas baseChart 
+    <canvas baseChart
         [labels]="doughnutChartLabels"
         [datasets]="doughnutChartDatasets"
         [options]="doughnutChartOptions"
@@ -7,7 +7,8 @@
         [type]="'doughnut'">
     </canvas>
     <div class="d-flex flex-column align-items-center mx-2">
-        <p style="font-weight: bold;">Memory</p>
-        <p align="center">{{this.format_meassure_unit(this.used)}} ({{this.format_meassure_percent(this.used)}}) used of <br>{{this.format_meassure_unit(this.total_memory)}}</p>
+        <p style="font-weight: bold;">Swap</p>
+        <p align="center">{{this.format_meassure_unit(this.used)}} ({{this.format_meassure_percent(this.used)}}) used of <br> {{this.format_meassure_unit(this.total_swap)}}</p>
+
     </div>
 </div>

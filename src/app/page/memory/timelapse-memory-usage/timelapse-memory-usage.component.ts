@@ -2,6 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartOptions, Tick } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription } from 'rxjs';
+import { MemoryInfo } from 'src/app/types/memory-types';
 
 @Component({
   selector: 'app-timelapse-memory-usage',
@@ -12,7 +13,7 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class TimelapseMemoryUsageComponent {
   private eventsSubscription!: Subscription;
-  @Input() mem_info_ready_observable!: Observable<number>;
+  @Input() mem_info_ready_observable!: Observable<MemoryInfo>;
   @Input() total_memory!: number;
 
   private socket!: WebSocket;
@@ -40,8 +41,8 @@ export class TimelapseMemoryUsageComponent {
       this.on_memInfo_ready(this.total_memory);
       return;
     }
-    this.eventsSubscription = this.mem_info_ready_observable.subscribe((total_mem) => {
-      this.on_memInfo_ready(total_mem);
+    this.eventsSubscription = this.mem_info_ready_observable.subscribe((memInfo) => {
+      this.on_memInfo_ready(memInfo.total);
     });
   }
   ngOnDestroy() {

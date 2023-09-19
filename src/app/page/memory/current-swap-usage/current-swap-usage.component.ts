@@ -1,20 +1,21 @@
-import { Component, HostListener, Input, QueryList, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription } from 'rxjs';
 import { MemoryInfo } from 'src/app/types/memory-types';
 
 @Component({
-  selector: 'app-current-memory-usage',
-  templateUrl: './current-memory-usage.component.html',
-  styleUrls: ['./current-memory-usage.component.css'],
+  selector: 'app-current-swap-usage',
+  templateUrl: './current-swap-usage.component.html',
+  styleUrls: ['./current-swap-usage.component.css'],
   standalone: true,
-  imports: [NgChartsModule]
+  imports: [NgChartsModule, CommonModule]
 })
-export class CurrentMemoryUsageComponent {
+export class CurrentSwapUsageComponent {
   private eventsSubscription!: Subscription;
   @Input() mem_info_ready_observable!: Observable<MemoryInfo>;
-  @Input() total_memory!: number;
+  @Input() total_swap!: number;
 
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
 
@@ -30,7 +31,7 @@ export class CurrentMemoryUsageComponent {
 
   public doughnutChartLabels: string[] = [ 'Used', 'Available'];
   public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
-      { data: [ ], label: 'Memory', borderColor: 'white', backgroundColor: ['rgb(255, 99, 132)','rgb(54, 162, 235)']},
+      { data: [ ], label: 'Swap', borderColor: 'white', backgroundColor: ['rgb(255, 99, 132)','rgb(54, 162, 235)']},
       //{ data: [ ], label: 'Swap', borderColor: 'white', backgroundColor: ['rgb(255, 99, 132)','rgb(54, 162, 235)'] },
     ];
 
@@ -41,12 +42,12 @@ export class CurrentMemoryUsageComponent {
   };
 
   ngOnInit(){
-    if (this.total_memory) {
-      this.on_memInfo_ready(this.total_memory);
+    if (this.total_swap) {
+      this.on_memInfo_ready(this.total_swap);
       return;
     }
     this.eventsSubscription = this.mem_info_ready_observable.subscribe((memInfo) => {
-      this.on_memInfo_ready(memInfo.total);
+      this.on_memInfo_ready(memInfo.total_swap);
     });
   }
   ngOnDestroy() {
@@ -65,10 +66,9 @@ export class CurrentMemoryUsageComponent {
     }
     this.socket.onmessage = (event) => {
       let data = JSON.parse(event.data) as number[];
-      this.used = data[0];
-      this.used_perc = total_mem - data[0];
-      this.doughnutChartDatasets[0].data = [data[0], total_mem - data[0]]
-      //this.doughnutChartDatasets[1].data = [data[1], total_mem - data[1]]
+      this.used = data[1];
+      this.used_perc = total_mem - data[1];
+      this.doughnutChartDatasets[0].data = [data[1], total_mem - data[1]]
       this.chart.update();
 
     }
@@ -76,7 +76,7 @@ export class CurrentMemoryUsageComponent {
 
   public format_meassure_unit(bytes: number): string{
     if(bytes < 1024){
-      return `bytes ${bytes}`
+      return `${bytes} bytes`
     }else if(bytes >= 1024 && bytes < (1024*1024)){
       return Math.round((bytes/ (1024)) * 10) / 10 + ' KiB';
     }else if(bytes >= (1024*1024) && bytes < (1024*1024*1024)){
@@ -87,7 +87,6 @@ export class CurrentMemoryUsageComponent {
   }
 
   public format_meassure_percent(bytes: number): string{
-    return Math.round((bytes/this.total_memory * 100)) + '%'
+    return Math.round((bytes/this.total_swap * 100)) + '%'
   }
-
 }

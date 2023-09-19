@@ -36,6 +36,5 @@ export class PageComponent {
     let current_route = this.router.url;
     let page = current_route.split('/page/')[1];
     this.current_page = page;
-    console.log(this.current_page);
   }
 }

@@ -9,15 +9,17 @@
             [total_memory]="this.total_memory"
             [mem_info_ready_observable] = "this.memory_info_ready_subject.asObservable()"
         ></app-timelapse-memory-usage>
-        <div clas="d-flex flex-row">
+
+        <div class="d-flex flex-row justify-content-evenly mt-5">
             <app-current-memory-usage
                 [total_memory]="this.total_memory"
                 [mem_info_ready_observable] = "this.memory_info_ready_subject.asObservable()"
             ></app-current-memory-usage>
-            <div>
-
-            </div>
+            <app-current-swap-usage
+                [mem_info_ready_observable]="this.memory_info_ready_subject.asObservable()"
+                [total_swap]="total_swap"
+            ></app-current-swap-usage>
         </div>
+        
     </div>
-
 </div>

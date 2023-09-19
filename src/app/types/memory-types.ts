@@ -1,6 +1,4 @@
 export interface MemoryInfo{
     total: number,
-    free: number,
-    available: number,
-    used: number
+    total_swap: number
 }

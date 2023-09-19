@@ -7,6 +7,7 @@ import { ProcessesComponent } from './processes/processes.component';
 import { CurrentMulticoreUsageComponent } from './cpu/current-multicore-usage/current-multicore-usage.component';
 import { NgChartsModule } from 'ng2-charts';
 import { CurrentMemoryUsageComponent } from './memory/current-memory-usage/current-memory-usage.component';
+import { CurrentSwapUsageComponent } from './memory/current-swap-usage/current-swap-usage.component';
 
 
 
@@ -14,6 +15,7 @@ import { CurrentMemoryUsageComponent } from './memory/current-memory-usage/curre
     declarations: [
         DiskComponent,
         ProcessesComponent,
+        CurrentSwapUsageComponent,
     ],
     exports: [RouterModule],
     imports: [
