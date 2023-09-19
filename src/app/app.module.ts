@@ -9,7 +9,7 @@ import { NgChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
-    PageComponent
+    PageComponent,
   ],
   imports: [
     BrowserModule,

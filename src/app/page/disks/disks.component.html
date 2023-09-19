@@ -1,1 +1,45 @@
-<p>disks works!</p>
+<div class="page-container">
+    <h1>Disks</h1>
+    <div class="d-flex flex-row flex-wrap align-items-center mt-3">
+        <div *ngFor="let disk of disks; let i = index" class="d-flex card mx-auto my-1 ">
+            <!-- <h4 class="my-2 mx-4">{{format_disk_name(i, disk.mount_point)}}</h4> -->
+            <h4 class="my-2 mx-4">Disk {{i}}</h4>
+            <div class="d-flex flex-row align-items-center mb-3">
+                <app-disk-chart
+                    [disk_info]="disk"
+                ></app-disk-chart>
+                <div class="d-flex flex-column align-items-center mx-3" style="min-width: 20rem;">
+                    <div class="d-flex flex-row justify-content-between mb-4">
+                        <div  class="d-flex flex-column align-items-center mx-2 card px-2 py-2 ovflw-hidden">
+                            <span class="bold-text">Mount point</span>
+                            <span class="value-span-sm ovflw-hidden">{{disk.mount_point}}</span>
+                        </div>
+                        <div  class="d-flex flex-column align-items-center mx-2 card px-2 py-2">
+                            <span class="bold-text">Type</span>
+                            <div class="d-flex flex-column align-items-center">
+                                <span class="value-span">{{disk.disk_type}}</span>
+                                <span *ngIf="disk.removable">(removable)</span>
+                                <span *ngIf="!disk.removable">(Not removable)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bold-text">Space</div>
+                    <div class="d-flex flex-row flex-wrap justify-content-center card px-2 py-2">
+                        <div  class="d-flex flex-column align-items-center mx-2">
+                            <span>Total</span>
+                            <span class="value-span">{{format_disk_space(disk.total_space)}}</span>
+                        </div>
+                        <div  class="d-flex flex-column align-items-center mx-2">
+                            <span>Used</span>
+                            <span class="value-span">{{format_disk_space(disk.total_space - disk.available_space)}}</span>
+                        </div>
+                        <div  class="d-flex flex-column align-items-center mx-2">
+                            <span>Available</span>
+                            <span class="value-span">{{format_disk_space(disk.available_space)}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

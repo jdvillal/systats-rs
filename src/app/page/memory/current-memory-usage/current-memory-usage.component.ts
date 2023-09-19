@@ -90,4 +90,6 @@ export class CurrentMemoryUsageComponent {
     return Math.round((bytes/this.total_memory * 100)) + '%'
   }
 
+  
+
 }

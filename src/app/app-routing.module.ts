@@ -10,7 +10,7 @@ const routes: Routes = [
   {path: 'page', component: PageComponent, children:[
     {path: 'cpu', component: CpuComponent},
     {path: 'memory', component: MemoryComponent},
-    {path: 'disk', component: DisksComponent},
+    {path: 'disks', component: DisksComponent},
     {path: 'processes', component: ProcessesComponent},
   ]},
   

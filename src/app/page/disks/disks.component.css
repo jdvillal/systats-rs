@@ -1,0 +1,12 @@
+.value-span{
+    font-size: 1.3rem;
+}
+.value-span-sm{
+    font-size: 1.1rem;
+}
+.bold-text{
+    font-weight: bold;
+}
+.ovflw-hidden{
+    overflow-x: hidden !important;
+}
