@@ -9,7 +9,8 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
           handlers::cpu::get_cpu_information,
-          handlers::memory::get_memory_information
+          handlers::memory::get_memory_information,
+          handlers::disk::get_system_disks_information
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DiskComponent } from './disk.component';
+import { DisksComponent } from './disks.component';
 
-describe('DiskComponent', () => {
-  let component: DiskComponent;
-  let fixture: ComponentFixture<DiskComponent>;
+describe('DisksComponent', () => {
+  let component: DisksComponent;
+  let fixture: ComponentFixture<DisksComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DiskComponent]
+      declarations: [DisksComponent]
     });
-    fixture = TestBed.createComponent(DiskComponent);
+    fixture = TestBed.createComponent(DisksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
