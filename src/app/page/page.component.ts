@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { CpuPreferencesService } from '../services/cpu-preferences.service';
+import { PagesStateService } from '../services/pages-state.service';
 
 @Component({
   selector: 'app-page',
@@ -8,8 +10,6 @@ import { Component } from '@angular/core';
 export class PageComponent {
   //current_tab = "";
   current_page = "cpu";
-
-  dark_mode = false;
 
   /*greet(event: SubmitEvent, name: string): void {
     event.preventDefault();
@@ -24,7 +24,9 @@ export class PageComponent {
     this.current_page = page;
   }
 
+  constructor(private cpuPref: CpuPreferencesService, private stateService: PagesStateService){}
+
   ngOnInit() {
-    
+
   }
 }
