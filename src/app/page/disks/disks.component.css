@@ -7,6 +7,34 @@
 .bold-text{
     font-weight: bold;
 }
-.ovflw-hidden{
-    overflow-x: hidden !important;
+
+.disk-info-card{
+    min-width: calc(750px - 4rem);
+    overflow-x: auto;
+}
+.responsv-flex{
+    display: flex;
+    flex-direction: column; 
+}
+
+@media screen and (min-width: calc(1500px + 11rem)) {
+    .disk-info-card{
+        max-width: calc(750px - 4rem);
+        overflow-x: auto;
+    }
+    .responsv-flex{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content:center;
+    }
+}
+
+span{
+    display: inline-block;
+    white-space: nowrap;
+}
+
+tr, td{
+    white-space: nowrap;
 }

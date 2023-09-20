@@ -98,4 +98,16 @@ export class TimelapseMemoryUsageComponent {
       this.chart.update();
     }
   }
+
+  public format_meassure_unit(bytes: number): string{
+    if(bytes < 1024){
+      return `bytes ${bytes}`
+    }else if(bytes >= 1024 && bytes < (1024*1024)){
+      return Math.round((bytes/ (1024)) * 10) / 10 + ' KiB';
+    }else if(bytes >= (1024*1024) && bytes < (1024*1024*1024)){
+      return Math.round((bytes/ (1024 * 1024)) * 10) / 10 + ' MiB'
+    }else{
+      return Math.round((bytes/ (1024 * 1024 * 1024)) * 10) / 10 + ' GiB'
+    }
+  }
 }

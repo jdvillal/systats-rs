@@ -2,7 +2,6 @@
     <div class="d-flex flex-column" style="min-height: 100%;">
         <div class="d-flex justify-content-between">
             <h1>Memory</h1>
-            <span *ngIf="memInfo">{{memInfo.total}}</span>
         </div>
         <!-- <span *ngIf="current_chart_type=='timelapse'">% Utilization over the last 60 seconds</span> -->
         <app-timelapse-memory-usage
@@ -11,11 +10,11 @@
         ></app-timelapse-memory-usage>
 
         <div class="d-flex flex-row justify-content-evenly mt-5">
-            <app-current-memory-usage
+            <app-current-memory-usage class="card px-4 py-3"
                 [total_memory]="this.total_memory"
                 [mem_info_ready_observable] = "this.memory_info_ready_subject.asObservable()"
             ></app-current-memory-usage>
-            <app-current-swap-usage
+            <app-current-swap-usage class="card px-4 py-3"
                 [mem_info_ready_observable]="this.memory_info_ready_subject.asObservable()"
                 [total_swap]="total_swap"
             ></app-current-swap-usage>

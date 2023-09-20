@@ -4,5 +4,6 @@ export interface DiskInfo{
     mount_point: string,
     total_space: number,
     available_space: number,
-    removable: boolean
+    removable: boolean,
+    file_system: string
 }
