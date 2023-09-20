@@ -9,8 +9,8 @@
                 ></app-disk-chart>
                 <div style="overflow-x: auto;">
                     <div>
-                        <h4>Disk {{i}} &nbsp;</h4>
-                        <h5>{{disk.name}}</h5>
+                        <h4>Disk {{i}} &nbsp; {{disk.name}}</h4>
+                        <h5>{{format_disk_space(disk.total_space - disk.available_space)}} used of {{format_disk_space(disk.total_space)}}</h5>
                     </div>
                     <table>
                         <tbody>
@@ -20,15 +20,15 @@
                                 <td>{{disk.mount_point}}</td>
                             </tr>
                             <tr>
+                                <th>File system:</th>
+                                <td>{{disk.file_system}}</td>
+                            </tr>
+                            <tr>
                                 <th>Type:</th>
                                 <td>{{disk.disk_type}}
                                     <span *ngIf="!disk.removable">Not removable</span>
                                     <span *ngIf="disk.removable">Removable</span>
                                 </td>
-                            </tr>
-                            <tr>
-                                <th>File system:</th>
-                                <td>{{disk.file_system}}</td>
                             </tr>
                         </tbody>
                     </table>
