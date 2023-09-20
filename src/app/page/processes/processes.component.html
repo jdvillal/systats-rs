@@ -1,1 +1,86 @@
-<p>processes works!</p>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="arrow-up" viewBox="0 0 16 16">
+        <path
+            d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+    </symbol>
+    <symbol id="arrow-down" viewBox="0 0 16 16">
+        <path
+            d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+    </symbol>
+</svg>
+
+<div class="mx-2 my-2">
+    <div class="d-flex flex-column">
+        <h1>Processes</h1>
+        <div class="mx-2 my-2">
+            <table style="min-width: 100%">
+                <tr>
+                    <th class="order-selector" (click)="set_order_by('process_name')">
+                        Name
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+                            viewBox="0 0 16 16" *ngIf="order_by === 'process_name' && order_desc === true">
+                            <use xlink:href="#arrow-up" />
+                        </svg>
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+                            viewBox="0 0 16 16" *ngIf="order_by === 'process_name' && order_desc === false">
+                            <use xlink:href="#arrow-down" />
+                        </svg>
+                    </th>
+                    <th class="order-selector" (click)="set_order_by('pid')">
+                        PID
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+                            viewBox="0 0 16 16" *ngIf="order_by === 'pid' && order_desc === true">
+                            <use xlink:href="#arrow-up" />
+                        </svg>
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+                            viewBox="0 0 16 16" *ngIf="order_by === 'pid' && order_desc === false">
+                            <use xlink:href="#arrow-down" />
+                        </svg>
+                    </th>
+                    <th class="order-selector" (click)="set_order_by('parent_pid')">
+                        Parent PID
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+                            viewBox="0 0 16 16" *ngIf="order_by === 'parent_pid' && order_desc === true">
+                            <use xlink:href="#arrow-up" />
+                        </svg>
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+                            viewBox="0 0 16 16" *ngIf="order_by === 'parent_pid' && order_desc === false">
+                            <use xlink:href="#arrow-down" />
+                        </svg>
+                    </th>
+                    <th class="order-selector" (click)="set_order_by('cpu_usage')">
+                        CPU % usage
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+                            viewBox="0 0 16 16" *ngIf="order_by === 'cpu_usage' && order_desc === true">
+                            <use xlink:href="#arrow-up" />
+                        </svg>
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+                            viewBox="0 0 16 16" *ngIf="order_by === 'cpu_usage' && order_desc === false">
+                            <use xlink:href="#arrow-down" />
+                        </svg>
+                    </th>
+                    <th class="order-selector" (click)="set_order_by('memory_usage')">
+                        Memory usage
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+                            viewBox="0 0 16 16" *ngIf="order_by === 'memory_usage' && order_desc === true">
+                            <use xlink:href="#arrow-up" />
+                        </svg>
+                        <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
+                            viewBox="0 0 16 16" *ngIf="order_by === 'memory_usage' && order_desc === false">
+                            <use xlink:href="#arrow-down" />
+                        </svg>
+                    </th>
+                    <!-- <th style="max-width: 8rem;">Executable path</th> -->
+                </tr>
+                <tr *ngFor="let process of processes" class="hover-highlight" (click)="show_process_details(process.pid)">
+                    <td style="max-width: 15rem; overflow-x: hidden;">{{process.name}}</td>
+                    <td>{{process.pid}}</td>
+                    <td>{{process.parent_pid}}</td>
+                    <td>{{format_cpu_usage(process.cpu_usage)}} %</td>
+                    <td>{{format_memory_usage(process.memory_usage)}} {{memory_selected_unit}}</td>
+                    <!-- <td style="max-width: 8rem; overflow-x: hidden;">{{process.executable_path}}</td> -->
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

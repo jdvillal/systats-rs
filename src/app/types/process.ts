@@ -11,3 +11,5 @@ export interface ProcessInformation{
     timelapse_cpu_usage: number[],
     timelapse_memory_usage: number[]
 }
+
+export type ProcessesOrderBy =  'process_name' | 'pid' | 'parent_pid' | 'cpu_usage' | 'memory_usage';

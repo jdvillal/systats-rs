@@ -71,6 +71,8 @@ pub fn handle_current_processes_websocket(
             processes_list.sort_unstable_by_key(|process| (process.cpu_usage * 1000000 as f32) as i32);
         } else if msg == "memory_usage" {
             processes_list.sort_unstable_by_key(|process| process.memory_usage);
+        } else if msg == "process_name" {
+            processes_list.sort_unstable_by_key(|process| process.name.clone().to_lowercase());
         }else{
             processes_list.sort_unstable_by_key(|process| process.pid);
         }
