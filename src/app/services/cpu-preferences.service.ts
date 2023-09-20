@@ -19,8 +19,8 @@ export class CpuPreferencesService {
         background: '#b66ffd15'
       },
       timelapse: {
-        x_scale: 1.5,
-        y_scale: 0.75,
+        x_scale: 1,
+        y_scale: 0.65,
         line_color: '#bd1934',
         background: '#b66ffd15'
       }
