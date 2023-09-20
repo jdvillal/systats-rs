@@ -22,7 +22,6 @@ export class DisksComponent {
 
   get_cpu_information(): void {
     invoke<DiskInfo[]>("get_system_disks_information", {}).then((res) => {
-      console.log(res);
       this.disks = res;
     });
   }

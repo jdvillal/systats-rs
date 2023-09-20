@@ -9,6 +9,7 @@ import { CurrentMemoryUsageComponent } from './memory/current-memory-usage/curre
 import { CurrentSwapUsageComponent } from './memory/current-swap-usage/current-swap-usage.component';
 import { DisksComponent } from './disks/disks.component';
 import { DiskChartComponent } from './disks/disk-chart/disk-chart.component';
+import { AppearanceSettingComponent } from './memory/timelapse-memory-usage/appearance-setting/appearance-setting.component';
 
 
 

@@ -1,0 +1,8 @@
+.color-input:hover{
+    cursor: pointer;
+}
+.color-input{
+    max-width: 3rem;
+    min-width: 3rem;
+    margin-right: 1rem;
+}
