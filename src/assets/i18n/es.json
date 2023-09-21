@@ -1,7 +1,10 @@
 {
     "app":{
         "light_mode": "Modo Claro",
-        "dark_mode": "Modo Oscuro"
+        "dark_mode": "Modo Oscuro",
+        "Language_settings": "Cambiar lenguaje",
+        "Cancel": "Cancelar",
+        "Close": "Cerrar"
     },
     "pages": {
         "cpu": "CPU",

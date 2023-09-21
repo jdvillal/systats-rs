@@ -1,3 +1,7 @@
 .toolbar-item:hover{
   cursor: pointer;
 }
+.lang-choise:hover{
+  background-color: gray;
+  cursor: pointer;
+}
