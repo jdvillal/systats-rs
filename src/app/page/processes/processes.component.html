@@ -15,7 +15,7 @@
         <div class="mx-2 my-2">
             <table style="min-width: 100%">
                 <tr>
-                    <th class="order-selector" (click)="set_order_by('process_name')">
+                    <th class="order-selector hover-pointer" (click)="set_order_by('process_name')">
                         Name
                         <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
                             viewBox="0 0 16 16" *ngIf="order_by === 'process_name' && order_desc === true">
@@ -26,7 +26,7 @@
                             <use xlink:href="#arrow-down" />
                         </svg>
                     </th>
-                    <th class="order-selector" (click)="set_order_by('pid')">
+                    <th class="order-selector hover-pointer" (click)="set_order_by('pid')">
                         PID
                         <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
                             viewBox="0 0 16 16" *ngIf="order_by === 'pid' && order_desc === true">
@@ -37,7 +37,7 @@
                             <use xlink:href="#arrow-down" />
                         </svg>
                     </th>
-                    <th class="order-selector" (click)="set_order_by('parent_pid')">
+                    <th class="order-selector hover-pointer" (click)="set_order_by('parent_pid')">
                         Parent PID
                         <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
                             viewBox="0 0 16 16" *ngIf="order_by === 'parent_pid' && order_desc === true">
@@ -48,7 +48,7 @@
                             <use xlink:href="#arrow-down" />
                         </svg>
                     </th>
-                    <th class="order-selector" (click)="set_order_by('cpu_usage')">
+                    <th class="order-selector hover-pointer" (click)="set_order_by('cpu_usage')">
                         CPU % usage
                         <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
                             viewBox="0 0 16 16" *ngIf="order_by === 'cpu_usage' && order_desc === true">
@@ -59,7 +59,7 @@
                             <use xlink:href="#arrow-down" />
                         </svg>
                     </th>
-                    <th class="order-selector" (click)="set_order_by('memory_usage')">
+                    <th class="order-selector hover-pointer" (click)="set_order_by('memory_usage')">
                         Memory usage
                         <svg width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill"
                             viewBox="0 0 16 16" *ngIf="order_by === 'memory_usage' && order_desc === true">
