@@ -42,5 +42,36 @@
             "Cancel": "Cancel",
             "Apply_changes": "Apply changes"
         }
+    },
+    "Memory": {
+        "Memory": "Memory"
+    },
+    "current_memory_usage": {
+        "Memory": "Memory",
+        "used_of": "used of"
+    },
+    "current_swap_usage":{
+        "Swap": "Swap",
+        "used_of": "used of"
+    },
+    "timelapse_memory_usage":{
+        "Utilization_over_60_seconds": "Utilization over 60 seconds",
+        "appearance_setting":  {
+            "Chart_appearance": "Chart appearance",
+            "Line_color": "Line color",
+            "Background": "Background",
+            "Cancel": "Cancel",
+            "Apply_changes": "Apply changes"
+        }
+    },
+    "Disks": {
+        "Disks": "Disks",
+        "Disk": "Disk",
+        "used_of": "used of",
+        "Mount_point": "Mount point",
+        "File_system": "File system",
+        "Type": "Type",
+        "Removable": "Removable",
+        "Not_removable": "Not removable"
     }
 }

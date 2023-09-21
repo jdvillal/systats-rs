@@ -4,13 +4,14 @@ import { invoke } from '@tauri-apps/api';
 import { DiskInfo } from 'src/app/types/disk-types';
 import { DiskChartComponent } from './disk-chart/disk-chart.component';
 import { Subject } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-disks',
   templateUrl: './disks.component.html',
   styleUrls: ['./disks.component.css'],
   standalone: true,
-  imports: [DiskChartComponent, CommonModule]
+  imports: [DiskChartComponent, CommonModule, TranslateModule]
 })
 export class DisksComponent {
 

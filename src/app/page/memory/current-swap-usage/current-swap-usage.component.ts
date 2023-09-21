@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, Input, ViewChild } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription } from 'rxjs';
@@ -10,7 +11,7 @@ import { MemoryInfo } from 'src/app/types/memory-types';
   templateUrl: './current-swap-usage.component.html',
   styleUrls: ['./current-swap-usage.component.css'],
   standalone: true,
-  imports: [NgChartsModule, CommonModule]
+  imports: [NgChartsModule, CommonModule, TranslateModule]
 })
 export class CurrentSwapUsageComponent {
   private eventsSubscription!: Subscription;

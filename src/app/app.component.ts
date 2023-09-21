@@ -16,7 +16,7 @@ export class AppComponent {
     translate.use('es');
   }
 
-  ngOnInit() {
+  ngOnInit() { 
     let color_mode = localStorage.getItem("color_mode");
     if(color_mode === undefined || color_mode === null){
       localStorage.setItem("color_mode", "dark");

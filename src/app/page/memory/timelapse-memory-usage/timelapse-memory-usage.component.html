@@ -1,6 +1,6 @@
 
 <div class="d-flex justify-content-between">
-  <span>% Utilization over 60 seconds</span>
+  <span>{{'timelapse_memory_usage.Utilization_over_60_seconds'|translate}}</span>
   <div>
     <span *ngIf="total_memory" class="mx-2">{{this.format_meassure_unit(total_memory)}}</span>
     <div type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#timelapse-memory-chart-setting-modal">

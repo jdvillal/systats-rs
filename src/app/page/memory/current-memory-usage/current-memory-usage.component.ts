@@ -1,4 +1,5 @@
 import { Component, HostListener, Input, QueryList, ViewChild } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription } from 'rxjs';
@@ -9,7 +10,7 @@ import { MemoryInfo } from 'src/app/types/memory-types';
   templateUrl: './current-memory-usage.component.html',
   styleUrls: ['./current-memory-usage.component.css'],
   standalone: true,
-  imports: [NgChartsModule]
+  imports: [NgChartsModule, TranslateModule]
 })
 export class CurrentMemoryUsageComponent {
   private eventsSubscription!: Subscription;

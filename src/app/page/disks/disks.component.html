@@ -1,5 +1,5 @@
 <div class="page-container">
-    <h1>Disks</h1>
+    <h1>{{'Disks.Disks'|translate}}</h1>
 
     <div class="d-flex responsv-flex">
         <div *ngFor="let disk of disks; let i = index" class="card my-2 mx-2 px-2 py-3 disk-info-card">
@@ -9,25 +9,25 @@
                 ></app-disk-chart>
                 <div style="overflow-x: auto;">
                     <div>
-                        <h4>Disk {{i}} &nbsp; {{disk.name}}</h4>
-                        <h5>{{format_disk_space(disk.total_space - disk.available_space)}} used of {{format_disk_space(disk.total_space)}}</h5>
+                        <h4>{{'Disks.Disk'|translate}} {{i}} &nbsp; {{disk.name}}</h4>
+                        <h5>{{format_disk_space(disk.total_space - disk.available_space)}} {{'Disks.used_of'|translate}} {{format_disk_space(disk.total_space)}}</h5>
                     </div>
                     <table>
                         <tbody>
                             <tr>
-                                <th>Mount point:&nbsp;</th>
+                                <th>{{'Disks.Mount_point'|translate}}:&nbsp;</th>
                                 <!-- <th>Mount point:&nbsp;</th> -->
                                 <td>{{disk.mount_point}}</td>
                             </tr>
                             <tr>
-                                <th>File system:</th>
+                                <th>{{'Disks.File_system'|translate}}:&nbsp;</th>
                                 <td>{{disk.file_system}}</td>
                             </tr>
                             <tr>
-                                <th>Type:</th>
+                                <th>{{'Disks.Type'|translate}}:&nbsp;</th>
                                 <td>{{disk.disk_type}}
-                                    <span *ngIf="!disk.removable">Not removable</span>
-                                    <span *ngIf="disk.removable">Removable</span>
+                                    <span *ngIf="!disk.removable">{{'Disks.Not_removable'|translate}}</span>
+                                    <span *ngIf="disk.removable">{{'Disks.Removable'|translate}}</span>
                                 </td>
                             </tr>
                         </tbody>

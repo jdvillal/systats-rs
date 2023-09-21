@@ -7,8 +7,8 @@
         [type]="'doughnut'">
     </canvas>
     <div class="d-flex flex-column align-items-center mx-2">
-        <p style="font-weight: bold;">Swap</p>
-        <p align="center">{{this.format_meassure_unit(this.used)}} ({{this.format_meassure_percent(this.used)}}) used of <br> {{this.format_meassure_unit(this.total_swap)}}</p>
+        <p style="font-weight: bold;">{{'current_swap_usage.Swap'| translate}}</p>
+        <p align="center">{{this.format_meassure_unit(this.used)}} ({{this.format_meassure_percent(this.used)}}) {{'current_swap_usage.used_of'| translate}} <br> {{this.format_meassure_unit(this.total_swap)}}</p>
 
     </div>
 </div>
