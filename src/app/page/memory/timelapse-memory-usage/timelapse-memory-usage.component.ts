@@ -6,13 +6,14 @@ import { MemoryInfo } from 'src/app/types/memory-types';
 import { AppearanceSettingComponent } from './appearance-setting/appearance-setting.component';
 import { MemoryPreferencesService } from 'src/app/services/memory-preferences.service';
 import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-timelapse-memory-usage',
   templateUrl: './timelapse-memory-usage.component.html',
   styleUrls: ['./timelapse-memory-usage.component.css'],
   standalone: true,
-  imports: [NgChartsModule, AppearanceSettingComponent, CommonModule]
+  imports: [NgChartsModule, AppearanceSettingComponent, CommonModule, TranslateModule]
 })
 export class TimelapseMemoryUsageComponent {
   private eventsSubscription!: Subscription;

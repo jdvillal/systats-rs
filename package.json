@@ -19,6 +19,8 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "@tauri-apps/api": "^1.4.0",
     "bootstrap": "^5.3.1",
     "chart.js": "^3.6.0",

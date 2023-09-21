@@ -8,6 +8,7 @@ import { TimelapseSingleUsageComponent } from './timelapse-multicore-usage/timel
 import { CommonModule } from '@angular/common';
 import { CurrentSinglecoreUsageComponent } from './current-singlecore-usage/current-singlecore-usage.component';
 import { PagesStateService } from 'src/app/services/pages-state.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cpu',
@@ -19,7 +20,8 @@ import { PagesStateService } from 'src/app/services/pages-state.service';
     TimelapseMulticoreUsageComponent,
     TimelapseSingleUsageComponent,
     CommonModule,
-    CurrentSinglecoreUsageComponent
+    CurrentSinglecoreUsageComponent,
+    TranslateModule
   ]
 })
 export class CpuComponent {

@@ -1,0 +1,85 @@
+{
+    "app":{
+        "light_mode": "Light Mode",
+        "dark_mode": "Dark Mode"
+    },
+    "pages": {
+        "cpu": "CPU",
+        "memory": "MEMORY",
+        "disks": "DISKS",
+        "processes": "PROCESSES"
+    },
+    "cpu":{
+        "CPU": "CPU",
+        "Brand":"Brand",
+        "Vendor": "Vendor",
+        "Max_frequency": "Max frequency",
+        "Cores": "Cores",
+        "Logical_processors": "Logical processors",
+        "Utilization_over_60_seconds": "Utilization over 60 seconds",
+        "Current_utilization": "Current utilization",
+        "Current": "Current",
+        "Last_minute": "Last minute"
+    },
+    "current_multicore_usage":{
+        "appearance_setting": {
+            "Chart_appearance": "Chart appearance",
+            "Bars_color": "Bars color",
+            "Background": "Background",
+            "Cancel": "Cancel",
+            "Apply_changes": "Apply changes"
+        }
+    },
+    "current_singlecore_usage": {
+        "AVG_utilization": "AVG utilization"
+    },
+    "timelapse_multicore_usage": {
+        "appearance_setting":{
+            "Chart_appearance": "Chart appearance",
+            "Lines_color": "Lines color",
+            "X_axis": "X axis",
+            "Y_axis": "Y axis",
+            "Cancel": "Cancel",
+            "Apply_changes": "Apply changes"
+        }
+    },
+    "Memory": {
+        "Memory": "Memory"
+    },
+    "current_memory_usage": {
+        "Memory": "Memory",
+        "used_of": "used of"
+    },
+    "current_swap_usage":{
+        "Swap": "Swap",
+        "used_of": "used of"
+    },
+    "timelapse_memory_usage":{
+        "Utilization_over_60_seconds": "Utilization over 60 seconds",
+        "appearance_setting":  {
+            "Chart_appearance": "Chart appearance",
+            "Line_color": "Line color",
+            "Background": "Background",
+            "Cancel": "Cancel",
+            "Apply_changes": "Apply changes"
+        }
+    },
+    "Disks": {
+        "Disks": "Disks",
+        "Disk": "Disk",
+        "used_of": "used of",
+        "Mount_point": "Mount point",
+        "File_system": "File system",
+        "Type": "Type",
+        "Removable": "Removable",
+        "Not_removable": "Not removable"
+    },
+    "Processes":{
+        "Processes": "Processes",
+        "Name": "Name",
+        "PID": "PID",
+        "Parent_PID": "Parent PID",
+        "CPU_usage": "CPU usage",
+        "Memory_usage": "Memory usage"
+    }
+}

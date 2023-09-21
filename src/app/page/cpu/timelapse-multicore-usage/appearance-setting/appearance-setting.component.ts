@@ -3,13 +3,14 @@ import { TimelapseSingleUsageComponent } from '../timelapse-single-usage/timelap
 import { CpuDataUpdateNotifierService } from '../service/cpu-data-update-notifier.service';
 import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-appearance-setting',
   templateUrl: './appearance-setting.component.html',
   styleUrls: ['./appearance-setting.component.css'],
   standalone: true,
-  imports: [TimelapseSingleUsageComponent, ColorPickerModule]
+  imports: [TimelapseSingleUsageComponent, ColorPickerModule, TranslateModule]
 })
 export class AppearanceSettingComponent {
   @Input() x_scale!: number;

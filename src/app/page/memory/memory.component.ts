@@ -6,6 +6,7 @@ import { MemoryInfo } from 'src/app/types/memory-types';
 import { TimelapseMemoryUsageComponent } from './timelapse-memory-usage/timelapse-memory-usage.component';
 import { CurrentMemoryUsageComponent } from './current-memory-usage/current-memory-usage.component';
 import { CurrentSwapUsageComponent } from './current-swap-usage/current-swap-usage.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-memory',
@@ -16,7 +17,8 @@ import { CurrentSwapUsageComponent } from './current-swap-usage/current-swap-usa
     CommonModule,
     TimelapseMemoryUsageComponent,
     CurrentMemoryUsageComponent,
-    CurrentSwapUsageComponent
+    CurrentSwapUsageComponent,
+    TranslateModule
   ]
 })
 export class MemoryComponent {

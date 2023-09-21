@@ -2,7 +2,9 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Chart appearance</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    {{'timelapse_memory_usage.appearance_setting.Chart_appearance'|translate}}
+                </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -11,19 +13,27 @@
                         <input #bars_color_picker id="bars_color_picker" class="form-control-sm color-input"
                         [(colorPicker)]="demo_line_color"
                         [style.background]="demo_line_color"/>
-                        <label for="bars_color_picker">Line color</label>
+                        <label for="bars_color_picker">
+                            {{'timelapse_memory_usage.appearance_setting.Line_color'|translate}}
+                        </label>
                     </div>
                     <div class="d-flex align-items-center mt-1">
                         <input #background_color_picker id="background_color_picker" class="form-control-sm color-input"
                         [(colorPicker)]="demo_background_color"
                         [style.background]="demo_background_color"/>
-                        <label for="background_color_picker">Background</label>
+                        <label for="background_color_picker">
+                            {{'timelapse_memory_usage.appearance_setting.Background'|translate}}
+                        </label>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal" (click)="apply_changes()">Apply changes</button>
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
+                    {{'timelapse_memory_usage.appearance_setting.Cancel'|translate}}
+                </button>
+                <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal" (click)="apply_changes()">
+                    {{'timelapse_memory_usage.appearance_setting.Apply_changes'|translate}}
+                </button>
             </div>
         </div>
     </div>

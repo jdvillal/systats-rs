@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,12 @@ export class AppComponent {
 
   dark_mode = false;
 
-  ngOnInit() {
+  constructor(private translate: TranslateService){
+    translate.setDefaultLang('en');
+    translate.use('en');
+  }
+
+  ngOnInit() { 
     let color_mode = localStorage.getItem("color_mode");
     if(color_mode === undefined || color_mode === null){
       localStorage.setItem("color_mode", "dark");

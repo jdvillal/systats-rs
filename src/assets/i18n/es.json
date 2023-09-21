@@ -1,0 +1,85 @@
+{
+    "app":{
+        "light_mode": "Modo Claro",
+        "dark_mode": "Modo Oscuro"
+    },
+    "pages": {
+        "cpu": "CPU",
+        "memory": "MEMORIA",
+        "disks": "DISCOS",
+        "processes": "PROCESOS"
+    },
+    "cpu":{
+        "CPU": "CPU",
+        "Brand":"Modelo",
+        "Vendor": "Fabricante",
+        "Max_frequency": "Frec. máxima",
+        "Cores": "Núcleos",
+        "Logical_processors": "Procesadores lógicos",
+        "Utilization_over_60_seconds": "Utilización durante 60 segundos",
+        "Current_utilization": "Utilización actual",
+        "Current": "Actual",
+        "Last_minute": "Último minuto"
+    },
+    "current_multicore_usage":{
+        "appearance_setting": {
+            "Chart_appearance": "Apariencia del gráfico",
+            "Bars_color": "Color de las barras",
+            "Background": "Color de fondo",
+            "Cancel": "Cancelar",
+            "Apply_changes": "Aplicar cambios"
+        }
+    },
+    "current_singlecore_usage": {
+        "AVG_utilization": "Uso promedio"
+    },
+    "timelapse_multicore_usage": {
+        "appearance_setting":{
+            "Chart_appearance": "Apariencia del gráfico",
+            "Lines_color": "Color de las líneas",
+            "X_axis": "Eje X",
+            "Y_axis": "Eje Y",
+            "Cancel": "Cancelar",
+            "Apply_changes": "Aplicar cambios"
+        }
+    },
+    "Memory": {
+        "Memory": "Memoria"
+    },
+    "current_memory_usage": {
+        "Memory": "Memoria",
+        "used_of": "usados de"
+    },
+    "current_swap_usage":{
+        "Swap": "Swap",
+        "used_of": "usados de"
+    },
+    "timelapse_memory_usage":{
+        "Utilization_over_60_seconds": "Utilización durante 60 segundos",
+        "appearance_setting":  {
+            "Chart_appearance": "Apariencia del gráfico",
+            "Line_color": "Color de las líneas",
+            "Background": "Color de fondo",
+            "Cancel": "Cancelar",
+            "Apply_changes": "Aplicar cambios"
+        }
+    },
+    "Disks": {
+        "Disks": "Discos",
+        "Disk": "Disco",
+        "used_of": "usado de",
+        "Mount_point": "Punto de montaje",
+        "File_system": "Sistema de archivos",
+        "Type": "Tipo",
+        "Removable": "Removible",
+        "Not_removable": "No removible"
+    },
+    "Processes":{
+        "Processes": "Procesos",
+        "Name": "Nombre",
+        "PID": "PID",
+        "Parent_PID": "PID padre",
+        "CPU_usage": "Uso de CPU",
+        "Memory_usage": "Uso de memoria"
+    }
+}

@@ -1,10 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-current-singlecore-usage',
   templateUrl: './current-singlecore-usage.component.html',
   styleUrls: ['./current-singlecore-usage.component.css'],
-  standalone: true
+  standalone: true,
+  imports: [TranslateModule]
 })
 export class CurrentSinglecoreUsageComponent {
   private socket!: WebSocket;
