@@ -13,7 +13,7 @@ export class AppComponent {
 
   constructor(private translate: TranslateService){
     translate.setDefaultLang('en');
-    translate.use('es');
+    translate.use('en');
   }
 
   ngOnInit() { 

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { ProcessInformation, ProcessesOrderBy } from 'src/app/types/process';
 
 @Component({
@@ -8,7 +9,7 @@ import { ProcessInformation, ProcessesOrderBy } from 'src/app/types/process';
   templateUrl: './processes.component.html',
   styleUrls: ['./processes.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, TranslateModule]
 })
 export class ProcessesComponent {
   socket!: WebSocket;

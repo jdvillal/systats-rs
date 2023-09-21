@@ -73,5 +73,13 @@
         "Type": "Type",
         "Removable": "Removable",
         "Not_removable": "Not removable"
+    },
+    "Processes":{
+        "Processes": "Processes",
+        "Name": "Name",
+        "PID": "PID",
+        "Parent_PID": "Parent PID",
+        "CPU_usage": "CPU usage",
+        "Memory_usage": "Memory usage"
     }
 }
