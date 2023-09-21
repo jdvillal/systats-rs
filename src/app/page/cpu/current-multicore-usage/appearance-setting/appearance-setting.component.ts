@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
 
@@ -7,7 +8,7 @@ import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service'
   templateUrl: './appearance-setting.component.html',
   styleUrls: ['./appearance-setting.component.css'],
   standalone: true,
-  imports: [ColorPickerModule]
+  imports: [ColorPickerModule, TranslateModule]
 })
 export class AppearanceSettingComponent {
   @Input() bars_color!: string;

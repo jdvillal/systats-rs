@@ -1,0 +1,46 @@
+{
+    "app":{
+        "light_mode": "Light Mode",
+        "dark_mode": "Dark Mode"
+    },
+    "pages": {
+        "cpu": "CPU",
+        "memory": "MEMORY",
+        "disks": "DISKS",
+        "processes": "PROCESSES"
+    },
+    "cpu":{
+        "CPU": "CPU",
+        "Brand":"Brand",
+        "Vendor": "Vendor",
+        "Max_frequency": "Max frequency",
+        "Cores": "Cores",
+        "Logical_processors": "Logical processors",
+        "Utilization_over_60_seconds": "Utilization over 60 seconds",
+        "Current_utilization": "Current utilization",
+        "Current": "Current",
+        "Last_minute": "Last minute"
+    },
+    "current_multicore_usage":{
+        "appearance_setting": {
+            "Chart_appearance": "Chart appearance",
+            "Bars_color": "Bars color",
+            "Background": "Background",
+            "Cancel": "Cancel",
+            "Apply_changes": "Apply changes"
+        }
+    },
+    "current_singlecore_usage": {
+        "AVG_utilization": "AVG utilization"
+    },
+    "timelapse_multicore_usage": {
+        "appearance_setting":{
+            "Chart_appearance": "Chart appearance",
+            "Lines_color": "Lines color",
+            "X_axis": "X axis",
+            "Y_axis": "Y axis",
+            "Cancel": "Cancel",
+            "Apply_changes": "Apply changes"
+        }
+    }
+}

@@ -10,8 +10,8 @@
       <svg *ngIf="!dark_mode" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
         <use xlink:href="#sun" />
       </svg>
-      <span *ngIf="dark_mode" class="mx-1" style=" font-size: 0.7rem;">Dark Mode</span>
-      <span *ngIf="!dark_mode" class="mx-1" style=" font-size: 0.7rem;">Light Mode</span>
+      <span *ngIf="dark_mode" class="mx-1" style=" font-size: 0.7rem;">{{'app.dark_mode'| translate}}</span>
+      <span *ngIf="!dark_mode" class="mx-1" style=" font-size: 0.7rem;">{{'app.light_mode'| translate}}</span>
     </div>
   </div>
 </div>

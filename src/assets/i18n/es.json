@@ -1,0 +1,46 @@
+{
+    "app":{
+        "light_mode": "Modo Claro",
+        "dark_mode": "Modo Oscuro"
+    },
+    "pages": {
+        "cpu": "CPU",
+        "memory": "MEMORIA",
+        "disks": "DISCOS",
+        "processes": "PROCESOS"
+    },
+    "cpu":{
+        "CPU": "CPU",
+        "Brand":"Modelo",
+        "Vendor": "Fabricante",
+        "Max_frequency": "Frec. máxima",
+        "Cores": "Núcleos",
+        "Logical_processors": "Procesadores lógicos",
+        "Utilization_over_60_seconds": "Utilización durante 60 segundos",
+        "Current_utilization": "Utilización actual",
+        "Current": "Actual",
+        "Last_minute": "Último minuto"
+    },
+    "current_multicore_usage":{
+        "appearance_setting": {
+            "Chart_appearance": "Apariencia del gráfico",
+            "Bars_color": "Color de las barras",
+            "Background": "Color de fondo",
+            "Cancel": "Cancelar",
+            "Apply_changes": "Aplicar cambios"
+        }
+    },
+    "current_singlecore_usage": {
+        "AVG_utilization": "Uso promedio"
+    },
+    "timelapse_multicore_usage": {
+        "appearance_setting":{
+            "Chart_appearance": "Apariencia del gráfico",
+            "Lines_color": "Color de las lineas",
+            "X_axis": "Eje X",
+            "Y_axis": "Eje Y",
+            "Cancel": "Cancelar",
+            "Apply_changes": "Aplicar cambios"
+        }
+    }
+}
