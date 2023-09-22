@@ -1,0 +1,1 @@
+export type OS_type = 'Linux'| 'Windows' | 'MacOS' | 'Unknown;'

@@ -1,48 +1,52 @@
-<div class="d-flex flex-column" style="height: 100%;">
-  <div style="height: calc(100% - 1.5rem);">
-    <router-outlet></router-outlet>
-  </div>
-  <div class="border-top d-flex flex-row-reverse" style="height: 1.5rem;">
-    <div class="d-flex flex-row align-items-center toolbar-item mx-2" data-bs-toggle="modal" data-bs-target="#languageModal">
-        <span style="font-size: 0.7rem;">{{this.selected_language.toUpperCase()}}</span>      
+
+<div class="border border-1" [ngClass]="this.dark_mode ? 'border-black' : 'border'" style="height: 100%;">
+  <div class="d-flex flex-column" style="height: 100%;">
+    <app-title-bar [darkmode]="dark_mode" style="min-height: 2.4rem;"></app-title-bar>
+    <div style="height: calc(100% - (1.5rem + 2.4rem));">
+      <router-outlet></router-outlet>
     </div>
-
-    
-    <div class="d-flex flex-row align-items-center toolbar-item mx-2" (click)="onDarkModeToggle()">
-      <svg *ngIf="dark_mode" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
-        <use xlink:href="#moon" />
-      </svg>
-      <svg *ngIf="!dark_mode" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-        <use xlink:href="#sun" />
-      </svg>
-      <span *ngIf="dark_mode" class="mx-1" style=" font-size: 0.7rem;">{{'app.dark_mode'| translate}}</span>
-      <span *ngIf="!dark_mode" class="mx-1" style=" font-size: 0.7rem;">{{'app.light_mode'| translate}}</span>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="languageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="languageModalLabel">{{'app.Language_settings'| translate}}</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="border-top d-flex flex-row-reverse" style="height: 1.5rem;">
+  
+      <div class="d-flex flex-row align-items-center toolbar-item mx-2" (click)="onDarkModeToggle()">
+        <svg *ngIf="dark_mode" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
+          <use xlink:href="#moon" />
+        </svg>
+        <svg *ngIf="!dark_mode" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+          <use xlink:href="#sun" />
+        </svg>
+        <span *ngIf="dark_mode" class="mx-1" style=" font-size: 0.7rem;">{{'app.dark_mode'| translate}}</span>
+        <span *ngIf="!dark_mode" class="mx-1" style=" font-size: 0.7rem;">{{'app.light_mode'| translate}}</span>
       </div>
-      <div class="modal-body">
-        <div *ngFor="let lang of supported_languages" class="d-flex flex-column lang-choise" (click)="this.set_language(lang.abbreviation)">
-          <div>
-            <span>{{lang.language}}</span>
-            <svg *ngIf="selected_language==lang.abbreviation" xmlns="http://www.w3.org/2000/svg" width="16"
-                                height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-                                <path
-                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
-                            </svg>
+      <div class="d-flex flex-row align-items-center toolbar-item mx-2 px-2" data-bs-toggle="modal"
+        data-bs-target="#languageModal">
+        <span style="font-size: 0.7rem;">{{this.selected_language.toUpperCase()}}</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="languageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="languageModalLabel">{{'app.Language_settings'| translate}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div *ngFor="let lang of supported_languages" class="d-flex flex-column lang-choise"
+            (click)="this.set_language(lang.abbreviation)">
+            <div>
+              <span>{{lang.language}}</span>
+              <svg *ngIf="selected_language==lang.abbreviation" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+                <path
+                  d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
+              </svg>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{'app.Close'| translate}}</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">{{'app.Close'| translate}}</button>
+        </div>
       </div>
     </div>
   </div>

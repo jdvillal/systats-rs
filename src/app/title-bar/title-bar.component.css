@@ -1,0 +1,115 @@
+.title-bar{
+    min-height: 100%;
+    border-bottom-style: solid;
+    border-width: 1px;
+    
+    user-select: none;
+    
+}
+
+/******Linux titlebar style******/
+.linux-titlebar-light{
+    border-color: rgba(22, 22, 22, 0.322);
+    background-color: rgb(240, 240, 240);
+}
+.linux-titlebar-dark{
+    border-color: rgb(22, 22, 22);
+    background-color: rgb(36, 36, 36);
+}
+.linux-icon{
+    min-width: 1.3rem;
+    max-width: 1.3rem;
+    min-height: 1.3rem;
+    max-height: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0.3rem;
+    margin-right: 0.5rem;
+}
+.linux-icons-div{
+    position: absolute;
+    right: 0;
+}
+.linux-icon-light:hover{
+    background-color: rgba(175, 175, 175, 0.733);   
+}
+.linux-icon-dark:hover{
+    background-color: rgba(175, 175, 175, 0.103);   
+}
+
+/*******Windows titlebar style******/
+.windows-titlebar-light{
+    border-color: rgba(22, 22, 22, 0.219);
+    background-color: rgb(248, 248, 248);
+}
+.windows-titlebar-dark{
+    border-color: rgb(22, 22, 22);
+    background-color: rgb(36, 36, 36);
+}
+.windows-icon{
+    min-width: 3rem;
+    max-width: 3rem;
+    min-height: 2.4rem;
+    max-height: 2.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.windows-icons-div{
+    position: absolute;
+    right: 0;
+}
+.windows-icon-light:hover{
+    background-color: rgba(175, 175, 175, 0.733);   
+}
+.windows-icon-dark:hover{
+    background-color: rgba(175, 175, 175, 0.253);   
+}
+.windows-close-icon:hover{
+    background-color: rgba(255, 0, 0, 0.842);
+}
+/*******MacOS*******/
+.macOS-titlebar-light{
+    border-color: rgba(22, 22, 22, 0.322);
+    background-color: rgb(255, 255, 255);
+}
+.macOS-titlebar-dark{
+    border-color: rgb(22, 22, 22);
+    background-color: rgb(36, 36, 36);
+}
+.macOS-icon{
+    min-width: 0.7rem;
+    max-width: 0.7rem;
+    min-height: 0.7rem;
+    max-height: 0.7rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.25rem;
+    margin-left: 0.25rem;
+}
+.macOS-icons-div{
+    position: absolute;
+    left: 0;
+    min-height: 2.4rem;
+    padding-left: 0.5rem;
+    padding-right: 2rem;
+}
+.icon{
+    display: none;
+}
+.macOS-minimize-icon{
+    background-color:   #ffbd2e;   
+}
+.macOS-maximize-icon{
+    background-color:    #28c941;   
+}
+.macOS-close-icon{
+    background-color:  #ff6159;
+}
+.macOS-icons-div:hover{
+    .icon{
+        display:block
+    }
+}

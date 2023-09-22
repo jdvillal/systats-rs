@@ -9,11 +9,13 @@ import { NgChartsModule } from 'ng2-charts';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { TitleBarComponent } from './title-bar/title-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageComponent,
+    TitleBarComponent,
   ],
   imports: [
     BrowserModule,

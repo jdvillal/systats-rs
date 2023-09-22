@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { OS_type } from './types/app-types';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent {
     {language: 'Español', abbreviation: 'es'}
   ]
 
+  
   constructor(private translate: TranslateService){
     let lang = localStorage.getItem('lang');
     if(lang){
