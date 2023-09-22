@@ -2,16 +2,21 @@
     min-height: 100%;
     border-bottom-style: solid;
     border-width: 1px;
-    border-color: rgba(22, 22, 22, 0.322);
+    
     user-select: none;
     
+}
+
+/******Linux titlebar style******/
+.linux-titlebar-light{
+    border-color: rgba(22, 22, 22, 0.322);
     background-color: rgb(240, 240, 240);
-    background-color: rgb(31, 31, 31);
 }
-.icon:hover{
-    background-color: rgba(175, 175, 175, 0.733);   
+.linux-titlebar-dark{
+    border-color: rgb(22, 22, 22);
+    background-color: rgb(36, 36, 36);
 }
-.icon{
+.linux-icon{
     min-width: 1.3rem;
     max-width: 1.3rem;
     min-height: 1.3rem;
@@ -22,7 +27,45 @@
     margin-left: 0.3rem;
     margin-right: 0.5rem;
 }
-.icons-div{
+.linux-icons-div{
     position: absolute;
     right: 0;
+}
+.linux-icon-light:hover{
+    background-color: rgba(175, 175, 175, 0.733);   
+}
+.linux-icon-dark:hover{
+    background-color: rgba(175, 175, 175, 0.253);   
+}
+
+/*******Windows titlebar style******/
+.windows-titlebar-light{
+    border-color: rgba(22, 22, 22, 0.322);
+    background-color: rgb(240, 240, 240);
+}
+.windows-titlebar-dark{
+    border-color: rgb(22, 22, 22);
+    background-color: rgb(36, 36, 36);
+}
+.windows-icon{
+    min-width: 3rem;
+    max-width: 3rem;
+    min-height: 2.4rem;
+    max-height: 2.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.windows-icons-div{
+    position: absolute;
+    right: 0;
+}
+.windows-icon-light:hover{
+    background-color: rgba(175, 175, 175, 0.733);   
+}
+.windows-icon-dark:hover{
+    background-color: rgba(175, 175, 175, 0.253);   
+}
+.windows-close-icon:hover{
+    background-color: rgba(255, 0, 0, 0.842);
 }
