@@ -11,7 +11,19 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": false,
+      "window": {
+        "all": false,
+        "close": true,
+        "hide": true,
+        "show": true,
+        "maximize": true,
+        "minimize": true,
+        "unmaximize": true,
+        "unminimize": true,
+        "startDragging": true,
+        "setFocus": true
+      }
     },
     "bundle": {
       "active": true,
@@ -58,7 +70,8 @@
         "height": 700,
         "resizable": true,
         "title": "systats-rs",
-        "width": 990
+        "width": 990,
+        "decorations": false
       }
     ]
   }

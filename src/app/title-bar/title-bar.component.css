@@ -1,0 +1,28 @@
+.title-bar{
+    min-height: 100%;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: rgba(22, 22, 22, 0.322);
+    user-select: none;
+    
+    background-color: rgb(240, 240, 240);
+    background-color: rgb(31, 31, 31);
+}
+.icon:hover{
+    background-color: rgba(175, 175, 175, 0.733);   
+}
+.icon{
+    min-width: 1.3rem;
+    max-width: 1.3rem;
+    min-height: 1.3rem;
+    max-height: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0.3rem;
+    margin-right: 0.5rem;
+}
+.icons-div{
+    position: absolute;
+    right: 0;
+}
