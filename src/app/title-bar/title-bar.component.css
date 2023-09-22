@@ -69,3 +69,34 @@
 .windows-close-icon:hover{
     background-color: rgba(255, 0, 0, 0.842);
 }
+/*******MacOS*******/
+.macOS-titlebar-light{
+    border-color: rgba(22, 22, 22, 0.322);
+    background-color: rgb(240, 240, 240);
+}
+.macOS-titlebar-dark{
+    border-color: rgb(22, 22, 22);
+    background-color: rgb(36, 36, 36);
+}
+.macOS-icon{
+    min-width: 3rem;
+    max-width: 3rem;
+    min-height: 2.4rem;
+    max-height: 2.4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.macOS-icons-div{
+    position: absolute;
+    right: 0;
+}
+.macOS-icon-light:hover{
+    background-color: rgba(175, 175, 175, 0.733);   
+}
+.macOS-icon-dark:hover{
+    background-color: rgba(175, 175, 175, 0.253);   
+}
+.macOS-close-icon:hover{
+    background-color: rgba(255, 0, 0, 0.842);
+}
