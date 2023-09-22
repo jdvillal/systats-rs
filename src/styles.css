@@ -4,10 +4,6 @@ body{
     height: 100%;
 }
 
-body{
-    background-color: transparent;
-}
-
 .page-container{
     padding-left: 1rem;
     padding-right: 1rem;
