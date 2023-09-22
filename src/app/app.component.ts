@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { OS_type } from './types/app-types';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,21 @@ export class AppComponent {
     {language: 'Español', abbreviation: 'es'}
   ]
 
+  public user_OS: OS_type = 'Unknown;'
   constructor(private translate: TranslateService){
+    if (window.navigator.userAgent.indexOf("Windows") != -1) {
+      console.log("The user is running Windows");
+      this.user_OS = 'Windows';
+    } else if (window.navigator.userAgent.indexOf("Mac OS") != -1) {
+      console.log("The user is running Mac OS");
+      this.user_OS = 'MacOS';
+    } else if (window.navigator.userAgent.indexOf("Linux") != -1) {
+      console.log("The user is running Linux");
+      this.user_OS = 'Linux';
+    } else {
+      console.log("The user's operating system could not be determined");
+    }
+
     let lang = localStorage.getItem('lang');
     if(lang){
       this.selected_language = lang;

@@ -2,6 +2,11 @@
   cursor: pointer;
 }
 .lang-choise:hover{
-  background-color: gray;
+  background-color: rgba(128, 128, 128, 0.151);
   cursor: pointer;
+}
+.lang-choise{
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5rem;
 }
