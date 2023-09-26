@@ -38,6 +38,7 @@ export class AppComponent {
 
   async ngOnInit() {
     let color_mode = localStorage.getItem("color_mode");
+    this.color_mode = color_mode as AppColorMode;
     if(color_mode === undefined || color_mode === null){
       localStorage.setItem("color_mode", "OS");
       this.color_mode = "OS";
