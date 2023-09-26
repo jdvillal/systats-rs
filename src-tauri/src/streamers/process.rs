@@ -1,4 +1,4 @@
-use std::{net::TcpStream, collections::HashMap, time::Instant};
+use std::{net::TcpStream, collections::HashMap};
 
 use serde::{Serialize, Deserialize};
 use sysinfo::{System, SystemExt, ProcessExt, Process, Pid};
@@ -49,15 +49,12 @@ pub fn return_process_information(processes: &HashMap<Pid, Process>, key: &Pid, 
 pub fn handle_current_processes_websocket(
     mut websocket: WebSocket<TcpStream>,
 ) {
-    
     let mut sys = System::new_all();
     sys.refresh_cpu();
     let cpus_count = sys.cpus().len();
     sys.refresh_processes();
     loop {
-        let now = Instant::now();
         let msg: String = websocket.read().unwrap().to_string();
-        //let msg = "pid";
         sys.refresh_processes();
         let processes = sys.processes();
 
@@ -90,8 +87,7 @@ pub fn handle_current_processes_websocket(
                 break;
             }
         }
-        println!("{}", now.elapsed().as_millis());
         //TODO: break loop when socket connection ends
-        std::thread::sleep(std::time::Duration::from_millis(5000));
+        std::thread::sleep(std::time::Duration::from_millis(500));
     }
 }

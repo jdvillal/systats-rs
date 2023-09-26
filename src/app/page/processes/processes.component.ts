@@ -35,9 +35,7 @@ export class ProcessesComponent {
     }
 
     this.socket.onmessage = (event) => {
-      
       let value = JSON.parse(event.data) as ProcessInformation[];
-      console.log(value.length);
       if(this.order_desc){
         value = value.reverse();
       }
@@ -56,6 +54,42 @@ export class ProcessesComponent {
       this.order_desc = !this.order_desc;
     }
     this.order_by = order_by;
+  }
+
+  order_by_name(){
+    if(this.order_by = 'name'){
+      this.order_desc = !this.order_desc;
+    }
+    this.order_by = 'name'
+  }
+
+  order_by_pid(){
+    if(this.order_by === "pid"){
+      this.order_desc = !this.order_desc;
+      return;
+    }
+    this.order_by = "pid";
+  }
+  order_by_parent_pid(){
+    if(this.order_by === "parent_pid"){
+      this.order_desc = !this.order_desc;
+      return;
+    }
+    this.order_by = "parent_pid";
+  }
+  order_by_cpu_usage(){
+    if(this.order_by === "cpu_usage"){
+      this.order_desc = !this.order_desc;
+      return;
+    }
+    this.order_by = "cpu_usage";
+  }
+  order_by_memory_usage(){
+    if(this.order_by === "memory_usage"){
+      this.order_desc = !this.order_desc;
+      return;
+    }
+    this.order_by = "memory_usage";
   }
 
   bytes_to_byte(bytes: number): number{
@@ -86,11 +120,10 @@ export class ProcessesComponent {
 
   format_cpu_usage(usage: number){
     if(usage === 100) return "100";
-    let r = (Math.round(usage * 100) /100).toFixed(2);
-    return r
+    return (Math.round(usage * 100) /100).toFixed(2);
   }
 
   show_process_details(pid: number){
-    //this.router.navigate([`pages/process/${pid}`]);
+    this.router.navigate([`pages/process/${pid}`]);
   }
 }

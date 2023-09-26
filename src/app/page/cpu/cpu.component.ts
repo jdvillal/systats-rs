@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 import { CurrentSinglecoreUsageComponent } from './current-singlecore-usage/current-singlecore-usage.component';
 import { PagesStateService } from 'src/app/services/pages-state.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cpu',
@@ -33,8 +32,7 @@ export class CpuComponent {
   current_chart_type: CpuChartType = 'timelapse';
 
   constructor(
-    private pagesStateService: PagesStateService,
-    private router: Router
+    private pagesStateService: PagesStateService
   ){}
 
   ngOnInit() {
@@ -56,10 +54,6 @@ export class CpuComponent {
   public set_current_chart_type(chart_type: CpuChartType){
     this.current_chart_type = chart_type;
     this.pagesStateService.get_page_state().current_cpu_chart_type = chart_type;
-  }
-
-  public  go_to_combustor(){
-    this.router.navigate(['/page/cpu-combustor'])
   }
 
 }
