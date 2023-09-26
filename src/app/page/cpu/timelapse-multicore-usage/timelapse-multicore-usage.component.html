@@ -1,19 +1,22 @@
-<div class="d-flex flex-row-reverse">
-    <div type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#timelapse-multicore-chart-setting-modal">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-            class="bi bi-sliders2 settings-icon" viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                d="M10.5 1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4H1.5a.5.5 0 0 1 0-1H10V1.5a.5.5 0 0 1 .5-.5ZM12 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-6.5 2A.5.5 0 0 1 6 6v1.5h8.5a.5.5 0 0 1 0 1H6V10a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM1 8a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 1 8Zm9.5 2a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V13H1.5a.5.5 0 0 1 0-1H10v-1.5a.5.5 0 0 1 .5-.5Zm1.5 2.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z" />
-        </svg>
+<div class="">
+    <div class="d-flex flex-wrap justify-content-center mt-1">
+        <app-timelapse-single-usage *ngFor="let core_data of cores_data; index as i" [core_data]="core_data"
+            [core_number]="i"
+            [x_scale]="x_scale"
+            [y_scale]="y_scale"
+            [line_color]="line_color">
+        </app-timelapse-single-usage>
     </div>
-</div>
-<div class="d-flex flex-wrap justify-content-center mt-1">
-    <app-timelapse-single-usage *ngFor="let core_data of cores_data; index as i" [core_data]="core_data"
-        [core_number]="i"
-        [x_scale]="x_scale"
-        [y_scale]="y_scale"
-        [line_color]="line_color">
-    </app-timelapse-single-usage>
+    <div class="d-flex flex-row-reverse mx-1">
+        <div class="btn-icon" data-bs-toggle="modal" data-bs-target="#timelapse-multicore-chart-setting-modal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+                class="bi bi-sliders2 settings-icon" viewBox="0 0 15 15">
+                <path fill-rule="evenodd"
+                    d="M10.5 1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4H1.5a.5.5 0 0 1 0-1H10V1.5a.5.5 0 0 1 .5-.5ZM12 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-6.5 2A.5.5 0 0 1 6 6v1.5h8.5a.5.5 0 0 1 0 1H6V10a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM1 8a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 1 8Zm9.5 2a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V13H1.5a.5.5 0 0 1 0-1H10v-1.5a.5.5 0 0 1 .5-.5Zm1.5 2.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z" />
+            </svg>
+        </div>
+        <!-- <span class="cpu-brand-span mx-1">{{this.brand}}</span> --> 
+    </div>
 </div>
 
 

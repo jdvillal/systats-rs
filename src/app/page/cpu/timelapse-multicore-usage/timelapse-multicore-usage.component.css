@@ -1,0 +1,8 @@
+.btn-icon{
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+.btn-icon:hover{
+    cursor: pointer;
+    color: rgb(255, 115, 0);
+}
