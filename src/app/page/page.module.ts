@@ -5,10 +5,11 @@ import { PageRoutingModule } from './page-routing.module';
 import { ProcessesComponent } from './processes/processes.component';
 import { CurrentMulticoreUsageComponent } from './cpu/current-multicore-usage/current-multicore-usage.component';
 import { NgChartsModule } from 'ng2-charts';
+import { CpuCombustorComponent } from './cpu-combustor/cpu-combustor.component';
+import { CoreCombustorComponent } from './cpu-combustor/core-combustor/core-combustor.component';
 
 @NgModule({
     declarations: [
-        ProcessesComponent,
     ],
     exports: [RouterModule],
     imports: [
