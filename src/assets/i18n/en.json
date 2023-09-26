@@ -2,6 +2,7 @@
     "app":{
         "light_mode": "Light Mode",
         "dark_mode": "Dark Mode",
+        "Auto": "Auto",
         "Language_settings": "Language settings",
         "Cancel": "Cancel",
         "Close": "Close"

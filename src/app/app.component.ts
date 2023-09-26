@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { OS_type } from './types/app-types';
+import { AppColorMode, OS_type } from './types/app-types';
+import { appWindow } from '@tauri-apps/api/window';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,9 @@ export class AppComponent {
   //title = 'systats-rs';
 
   dark_mode = false;
+  color_mode: AppColorMode = 'OS';
+  unlisten: any;
+
   selected_language!: string;
 
   supported_languages = [
@@ -32,32 +36,54 @@ export class AppComponent {
     this.selected_language = 'en';
   }
 
-  ngOnInit() { 
+  async ngOnInit() {
     let color_mode = localStorage.getItem("color_mode");
     if(color_mode === undefined || color_mode === null){
-      localStorage.setItem("color_mode", "dark");
-      color_mode = "dark";
+      localStorage.setItem("color_mode", "OS");
+      this.color_mode = "OS";
     }
-    let doc = document.getElementsByTagName("html")[0];
-    if(color_mode == "dark"){
-      this.dark_mode = true;
-    }else {
-      this.dark_mode = false;
-    }
-    doc.setAttribute("data-bs-theme", color_mode);
+    this.update_color_mode();
+    
   }
 
-  onDarkModeToggle(){
-    let doc = document.getElementsByTagName("html")[0];
-    if(!this.dark_mode){
-      doc.setAttribute("data-bs-theme","dark");
-      localStorage.setItem("color_mode", "dark");
+  async update_color_mode(){
+    if(this.color_mode == 'dark'){
       this.dark_mode = true;
-    }else{
-      doc.setAttribute("data-bs-theme","light");
-      localStorage.setItem("color_mode", "light");
+    }else if(this.color_mode == 'light'){
       this.dark_mode = false;
+    }else {
+      let theme = await appWindow.theme();
+      if(theme == 'dark'){
+        this.dark_mode = true;
+      }else{
+        this.dark_mode = false;
+      }
+      this.unlisten = await appWindow.onThemeChanged(({ payload: theme }) => {
+        console.log("theme changed");
+        this.color_mode = theme;
+        this.update_color_mode();
+      });
     }
+    let doc = document.getElementsByTagName("html")[0];
+    if(this.dark_mode){
+      doc.setAttribute('data-bs-theme', 'dark');
+    }else {
+      doc.setAttribute('data-bs-theme', 'light');
+    }
+  }
+
+  async onDarkModeToggle(){
+    //let doc = document.getElementsByTagName("html")[0];
+    if(this.color_mode == 'dark'){
+      this.color_mode = 'light'
+    }else if (this.color_mode == 'light'){
+      this.color_mode = 'OS'
+    }else if (this.color_mode == 'OS') {
+      this.color_mode = 'dark'
+      this.unlisten();
+    }
+    localStorage.setItem('color_mode', this.color_mode);
+    this.update_color_mode();
   }
 
   public set_language(language: string){
