@@ -68,7 +68,7 @@ export class CurrentMulticoreUsageComponent {
   public onCoreCountReady(core_count: number) {
     this.barChartData.labels = [];
     for (let i = 0; i < core_count; i++) {
-      this.barChartData.labels.push(`core-${i + 1}`);
+      this.barChartData.labels.push(`CPU ${i + 1}`);
     }
     this.socket = new WebSocket("ws://127.0.0.1:9001");
     this.socket.onopen = () => {
