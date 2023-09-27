@@ -3,11 +3,13 @@ use sysinfo::{System, SystemExt, CpuExt};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct CpuInfo {
+    pub name: String,
     pub vendor_id: String,
     pub brand: String,
-    pub max_frequency: u64,
+    //pub max_frequency: u64,
     pub physical_core_count: Option<usize>,
     pub logical_core_count: usize,
+    
 }
 
 #[tauri::command]
@@ -17,9 +19,10 @@ pub fn get_cpu_information() -> serde_json::Value {
     let cpus = sys.cpus();
 
     let cpu_info = CpuInfo {
+        name: sys.global_cpu_info().name().into(),
         vendor_id: cpus[0].vendor_id().to_owned(),
         brand: cpus[0].brand().to_owned(),
-        max_frequency: cpus[0].frequency(),
+        //max_frequency: cpus[0].frequency(),
         physical_core_count: sys.physical_core_count(),
         logical_core_count: cpus.len(),
     };

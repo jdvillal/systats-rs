@@ -1,6 +1,7 @@
 use std::{sync::{Arc, Mutex}, net::TcpStream, ops::DerefMut};
 
-use sysinfo::{System, SystemExt, CpuExt};
+use serde::Serialize;
+use sysinfo::{System, SystemExt, CpuExt, LoadAvg};
 use tungstenite::WebSocket;
 
 //MULTICORE
@@ -103,3 +104,48 @@ pub fn handle_current_singlecore_utilization_websocket(
     println!("websocket closed");
 }
 //END SINGLECORE
+
+
+//START SYSTEM GENERAL INFO
+
+#[derive(Serialize)]
+pub struct SystemStateInfo{
+    frequency: u64,
+    running_processes: usize,
+    avg_load_one: f64,
+    avg_load_five: f64,
+    avg_load_fifteen: f64,
+    uptime: u64
+}
+
+pub fn handle_current_system_state_websocket(
+    mut websocket: WebSocket<TcpStream>,
+) {
+    let mut sys = System::new_all();
+    sys.refresh_cpu();
+    loop{
+        sys.refresh_cpu();
+        
+        //let boot_time = sys.boot_time();
+        //let distribution_id = sys.distribution_id();
+        //let os_version = sys.os_version();
+
+        let sys_state_info = SystemStateInfo{
+            frequency: sys.global_cpu_info().frequency(),
+            running_processes: sys.processes().len(),
+            avg_load_one: sys.load_average().one,
+            avg_load_five: sys.load_average().five,
+            avg_load_fifteen: sys.load_average().fifteen,
+            uptime: sys.uptime(),
+        };
+        let resp_msg = serde_json::to_string(&sys_state_info).unwrap();
+        //let mut current_usage: Vec<f32> = Vec::new();
+        let res = websocket.send(resp_msg.into());
+        if res.is_err(){
+            break;
+        }
+        std::thread::sleep(std::time::Duration::from_millis(1000));
+    }
+    println!("websocket closed");
+}
+//END SYSTEM GENERAL INFO
