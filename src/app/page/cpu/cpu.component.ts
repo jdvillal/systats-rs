@@ -27,7 +27,7 @@ import { TranslateModule } from '@ngx-translate/core';
 export class CpuComponent {
   core_count_ready_subject: Subject<number> = new Subject<number>();
   core_count!: number;  
-  cpu_info: CpuInfo = { vendor_id: '', brand: '', max_frequency: 0, physical_core_count: 0, logical_core_count: 0 };
+  cpu_info: CpuInfo = { vendor_id: '', name: '', brand: '', physical_core_count: 0, logical_core_count: 0 };
  
   current_chart_type: CpuChartType = 'timelapse';
 
