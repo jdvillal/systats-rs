@@ -15,6 +15,7 @@ enum MonitoringRequestType{
     MemoryTimelapseUsage,
     MemorySwapCurrentUsage,
     CurrentRunningProcesses,
+    SystemStateInformation,
     Unknown
 }
 
@@ -34,6 +35,8 @@ impl MonitoringRequestType{
             return Self::MemorySwapCurrentUsage
         }else if msg == "current_running_processes"{
             return Self::CurrentRunningProcesses
+        }else if msg == "system_state_information"{
+            return Self::SystemStateInformation
         }
         return Self::Unknown;
     }
@@ -85,7 +88,10 @@ pub fn initialize_monitors(){
                         streamers::memory::handle_current_mememory_swap_usage_websocket(websocket);
                     },
                     MRT::CurrentRunningProcesses =>{
-                        streamers::process::handle_current_processes_websocket(websocket)
+                        streamers::process::handle_current_processes_websocket(websocket);
+                    },
+                    MRT::SystemStateInformation =>{
+                        streamers::cpu::handle_current_system_state_websocket(websocket);
                     },
                     MRT::Unknown => {
                         println!("Unkown request, closing socket!");

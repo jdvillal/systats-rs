@@ -124,7 +124,7 @@ pub fn handle_current_system_state_websocket(
     let mut sys = System::new_all();
     sys.refresh_cpu();
     loop{
-        sys.refresh_cpu();
+        sys.refresh_all();
         
         //let boot_time = sys.boot_time();
         //let distribution_id = sys.distribution_id();

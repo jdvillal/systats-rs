@@ -2,7 +2,7 @@ import { Component, Input} from '@angular/core';
 import { invoke } from "@tauri-apps/api/tauri";
 import { CurrentMulticoreUsageComponent } from './current-multicore-usage/current-multicore-usage.component';
 import { TimelapseMulticoreUsageComponent } from './timelapse-multicore-usage/timelapse-multicore-usage.component';
-import { CpuChartType, CpuInfo } from 'src/app/types/cpu-types';
+import { CpuChartType, CpuInfo, SystemStateInfo } from 'src/app/types/cpu-types';
 import { Subject } from 'rxjs';
 import { TimelapseSingleUsageComponent } from './timelapse-multicore-usage/timelapse-single-usage/timelapse-single-usage.component';
 import { CommonModule } from '@angular/common';
@@ -28,8 +28,11 @@ export class CpuComponent {
   core_count_ready_subject: Subject<number> = new Subject<number>();
   core_count!: number;  
   cpu_info: CpuInfo = { vendor_id: '', name: '', brand: '', physical_core_count: 0, logical_core_count: 0 };
+  sys_state_info: SystemStateInfo = { frequency: 0, running_processes: 0,avg_load_one: 0, avg_load_five: 0, avg_load_fifteen: 0, uptime: 0 };
  
   current_chart_type: CpuChartType = 'timelapse';
+
+  socket!: WebSocket;
 
   constructor(
     private pagesStateService: PagesStateService
@@ -41,10 +44,18 @@ export class CpuComponent {
       this.current_chart_type = current_chart_type;
     } 
     this.get_cpu_information();
+    this.socket = new WebSocket("ws://127.0.0.1:9001");
+    this.socket.onopen = () =>{
+      this.socket.send("system_state_information");
+    }
+    this.socket.onmessage = (event) =>{
+      //this.sys_state_info = event.data;
+      console.log(event.data);
+    }
   }
 
   get_cpu_information(): void {
-    invoke<CpuInfo>("get_cpu_information", {}).then((res) => {
+    invoke<CpuInfo>("get_cpu_information").then((res: CpuInfo) => {
       this.cpu_info = res;
       this.core_count = this.cpu_info.logical_core_count;
       this.core_count_ready_subject.next(this.cpu_info.logical_core_count);
@@ -57,3 +68,5 @@ export class CpuComponent {
   }
 
 }
+
+

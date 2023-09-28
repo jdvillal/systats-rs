@@ -8,6 +8,15 @@ export interface CpuInfo{
 
 export type CpuChartType = 'current' | 'timelapse'
 
+export interface SystemStateInfo{
+    frequency: number,
+    running_processes: number,
+    avg_load_one: number,
+    avg_load_five: number,
+    avg_load_fifteen: number,
+    uptime: number
+}
+
 export interface CpuPreferences{
     version: number,
     general: {
