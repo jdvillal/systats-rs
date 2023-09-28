@@ -70,6 +70,28 @@
                             <td>{{cpu_info.name}} MHz</td>
                         </tr> -->
                     </table>
+                    <table>
+                        <tr>
+                            <th>Frequency</th>
+                            <td>{{this.sys_state_info.frequency}}</td>
+                        </tr>
+                        <tr>
+                            <th>Running processes</th>
+                            <td>{{sys_state_info.running_processes}}</td>
+                        </tr>
+                        <tr>
+                            <th>Uptime</th>
+                            <td>{{this.format_uptime(this.sys_state_info.uptime)}}</td>
+                        </tr>
+                        <tr>
+                            <th>Average load (1 min)</th>
+                            <td>{{sys_state_info.avg_load_one}}</td>
+                        </tr>
+                        <!-- <tr>
+                            <th>{{'cpu.Max_frequency'| translate}}</th>
+                            <td>{{cpu_info.name}} MHz</td>
+                        </tr> -->
+                    </table>
                 </div>
                 <!-- <div class="d-flex mt-2">
                     <div  class="d-flex flex-column align-items-center mx-2 px-2 py-2 card">

@@ -49,8 +49,7 @@ export class CpuComponent {
       this.socket.send("system_state_information");
     }
     this.socket.onmessage = (event) =>{
-      //this.sys_state_info = event.data;
-      console.log(event.data);
+      this.sys_state_info = JSON.parse(event.data) as SystemStateInfo;
     }
   }
 
@@ -65,6 +64,10 @@ export class CpuComponent {
   public set_current_chart_type(chart_type: CpuChartType){
     this.current_chart_type = chart_type;
     this.pagesStateService.get_page_state().current_cpu_chart_type = chart_type;
+  }
+
+  format_uptime(seconds: number){
+    return new Date(seconds * 1000).toISOString().slice(11, 19);
   }
 
 }
