@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { AppearanceSettingComponent } from './appearance-setting/appearance-setting.component';
 import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
 import { CommonModule } from '@angular/common';
+import { AppComponent } from 'src/app/app.component';
 @Component({
   selector: 'app-current-multicore-usage',
   templateUrl: './current-multicore-usage.component.html',
@@ -72,6 +73,7 @@ export class CurrentMulticoreUsageComponent {
     }
     this.socket = new WebSocket("ws://127.0.0.1:9001");
     this.socket.onopen = () => {
+      this.socket.send(AppComponent.app_session_id);
       this.socket.send("cpu_current_multicore_usage")
     }
     this.socket.onmessage = (event) => {

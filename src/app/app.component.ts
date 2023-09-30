@@ -11,7 +11,7 @@ import { invoke } from '@tauri-apps/api';
 })
 export class AppComponent {
   //No component should be loaded until app_session_id value has been fetch from rust
-  static app_session_id: number[];
+  static app_session_id: string;
   public app_id_ready = false;
 
   dark_mode = false;
@@ -99,9 +99,10 @@ export class AppComponent {
   }
 
   get_app_session_id(): void {
-    invoke<number[]>("get_app_session_id", {}).then((resp) => {
+    invoke<string>("get_app_session_id", {}).then((resp) => {
       AppComponent.app_session_id = resp;
       this.app_id_ready = true;
+      console.log(AppComponent.app_session_id)
     });
   }
 

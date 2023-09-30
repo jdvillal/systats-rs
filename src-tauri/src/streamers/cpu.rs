@@ -1,7 +1,7 @@
 use std::{sync::{Arc, Mutex}, net::TcpStream, ops::DerefMut};
 
 use serde::Serialize;
-use sysinfo::{System, SystemExt, CpuExt, LoadAvg};
+use sysinfo::{System, SystemExt, CpuExt};
 use tungstenite::WebSocket;
 
 //MULTICORE

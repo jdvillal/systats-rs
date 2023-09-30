@@ -1,5 +1,5 @@
-use std::{sync::{Arc, Mutex}, net::TcpListener, thread};
-use tungstenite::accept;
+use std::{sync::{Arc, Mutex}, net::{TcpListener, TcpStream}, thread};
+use tungstenite::{accept, WebSocket};
 use uuid::Uuid;
 use crate::streamers;
 
@@ -43,6 +43,20 @@ impl MonitoringRequestType{
     }
 }
 
+fn check_app_session_id(session_id: &str, mut websocket: WebSocket<TcpStream>) -> Result<WebSocket<TcpStream>,()>{
+//Check app_session_id
+    let received_session_id = websocket.read().unwrap().to_string();
+    if received_session_id.len() != session_id.len() {
+        _ = websocket.close(None);
+        return Err(());
+    }
+    if received_session_id != session_id {
+        _ = websocket.close(None);
+        return Err(());
+    }
+    Ok(websocket)
+}
+
 pub fn initialize_monitors(app_session_id: Arc<Uuid>){
     //vec of cpu usage, each inner vec contains the usage of each cpu core at a given time
     let cpu_timelapse_data: Vec<Vec<f32>> = Vec::new();
@@ -60,12 +74,19 @@ pub fn initialize_monitors(app_session_id: Arc<Uuid>){
         for stream in server.incoming(){
             let cpu_timelapse_data_arc = Arc::clone(&cpu_timelapse_data_arc);
             let memory_timelapse_data_arc = Arc::clone(&memory_timelapse_data_arc);
+            let app_session_id = Arc::clone(&app_session_id);
             thread::spawn(move||{
                 let mut websocket = accept(stream.unwrap()).unwrap();
+                
+                websocket = match check_app_session_id(&app_session_id.to_string(), websocket){
+                    Ok(s) => s,
+                    Err(_) => return,
+                };
+
                 let msg = websocket.read().unwrap().to_string();
                 let msg = msg.as_str();
                 println!("websocket message ==> {}", msg);
-                let resquest_type = MonitoringRequestType::from_msg(msg);
+                let resquest_type = MonitoringRequestType::from_msg(&msg);
                 use MonitoringRequestType as MRT;
                 match resquest_type{
                     MRT::CpuCurrentSingleCoreUsage => {

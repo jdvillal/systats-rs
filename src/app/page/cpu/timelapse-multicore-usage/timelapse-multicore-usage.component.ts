@@ -67,6 +67,7 @@ export class TimelapseMulticoreUsageComponent {
     }
     this.socket = new WebSocket("ws://127.0.0.1:9001");
     this.socket.onopen = () => {
+      this.socket.send(AppComponent.app_session_id);
       this.socket.send("cpu_timelapse_multicore_usage");
     }
     this.socket.onmessage = (event) => {

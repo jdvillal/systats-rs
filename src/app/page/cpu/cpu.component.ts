@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { CurrentSinglecoreUsageComponent } from './current-singlecore-usage/current-singlecore-usage.component';
 import { PagesStateService } from 'src/app/services/pages-state.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-cpu',
@@ -46,6 +47,7 @@ export class CpuComponent {
     this.get_cpu_information();
     this.socket = new WebSocket("ws://127.0.0.1:9001");
     this.socket.onopen = () =>{
+      this.socket.send(AppComponent.app_session_id);
       this.socket.send("system_state_information");
     }
     this.socket.onmessage = (event) =>{

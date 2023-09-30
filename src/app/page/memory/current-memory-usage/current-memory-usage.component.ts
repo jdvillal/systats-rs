@@ -3,6 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription } from 'rxjs';
+import { AppComponent } from 'src/app/app.component';
 import { MemoryInfo } from 'src/app/types/memory-types';
 
 @Component({
@@ -62,6 +63,7 @@ export class CurrentMemoryUsageComponent {
   private on_memInfo_ready(total_mem: number){
     this.socket = new WebSocket('ws://127.0.0.1:9001');
     this.socket.onopen = () => {
+      this.socket.send(AppComponent.app_session_id);
       this.socket.send("memory_swap_current_usage");
     }
     this.socket.onmessage = (event) => {

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-current-singlecore-usage',
@@ -18,6 +19,7 @@ export class CurrentSinglecoreUsageComponent {
     this.socket = new WebSocket("ws://127.0.0.1:9001");
 
     this.socket.onopen = () => {
+      this.socket.send(AppComponent.app_session_id);
       this.socket.send("cpu_current_singlecore_usage");
     }
 

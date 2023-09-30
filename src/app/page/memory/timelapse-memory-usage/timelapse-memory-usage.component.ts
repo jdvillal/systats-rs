@@ -7,6 +7,7 @@ import { AppearanceSettingComponent } from './appearance-setting/appearance-sett
 import { MemoryPreferencesService } from 'src/app/services/memory-preferences.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-timelapse-memory-usage',
@@ -85,6 +86,7 @@ export class TimelapseMemoryUsageComponent {
 
     this.socket = new WebSocket("ws://127.0.0.1:9001");
     this.socket.onopen = () => {
+      this.socket.send(AppComponent.app_session_id);
       this.socket.send("memory_timelapse_usage");
     }
     this.socket.onmessage = (event) => {

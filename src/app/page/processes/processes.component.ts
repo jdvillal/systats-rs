@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppComponent } from 'src/app/app.component';
 import { ProcessInformation, ProcessesOrderBy } from 'src/app/types/process';
 
 @Component({
@@ -30,6 +31,7 @@ export class ProcessesComponent {
     this.socket = new WebSocket("ws://127.0.0.1:9001");
 
     this.socket.onopen = () => {
+      this.socket.send(AppComponent.app_session_id);
       this.socket.send("current_running_processes");
       this.socket.send(this.order_by);
     }
