@@ -32,7 +32,7 @@ export class DiskChartComponent {
   ngOnInit(){
     let available = this.disk_info.available_space;
     let used = this.disk_info.total_space - available;
-    this.doughnutChartDatasets[0].data = [available, used]
+    this.doughnutChartDatasets[0].data = [used, available]
   }
 
 }
