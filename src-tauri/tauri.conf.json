@@ -71,7 +71,7 @@
         "resizable": true,
         "title": "systats-rs",
         "width": 990,
-        "decorations": false
+        "decorations": true
       }
     ]
   }
