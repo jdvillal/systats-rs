@@ -8,7 +8,6 @@ import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
     declarations: [
-        ProcessesComponent,
     ],
     exports: [RouterModule],
     imports: [

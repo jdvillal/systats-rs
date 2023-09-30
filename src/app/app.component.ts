@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AppColorMode, OS_type } from './types/app-types';
 import { appWindow } from '@tauri-apps/api/window';
+import { invoke } from '@tauri-apps/api';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,9 @@ import { appWindow } from '@tauri-apps/api/window';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  //title = 'systats-rs';
+  //No component should be loaded until app_session_id value has been fetch from rust
+  static app_session_id: number[];
+  public app_id_ready = false;
 
   dark_mode = false;
   color_mode: AppColorMode = 'OS';
@@ -37,6 +40,7 @@ export class AppComponent {
   }
 
   async ngOnInit() {
+    this.get_app_session_id();
     let color_mode = localStorage.getItem("color_mode");
     this.color_mode = color_mode as AppColorMode;
     if(color_mode === undefined || color_mode === null){
@@ -92,6 +96,13 @@ export class AppComponent {
     this.selected_language = language;
     this.translate.setDefaultLang(language);
     this.translate.use(language)
+  }
+
+  get_app_session_id(): void {
+    invoke<number[]>("get_app_session_id", {}).then((resp) => {
+      AppComponent.app_session_id = resp;
+      this.app_id_ready = true;
+    });
   }
 
 }

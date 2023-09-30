@@ -14,7 +14,7 @@
   </symbol>
 </svg>
 
-<div class="d-flex flex-column" style="height: 100%;">
+<div *ngIf="this.app_id_ready" class="d-flex flex-column" style="height: 100%;">
   <!-- <app-title-bar [darkmode]="dark_mode" style="min-height: 2.4rem;"></app-title-bar> -->
   <div style="height: calc(100% - (1.5rem));">
     <router-outlet></router-outlet>

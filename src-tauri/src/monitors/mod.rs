@@ -1,5 +1,6 @@
 use std::{sync::{Arc, Mutex}, net::TcpListener, thread};
 use tungstenite::accept;
+use uuid::Uuid;
 use crate::streamers;
 
 use self::{cpu::start_cpu_monitor, memory::start_memory_monitor};
@@ -42,7 +43,7 @@ impl MonitoringRequestType{
     }
 }
 
-pub fn initialize_monitors(){
+pub fn initialize_monitors(app_session_id: Arc<Uuid>){
     //vec of cpu usage, each inner vec contains the usage of each cpu core at a given time
     let cpu_timelapse_data: Vec<Vec<f32>> = Vec::new();
     let cpu_timelapse_data_arc = Arc::new(Mutex::new(cpu_timelapse_data));
@@ -50,8 +51,6 @@ pub fn initialize_monitors(){
     //vec of memory usage
     let memory_timelapse_data: Vec<u64> = Vec::new();
     let memory_timelapse_data_arc = Arc::new(Mutex::new(memory_timelapse_data));
-
-
 
     start_cpu_monitor(Arc::clone(&cpu_timelapse_data_arc));
     start_memory_monitor(Arc::clone(&memory_timelapse_data_arc));

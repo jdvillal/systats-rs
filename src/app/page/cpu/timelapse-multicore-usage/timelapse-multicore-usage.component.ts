@@ -8,6 +8,7 @@ import { ChartConfiguration } from 'chart.js';
 import { AppearanceSettingComponent } from './appearance-setting/appearance-setting.component';
 import { CpuPreferences } from 'src/app/types/cpu-types';
 import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-timelapse-multicore-usage',
@@ -36,11 +37,9 @@ export class TimelapseMulticoreUsageComponent {
     this.x_scale = pref.timelapse.x_scale;
     this.y_scale = pref.timelapse.y_scale;
     this.line_color = pref.timelapse.line_color;
-
   }
 
   ngOnInit(){
-    
     if(this.core_count){
       this.onCoreCountReady(this.core_count)
       return;
@@ -86,6 +85,5 @@ export class TimelapseMulticoreUsageComponent {
       this.core_data_update_notifier.notifyAll();
     }
   }
-
 
 }

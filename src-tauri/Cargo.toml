@@ -20,6 +20,7 @@ serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.4.0", features = [ "window-set-focus", "window-start-dragging", "window-show", "window-hide", "window-minimize", "window-maximize", "window-unmaximize", "window-close", "window-unminimize"] }
 tungstenite = "0.20.0"
 sysinfo = "0.29.10"
+uuid = "1.4.1"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.
