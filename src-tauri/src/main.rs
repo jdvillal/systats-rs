@@ -17,7 +17,8 @@ fn main() {
           handlers::get_app_session_id,
           handlers::cpu::get_cpu_information,
           handlers::memory::get_memory_information,
-          handlers::disk::get_system_disks_information
+          handlers::disk::get_system_disks_information,
+          handlers::disk::get_filetree_from_path
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

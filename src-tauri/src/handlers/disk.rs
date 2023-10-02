@@ -1,4 +1,7 @@
-use serde::{Serialize, Deserialize};
+use std::fs;
+
+use fs_extra::{dir::get_size, file};
+use serde::{Deserialize, Serialize};
 use serde_json::json;
 use sysinfo::{DiskExt, System, SystemExt};
 
@@ -10,7 +13,7 @@ pub struct DiskInfo {
     pub total_space: u64,
     pub available_space: u64,
     pub removable: bool,
-    pub file_system: String
+    pub file_system: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -30,7 +33,7 @@ pub fn get_system_disks_information() -> serde_json::Value {
             sysinfo::DiskKind::HDD => "HDD",
             _ => "Unknown",
         };
-        let file_sys: String =  String::from_utf8_lossy(disk_arr[i].file_system()).to_string();
+        let file_sys: String = String::from_utf8_lossy(disk_arr[i].file_system()).to_string();
         let disk_info = DiskInfo {
             name: String::from(disk_arr[i].name().to_str().unwrap_or_else(|| "")),
             disk_type: String::from(type_str),
@@ -38,9 +41,87 @@ pub fn get_system_disks_information() -> serde_json::Value {
             total_space: disk_arr[i].total_space(),
             available_space: disk_arr[i].available_space(),
             removable: disk_arr[i].is_removable(),
-            file_system: file_sys
+            file_system: file_sys,
         };
         system_disks_list.push(disk_info);
     }
     json!(system_disks_list)
+}
+
+//Treemap handler
+
+#[derive(Debug, Serialize, Deserialize)]
+struct FileTree {
+    size: u64,
+    name: String,
+    path: String,
+    children: Option<Vec<FileTree>>,
+}
+
+//Recursively construct a FileTree given a Path
+//TODO: should not call so many unwraps
+//TODO: for Windows, using ____ should be faster
+fn get_filetree(path: &str, name: &str, current_depth: usize, max_depth: usize) -> FileTree {
+    let mut dir_tree = FileTree {
+        size: 0,
+        name: name.to_string(),
+        path: path.to_string(),
+        children: None,
+    };
+    if let Ok(entries) = fs::read_dir(path) {
+        let mut children: Vec<FileTree> = Vec::new();
+        for entry in entries {
+            if let Ok(entry) = entry {
+                //Ignore the /proc dir in linux, witch for some reason takes A LOT of time to scan
+                //TODO: try fix this
+                if entry.file_name() == "proc" {
+                    continue;
+                }
+                if entry.file_type().unwrap().is_file() {
+                    let filetree = FileTree {
+                        size: entry.metadata().unwrap().len(),
+                        name: entry.file_name().to_str().unwrap().to_string(),
+                        path: entry.path().to_str().unwrap().to_string(),
+                        children: None,
+                    };
+                    dir_tree.size += filetree.size;
+                    children.push(filetree);
+                } else {
+                    let dir_name = entry.file_name().to_str().unwrap().to_string();
+                    let dir_path = entry.path().to_str().unwrap().to_string();
+                    if current_depth <  max_depth {
+                        let dir_children = get_filetree(
+                            &dir_path,
+                            &dir_name,
+                            current_depth + 1,
+                            max_depth
+                        );
+                        dir_tree.size += dir_children.size; //+ entry.metadata().unwrap().len(); not considering folder size
+                        children.push(dir_children);
+                    }
+                    //when deeper than max_depth we stop recursion and use fs_extra crate to get dir size
+                    else {
+                        if let Ok(size) = get_size(entry.path()){
+                            dir_tree.size += size;
+                            let dir_children = FileTree {
+                                size: size,
+                                name: dir_name,
+                                path: dir_path,
+                                children: Some(Vec::new()),
+                            };
+                            children.push(dir_children);
+                        }
+                    }
+                };
+            }
+        }
+        dir_tree.children = Some(children);
+    }
+    return dir_tree;
+}
+
+#[tauri::command]
+pub fn get_filetree_from_path(path: &str) -> serde_json::Value {
+    let file_tree = get_filetree(path, "path", 0, 5);
+    json!(file_tree)
 }
