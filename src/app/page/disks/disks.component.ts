@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
 import { DiskInfo } from 'src/app/types/disk-types';
 import { DiskChartComponent } from './disk-chart/disk-chart.component';
-import { Subject } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({

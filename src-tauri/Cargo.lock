@@ -72,6 +72,7 @@ dependencies = [
  "sysinfo",
  "tauri",
  "tauri-build",
+ "treemap",
  "tungstenite",
  "uuid",
 ]
@@ -3083,6 +3084,12 @@ checksum = "52984d277bdf2a751072b5df30ec0377febdb02f7696d64c2d7d54630bac4303"
 dependencies = [
  "serde_json",
 ]
+
+[[package]]
+name = "treemap"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a1571f89da27a5e1aa83304ee1ab9519ea8c6432b4c8903aaaa6c9a9eecb6f36"
 
 [[package]]
 name = "tungstenite"
