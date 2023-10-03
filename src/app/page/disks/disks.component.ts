@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
-import { DiskInfo } from 'src/app/types/disk-types';
+import { DiskInfo, FileTree, TreeMap } from 'src/app/types/disk-types';
 import { DiskChartComponent } from './disk-chart/disk-chart.component';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -24,8 +24,13 @@ export class DisksComponent {
     invoke<DiskInfo[]>("get_system_disks_information", {}).then((res) => {
       this.disks = res;
     });
-    invoke<any>("get_filetree_from_path", {path: "/home/daniel/Desktop/Cfiles", maxDepth: 5}).then((res)=>{
-      console.log(res);
+    /* invoke<any>("get_filetree_from_path", {path: "/home/daniel/Desktop/Cfiles", maxDepth: 5}).then((res)=>{
+      let file_tree = res as FileTree;
+      console.log(file_tree);
+    }) */
+    invoke<any>("get_treemap_from_path", {path: "/home", maxDepth: 5}).then((res)=>{
+      let file_tree = res as TreeMap;
+      console.log(file_tree);
     })
   }
 

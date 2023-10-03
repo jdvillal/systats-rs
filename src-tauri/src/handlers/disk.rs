@@ -1,6 +1,6 @@
 use std::fs;
 
-use fs_extra::{dir::get_size, file};
+use fs_extra::dir::get_size;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use sysinfo::{DiskExt, System, SystemExt};
@@ -89,19 +89,15 @@ fn get_filetree(path: &str, name: &str, current_depth: usize, max_depth: usize) 
                 } else {
                     let dir_name = entry.file_name().to_str().unwrap().to_string();
                     let dir_path = entry.path().to_str().unwrap().to_string();
-                    if current_depth <  max_depth {
-                        let dir_children = get_filetree(
-                            &dir_path,
-                            &dir_name,
-                            current_depth + 1,
-                            max_depth
-                        );
+                    if current_depth < max_depth {
+                        let dir_children =
+                            get_filetree(&dir_path, &dir_name, current_depth + 1, max_depth);
                         dir_tree.size += dir_children.size; //+ entry.metadata().unwrap().len(); not considering folder size
                         children.push(dir_children);
                     }
                     //when deeper than max_depth we stop recursion and use fs_extra crate to get dir size
                     else {
-                        if let Ok(size) = get_size(entry.path()){
+                        if let Ok(size) = get_size(entry.path()) {
                             dir_tree.size += size;
                             let dir_children = FileTree {
                                 size: size,
@@ -120,8 +116,6 @@ fn get_filetree(path: &str, name: &str, current_depth: usize, max_depth: usize) 
     return dir_tree;
 }
 
-
-
 #[derive(Debug)]
 pub enum Orientation {
     Horizontal,
@@ -137,7 +131,6 @@ impl Orientation {
     }
 }
 
-#[derive(Debug)]
 struct Point {
     x: f64,
     y: f64,
@@ -147,7 +140,7 @@ impl Point {
         Point { x, y }
     }
 }
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Serialize)]
 struct Rectangle {
     x: f64,
     y: f64,
@@ -168,7 +161,7 @@ impl Rectangle {
     }
 }
 
-#[derive(Debug)]
+#[derive(Serialize)]
 struct TreeMap {
     root: Rectangle,
     children: Option<Vec<TreeMap>>,
@@ -194,7 +187,7 @@ fn get_treemap(
     bounds: &Rectangle,
     start_from: Point,
     divide_axis: Orientation,
-    depth: usize
+    depth: usize,
 ) -> TreeMap {
     let portion: f64 = filetree.size as f64 / parent_size;
     let (width, height) = match divide_axis {
@@ -223,12 +216,12 @@ fn get_treemap(
                 &rectangle,
                 Point::new(child_start_x, child_start_y),
                 divide_axis.next(),
-                depth + 1
+                depth + 1,
             );
             match divide_axis.next() {
                 Orientation::Horizontal => {
                     child_start_x += child_treemap.root.width;
-                },
+                }
                 Orientation::Vertical => {
                     child_start_y += child_treemap.root.height;
                 }
@@ -242,9 +235,34 @@ fn get_treemap(
     }
 }
 
-
 #[tauri::command]
 pub fn get_filetree_from_path(path: &str, max_depth: usize) -> serde_json::Value {
-    let file_tree = get_filetree(path, "Cfiles", 0, max_depth);
+    let file_tree = get_filetree(path, path, 0, max_depth);
     json!(file_tree)
+}
+
+#[derive(Serialize)]
+struct TreeMapHandlerResponse{
+    file_tree: FileTree,
+    tree_map: TreeMap
+}
+
+
+//this handler is async to avoid blocking UI
+#[tauri::command]
+pub async fn get_treemap_from_path(path: &str, max_depth: usize) -> Result<serde_json::Value, ()> {
+    let file_tree = get_filetree(path, path, 0, max_depth);
+    let tree_map = get_treemap(
+        &file_tree,
+        file_tree.size as f64,
+        &Rectangle::new(0.0, 0.0, 200.0, 200.0),
+        Point::new(0.0, 0.0),
+        Orientation::Vertical,
+        0,
+    );
+    let response = TreeMapHandlerResponse{
+        file_tree,
+        tree_map
+    };
+    Ok(json!(response))
 }
