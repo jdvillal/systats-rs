@@ -4,7 +4,6 @@ use fs_extra::{dir::get_size, file};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use sysinfo::{DiskExt, System, SystemExt};
-use treemap::{Rect, Mappable, MapItem, TreemapLayout};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct DiskInfo {
@@ -122,65 +121,130 @@ fn get_filetree(path: &str, name: &str, current_depth: usize, max_depth: usize) 
 }
 
 
-fn get_rectangles(filetree: &FileTree, bounds: Rect) -> Vec<Rect> {
-    println!("{} ", filetree.name);
-    let mut layout = TreemapLayout::new();
-    //is file (leaft)
-    let mut rectangles: Vec<Rect> = Vec::new();
-    if filetree.children.is_none() {
-        let mut items: Vec<Box<dyn Mappable>> =
-            vec![Box::new(MapItem::with_size(filetree.size as f64))];
-        layout.layout_items(&mut items, bounds);
-        for item in items {
-            let item_bounds = item.bounds();
-            println!("{:?}", item_bounds);
-            rectangles.push(item_bounds.clone());
+
+#[derive(Debug)]
+pub enum Orientation {
+    Horizontal,
+    Vertical,
+}
+
+impl Orientation {
+    fn next(&self) -> Self {
+        match self {
+            Self::Horizontal => Self::Vertical,
+            Self::Vertical => Self::Horizontal,
         }
-        return rectangles;
+    }
+}
+
+#[derive(Debug)]
+struct Point {
+    x: f64,
+    y: f64,
+}
+impl Point {
+    fn new(x: f64, y: f64) -> Self {
+        Point { x, y }
+    }
+}
+#[derive(Clone, Copy, Debug)]
+struct Rectangle {
+    x: f64,
+    y: f64,
+    width: f64,
+    height: f64,
+}
+impl Rectangle {
+    fn new(x: f64, y: f64, width: f64, height: f64) -> Self {
+        Rectangle {
+            x,
+            y,
+            width,
+            height,
+        }
+    }
+    fn from(rectangle: &Rectangle) -> Self {
+        Rectangle::new(rectangle.x, rectangle.y, rectangle.width, rectangle.height)
+    }
+}
+
+#[derive(Debug)]
+struct TreeMap {
+    root: Rectangle,
+    children: Option<Vec<TreeMap>>,
+}
+impl TreeMap {
+    fn leaft(root: Rectangle) -> Self {
+        Self {
+            root,
+            children: None,
+        }
+    }
+    fn non_leaft(root: Rectangle, children: Vec<TreeMap>) -> Self {
+        Self {
+            root,
+            children: Some(children),
+        }
+    }
+}
+
+fn get_treemap(
+    filetree: &FileTree,
+    parent_size: f64,
+    bounds: &Rectangle,
+    start_from: Point,
+    divide_axis: Orientation,
+    depth: usize
+) -> TreeMap {
+    let portion: f64 = filetree.size as f64 / parent_size;
+    let (width, height) = match divide_axis {
+        Orientation::Horizontal => (portion * bounds.width, bounds.height),
+        Orientation::Vertical => (bounds.width, portion * bounds.height),
+    };
+    let rectangle = Rectangle::new(start_from.x, start_from.y, width, height);
+    //is file (leaft)
+    if filetree.children.is_none() {
+        let treemap = TreeMap::leaft(rectangle);
+        return treemap;
     }
     if let Some(children) = &filetree.children {
         //if dir is a leaft
         if children.len() == 0 {
-            let mut items: Vec<Box<dyn Mappable>> =
-                vec![Box::new(MapItem::with_size(filetree.size as f64))];
-            layout.layout_items(&mut items, bounds);
-            for item in items {
-                let item_bounds = item.bounds();
-                println!("{:?}", item_bounds);
-                rectangles.push(item_bounds.clone());
-            }
-            return rectangles;
+            let treemap = TreeMap::leaft(rectangle);
+            return treemap;
         }
         //if dir is not a leaft
-        //TODO: use iterator instead
-        let mut items: Vec<Box<dyn Mappable>> = Vec::with_capacity(children.len());
-        for child in children {
-            println!("flag");
-            items.push(Box::new(MapItem::with_size(child.size as f64)));
-        }
-        layout.layout_items(&mut items, bounds);
-        /* for item in items {
-            let item_bounds = item.bounds();
-            //rectangles.push(item_bounds.clone());
-        } */
+        let mut deeper_children: Vec<TreeMap> = Vec::new();
+        let (mut child_start_x, mut child_start_y) = (start_from.x, start_from.y);
         for i in 0..children.len() {
-            let mut child_rectangles = get_rectangles(
+            let child_treemap = get_treemap(
                 filetree.children.as_ref().unwrap().get(i).unwrap(),
-                *items[i].bounds(),
+                filetree.size as f64,
+                &rectangle,
+                Point::new(child_start_x, child_start_y),
+                divide_axis.next(),
+                depth + 1
             );
-            
-            rectangles.append(&mut child_rectangles);
+            match divide_axis.next() {
+                Orientation::Horizontal => {
+                    child_start_x += child_treemap.root.width;
+                },
+                Orientation::Vertical => {
+                    child_start_y += child_treemap.root.height;
+                }
+            }
+            deeper_children.push(child_treemap);
         }
+        let treemap = TreeMap::non_leaft(Rectangle::from(&bounds), deeper_children);
+        return treemap;
+    } else {
+        unreachable!()
     }
-    rectangles
 }
 
+
 #[tauri::command]
-pub fn get_filetree_from_path(path: &str) -> serde_json::Value {
-    let file_tree = get_filetree(path, "Cfiles", 0, 5);
-    let rcs = get_rectangles(&file_tree, Rect::from_points(0.0, 0.0, 200.0, 200.0));
-    for rc in rcs{
-        println!("{:?}", rc);
-    }
+pub fn get_filetree_from_path(path: &str, max_depth: usize) -> serde_json::Value {
+    let file_tree = get_filetree(path, "Cfiles", 0, max_depth);
     json!(file_tree)
 }

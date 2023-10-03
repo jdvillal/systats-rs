@@ -24,7 +24,7 @@ export class DisksComponent {
     invoke<DiskInfo[]>("get_system_disks_information", {}).then((res) => {
       this.disks = res;
     });
-    invoke<any>("get_filetree_from_path", {path: "/home/daniel/Desktop/Cfiles"}).then((res)=>{
+    invoke<any>("get_filetree_from_path", {path: "/home/daniel/Desktop/Cfiles", maxDepth: 5}).then((res)=>{
       console.log(res);
     })
   }
