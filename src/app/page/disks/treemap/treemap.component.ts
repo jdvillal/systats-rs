@@ -16,8 +16,13 @@ export class TreemapComponent {
   private chart_context!: CanvasRenderingContext2D;
   
   public treemap_rectangles: Rectangle[] = [];
-  public is_layout_ready  = false;
+  public canvas_ready  = false;
   public filetree!: FileTree;
+
+  public width = 400.0;
+  public height = 400.0;
+
+  public progress = 0;
 
   ngOnInit(){
 
@@ -28,7 +33,7 @@ export class TreemapComponent {
     this.chart_context = this.chart?.nativeElement.getContext("2d") as CanvasRenderingContext2D;
 
     if(!this.path) return;
-    invoke<any>("get_treemap_from_path", {path: this.path, maxDepth: 2}).then((res)=>{
+    invoke<any>("get_treemap_from_path", {path: this.path, maxDepth: 2, width: this.width, height: this.height}).then((res)=>{
       let tree_map_resp = res as TreeMapHandlerResponse;
       this.filetree = tree_map_resp.file_tree;
       this.treemap_rectangles = tree_map_resp.tree_map;
@@ -49,6 +54,15 @@ export class TreemapComponent {
       this.chart_context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
     this.chart_context?.stroke();
-    this.is_layout_ready = true;
+    this.canvas_ready = true;
+  }
+
+
+  public animate_progress_bar(){
+
+  }
+
+  public stop_progress_bar(){
+
   }
 }

@@ -5,6 +5,7 @@ import { CpuComponent } from './page/cpu/cpu.component';
 import { MemoryComponent } from './page/memory/memory.component';
 import { ProcessesComponent } from './page/processes/processes.component';
 import { DisksComponent } from './page/disks/disks.component';
+import { DiskComponent } from './page/disk/disk.component';
 
 const routes: Routes = [
   {path: 'page', component: PageComponent, children:[
@@ -13,7 +14,7 @@ const routes: Routes = [
     {path: 'disks', component: DisksComponent},
     {path: 'processes', component: ProcessesComponent},
   ]},
-  
+  {path: 'disk/:index/:mount_point', component: DiskComponent},
   {path: '', redirectTo: 'page/cpu', pathMatch: 'full'}
 ];
 
@@ -21,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

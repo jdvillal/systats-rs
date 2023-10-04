@@ -210,12 +210,12 @@ struct TreeMapHandlerResponse {
 
 //this handler is async to avoid blocking UI
 #[tauri::command]
-pub async fn get_treemap_from_path(path: &str, max_depth: usize) -> Result<serde_json::Value, ()> {
+pub async fn get_treemap_from_path(path: &str, max_depth: usize, width: f64, height: f64) -> Result<serde_json::Value, ()> {
     let mut file_tree = get_filetree(path, path, 0, max_depth);
     let total_size = file_tree.size;
     let tree_map = get_treemap_rectangles(
         &mut file_tree,
-        Rectangle::new(0f64, 0f64, 150f64, 150f64),
+        Rectangle::new(0f64, 0f64, width, height),
         total_size,
         0,
         &mut Point::new(0.0, 0.0),

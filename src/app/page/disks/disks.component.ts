@@ -5,6 +5,7 @@ import { DiskInfo, FileTree, TreeMap } from 'src/app/types/disk-types';
 import { DiskChartComponent } from './disk-chart/disk-chart.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TreemapComponent } from './treemap/treemap.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-disks',
@@ -16,6 +17,10 @@ import { TreemapComponent } from './treemap/treemap.component';
 export class DisksComponent {
 
   disks: DiskInfo[] = [];
+
+  constructor(
+    private router: Router
+  ){}
 
   ngOnInit(){
     this.get_cpu_information();
@@ -47,6 +52,10 @@ export class DisksComponent {
   public format_disk_name(index: number, mount_point: string): string{
     let name = "Disk "+ index.toString() + " (" + mount_point.replace("/", "").replace("\\","") + ")";
     return name; 
+  }
+
+  open_disk_info(index: number, mount_point: string){
+    this.router.navigate([`disk/${index}/${mount_point}`])
   }
 
 }

@@ -38,3 +38,7 @@ span{
 tr, td{
     white-space: nowrap;
 }
+
+.hover-pointer:hover{
+    cursor: pointer;
+}

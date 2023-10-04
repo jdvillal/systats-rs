@@ -1,12 +1,29 @@
-<div style="position: relative;" class="mx-2">
-    <canvas #treemap_chart  width="150" height="150" style="border:1px solid #ff4797; background-color: rgb(255, 199, 225);"></canvas>
 
-    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-        <div *ngIf="!is_layout_ready" class="spinner-grow text-secondary" role="status" >
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
+
+<div class="d-flex flex-row">
     
+    <div class="mx-1">
+        <canvas #treemap_chart [width]="this.width" [height]="this.height"
+            style="border:1px solid #ff4797; background-color: rgb(255, 199, 225);" class="my-0"></canvas>
+    </div>
+    <div *ngIf="!canvas_ready" class="mx-1" style="min-width: 10rem; max-width: 10rem;">
+        <p class="card-text placeholder-glow">
+            <span class="placeholder col-4"></span>
+            <span style="margin-left: 2rem;" class="placeholder col-7"></span>
+            <span style="margin-left: 2rem;" class="placeholder col-7"></span>
+            <span style="margin-left: 2rem;" class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span style="margin-left: 2rem;" class="placeholder col-7"></span>
+            <span style="margin-left: 4rem;" class="placeholder col-7"></span>
+            <span style="margin-left: 4rem;" class="placeholder col-7"></span>
+            <span style="margin-left: 2rem;" class="placeholder col-7"></span>
+            <span style="margin-left: 4rem;" class="placeholder col-7"></span>
+            <span style="margin-left: 4rem;" class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span style="margin-left: 2rem;" class="placeholder col-7"></span>
+            <span style="margin-left: 2rem;" class="placeholder col-7"></span>
+            <span style="margin-left: 2rem;" class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+        </p>
+    </div>
 </div>
-
-
