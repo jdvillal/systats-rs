@@ -1,10 +1,12 @@
-<div *ngIf="this.filetree">Ready</div>
-<canvas #treemap_chart  width="600" height="600" style="border:1px solid grey"></canvas>
-<!-- <div *ngIf="treemap_rectangles else spinner">
+<div style="position: relative;" class="mx-2">
+    <canvas #treemap_chart  width="150" height="150" style="border:1px solid #ff4797; background-color: rgb(255, 199, 225);"></canvas>
+
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div *ngIf="!is_layout_ready" class="spinner-grow text-secondary" role="status" >
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
     
 </div>
-<ng-template #spinner>
-    <div class="spinner-grow text-secondary" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-</ng-template> -->
+
+

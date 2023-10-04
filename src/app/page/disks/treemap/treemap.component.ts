@@ -16,6 +16,7 @@ export class TreemapComponent {
   private chart_context!: CanvasRenderingContext2D;
   
   public treemap_rectangles: Rectangle[] = [];
+  public is_layout_ready  = false;
   public filetree!: FileTree;
 
   ngOnInit(){
@@ -37,13 +38,17 @@ export class TreemapComponent {
   }
 
 
+
   private update_chart() {
     //this.chart_context.clearRect(0, 0, 200, 200);
     this.chart_context.beginPath();
+    this.chart_context.lineWidth = 1;
+    this.chart_context.strokeStyle = "#ff4797"
     //this.chart_context.rect(20, 20, 150, 100);
    for (let rectangle of this.treemap_rectangles) {
       this.chart_context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
     this.chart_context?.stroke();
+    this.is_layout_ready = true;
   }
 }

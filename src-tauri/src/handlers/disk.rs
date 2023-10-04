@@ -215,7 +215,7 @@ pub async fn get_treemap_from_path(path: &str, max_depth: usize) -> Result<serde
     let total_size = file_tree.size;
     let tree_map = get_treemap_rectangles(
         &mut file_tree,
-        Rectangle::new(0f64, 0f64, 200f64, 200f64),
+        Rectangle::new(0f64, 0f64, 150f64, 150f64),
         total_size,
         0,
         &mut Point::new(0.0, 0.0),
