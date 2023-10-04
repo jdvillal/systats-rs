@@ -57,6 +57,16 @@ struct FileTree {
     path: String,
     children: Option<Vec<FileTree>>,
 }
+impl FileTree {
+    fn is_leaft(&self) -> bool {
+        if self.children.is_none() {
+            return true;
+        } else if self.children.as_ref().unwrap().len() == 0 {
+            return true;
+        }
+        false
+    }
+}
 
 //Recursively construct a FileTree given a Path
 //TODO: should not call so many unwraps
@@ -116,21 +126,6 @@ fn get_filetree(path: &str, name: &str, current_depth: usize, max_depth: usize) 
     return dir_tree;
 }
 
-#[derive(Debug)]
-pub enum Orientation {
-    Horizontal,
-    Vertical,
-}
-
-impl Orientation {
-    fn next(&self) -> Self {
-        match self {
-            Self::Horizontal => Self::Vertical,
-            Self::Vertical => Self::Horizontal,
-        }
-    }
-}
-
 struct Point {
     x: f64,
     y: f64,
@@ -156,83 +151,49 @@ impl Rectangle {
             height,
         }
     }
-    fn from(rectangle: &Rectangle) -> Self {
-        Rectangle::new(rectangle.x, rectangle.y, rectangle.width, rectangle.height)
-    }
 }
 
-#[derive(Serialize)]
-struct TreeMap {
-    root: Rectangle,
-    children: Option<Vec<TreeMap>>,
-}
-impl TreeMap {
-    fn leaft(root: Rectangle) -> Self {
-        Self {
-            root,
-            children: None,
-        }
-    }
-    fn non_leaft(root: Rectangle, children: Vec<TreeMap>) -> Self {
-        Self {
-            root,
-            children: Some(children),
-        }
-    }
-}
-
-fn get_treemap(
-    filetree: &FileTree,
-    parent_size: f64,
-    bounds: &Rectangle,
-    start_from: Point,
-    divide_axis: Orientation,
-    depth: usize,
-) -> TreeMap {
-    let portion: f64 = filetree.size as f64 / parent_size;
-    let (width, height) = match divide_axis {
-        Orientation::Horizontal => (portion * bounds.width, bounds.height),
-        Orientation::Vertical => (bounds.width, portion * bounds.height),
-    };
-    let rectangle = Rectangle::new(start_from.x, start_from.y, width, height);
-    //is file (leaft)
-    if filetree.children.is_none() {
-        let treemap = TreeMap::leaft(rectangle);
-        return treemap;
-    }
-    if let Some(children) = &filetree.children {
-        //if dir is a leaft
-        if children.len() == 0 {
-            let treemap = TreeMap::leaft(rectangle);
-            return treemap;
-        }
-        //if dir is not a leaft
-        let mut deeper_children: Vec<TreeMap> = Vec::new();
-        let (mut child_start_x, mut child_start_y) = (start_from.x, start_from.y);
-        for i in 0..children.len() {
-            let child_treemap = get_treemap(
-                filetree.children.as_ref().unwrap().get(i).unwrap(),
-                filetree.size as f64,
-                &rectangle,
-                Point::new(child_start_x, child_start_y),
-                divide_axis.next(),
-                depth + 1,
-            );
-            match divide_axis.next() {
-                Orientation::Horizontal => {
-                    child_start_x += child_treemap.root.width;
-                }
-                Orientation::Vertical => {
-                    child_start_y += child_treemap.root.height;
-                }
-            }
-            deeper_children.push(child_treemap);
-        }
-        let treemap = TreeMap::non_leaft(Rectangle::from(&bounds), deeper_children);
-        return treemap;
+fn get_treemap_rectangles(
+    filetree: &mut FileTree,
+    parent_rect: Rectangle,
+    parent_size: u64,
+    depth: u16,
+    start_at: &mut Point,
+) -> Vec<Rectangle> {
+    //Rectangle rectangle = Rectangle::new(x, y, width, height);
+    let portion = filetree.size as f64 / parent_size as f64;
+    let x_len = parent_rect.width;
+    let y_len = parent_rect.height;
+    let x_pos = parent_rect.x;
+    let y_pos = parent_rect.y;
+    let rectangle = if depth % 2 == 1 {
+        //Divide the parent rectangle horizontally
+        let rectangle = Rectangle::new(x_pos + start_at.x, y_pos, portion * x_len, y_len);
+        start_at.x = start_at.x + rectangle.width;
+        rectangle
     } else {
-        unreachable!()
+        //Divide the parent rectangle vertically
+        let rectangle = Rectangle::new(x_pos, y_pos + start_at.y, x_len, portion * y_len);
+        start_at.y = start_at.y + rectangle.height;
+        rectangle
+    };
+    let mut rectangles: Vec<Rectangle> = Vec::new();
+    if filetree.is_leaft() {
+        rectangles.push(rectangle);
+    } else {
+        let mut child_start_at = Point::new(0.0, 0.0);
+        for child in filetree.children.as_mut().unwrap() {
+            let mut child_rectangles = get_treemap_rectangles(
+                child,
+                rectangle,
+                filetree.size,
+                depth + 1,
+                &mut child_start_at,
+            );
+            rectangles.append(&mut child_rectangles);
+        }
     }
+    return rectangles;
 }
 
 #[tauri::command]
@@ -242,27 +203,27 @@ pub fn get_filetree_from_path(path: &str, max_depth: usize) -> serde_json::Value
 }
 
 #[derive(Serialize)]
-struct TreeMapHandlerResponse{
+struct TreeMapHandlerResponse {
     file_tree: FileTree,
-    tree_map: TreeMap
+    tree_map: Vec<Rectangle>,
 }
-
 
 //this handler is async to avoid blocking UI
 #[tauri::command]
 pub async fn get_treemap_from_path(path: &str, max_depth: usize) -> Result<serde_json::Value, ()> {
-    let file_tree = get_filetree(path, path, 0, max_depth);
-    let tree_map = get_treemap(
-        &file_tree,
-        file_tree.size as f64,
-        &Rectangle::new(0.0, 0.0, 200.0, 200.0),
-        Point::new(0.0, 0.0),
-        Orientation::Vertical,
+    let mut file_tree = get_filetree(path, path, 0, max_depth);
+    let total_size = file_tree.size;
+    let tree_map = get_treemap_rectangles(
+        &mut file_tree,
+        Rectangle::new(0f64, 0f64, 200f64, 200f64),
+        total_size,
         0,
+        &mut Point::new(0.0, 0.0),
     );
-    let response = TreeMapHandlerResponse{
+
+    let response = TreeMapHandlerResponse {
         file_tree,
-        tree_map
+        tree_map,
     };
     Ok(json!(response))
 }

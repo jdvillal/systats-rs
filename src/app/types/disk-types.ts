@@ -29,5 +29,7 @@ export interface TreeMap{
     children: TreeMap[] | null
 }
 
-
-
+export interface TreeMapHandlerResponse{
+    file_tree: FileTree,
+    tree_map: Rectangle[]
+}
