@@ -7,3 +7,29 @@ export interface DiskInfo{
     removable: boolean,
     file_system: string
 }
+
+
+//******* TreeMap types *****/
+export interface FileTree{
+    size: number,
+    name: string,
+    path: string,
+    children: FileTree[] | null
+}
+
+export interface Rectangle{
+    x: number,
+    y: number,
+    width: number,
+    height: number
+}
+
+export interface TreeMap{
+    root: Rectangle,
+    children: TreeMap[] | null
+}
+
+export interface TreeMapHandlerResponse{
+    file_tree: FileTree,
+    tree_map: Rectangle[]
+}

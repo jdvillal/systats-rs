@@ -1,6 +1,6 @@
 use std::fs;
 
-use fs_extra::{dir::get_size, file};
+use fs_extra::dir::get_size;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use sysinfo::{DiskExt, System, SystemExt};
@@ -57,6 +57,16 @@ struct FileTree {
     path: String,
     children: Option<Vec<FileTree>>,
 }
+impl FileTree {
+    fn is_leaft(&self) -> bool {
+        if self.children.is_none() {
+            return true;
+        } else if self.children.as_ref().unwrap().len() == 0 {
+            return true;
+        }
+        false
+    }
+}
 
 //Recursively construct a FileTree given a Path
 //TODO: should not call so many unwraps
@@ -89,19 +99,15 @@ fn get_filetree(path: &str, name: &str, current_depth: usize, max_depth: usize) 
                 } else {
                     let dir_name = entry.file_name().to_str().unwrap().to_string();
                     let dir_path = entry.path().to_str().unwrap().to_string();
-                    if current_depth <  max_depth {
-                        let dir_children = get_filetree(
-                            &dir_path,
-                            &dir_name,
-                            current_depth + 1,
-                            max_depth
-                        );
+                    if current_depth < max_depth {
+                        let dir_children =
+                            get_filetree(&dir_path, &dir_name, current_depth + 1, max_depth);
                         dir_tree.size += dir_children.size; //+ entry.metadata().unwrap().len(); not considering folder size
                         children.push(dir_children);
                     }
                     //when deeper than max_depth we stop recursion and use fs_extra crate to get dir size
                     else {
-                        if let Ok(size) = get_size(entry.path()){
+                        if let Ok(size) = get_size(entry.path()) {
                             dir_tree.size += size;
                             let dir_children = FileTree {
                                 size: size,
@@ -120,8 +126,104 @@ fn get_filetree(path: &str, name: &str, current_depth: usize, max_depth: usize) 
     return dir_tree;
 }
 
+struct Point {
+    x: f64,
+    y: f64,
+}
+impl Point {
+    fn new(x: f64, y: f64) -> Self {
+        Point { x, y }
+    }
+}
+#[derive(Clone, Copy, Serialize)]
+struct Rectangle {
+    x: f64,
+    y: f64,
+    width: f64,
+    height: f64,
+}
+impl Rectangle {
+    fn new(x: f64, y: f64, width: f64, height: f64) -> Self {
+        Rectangle {
+            x,
+            y,
+            width,
+            height,
+        }
+    }
+}
+
+fn get_treemap_rectangles(
+    filetree: &mut FileTree,
+    parent_rect: Rectangle,
+    parent_size: u64,
+    depth: u16,
+    start_at: &mut Point,
+) -> Vec<Rectangle> {
+    //Rectangle rectangle = Rectangle::new(x, y, width, height);
+    let portion = filetree.size as f64 / parent_size as f64;
+    let x_len = parent_rect.width;
+    let y_len = parent_rect.height;
+    let x_pos = parent_rect.x;
+    let y_pos = parent_rect.y;
+    let rectangle = if depth % 2 == 1 {
+        //Divide the parent rectangle horizontally
+        let rectangle = Rectangle::new(x_pos + start_at.x, y_pos, portion * x_len, y_len);
+        start_at.x = start_at.x + rectangle.width;
+        rectangle
+    } else {
+        //Divide the parent rectangle vertically
+        let rectangle = Rectangle::new(x_pos, y_pos + start_at.y, x_len, portion * y_len);
+        start_at.y = start_at.y + rectangle.height;
+        rectangle
+    };
+    let mut rectangles: Vec<Rectangle> = Vec::new();
+    if filetree.is_leaft() {
+        rectangles.push(rectangle);
+    } else {
+        let mut child_start_at = Point::new(0.0, 0.0);
+        for child in filetree.children.as_mut().unwrap() {
+            let mut child_rectangles = get_treemap_rectangles(
+                child,
+                rectangle,
+                filetree.size,
+                depth + 1,
+                &mut child_start_at,
+            );
+            rectangles.append(&mut child_rectangles);
+        }
+    }
+    return rectangles;
+}
+
 #[tauri::command]
-pub fn get_filetree_from_path(path: &str) -> serde_json::Value {
-    let file_tree = get_filetree(path, "path", 0, 5);
+pub fn get_filetree_from_path(path: &str, max_depth: usize) -> serde_json::Value {
+    let file_tree = get_filetree(path, path, 0, max_depth);
     json!(file_tree)
+}
+
+#[derive(Serialize)]
+struct TreeMapHandlerResponse {
+    file_tree: FileTree,
+    tree_map: Vec<Rectangle>,
+}
+
+//this handler is async to avoid blocking UI
+#[tauri::command]
+pub async fn get_treemap_from_path(path: &str, max_depth: usize) -> Result<serde_json::Value, ()> {
+    let mut file_tree = get_filetree(path, path, 0, max_depth);
+    let total_size = file_tree.size;
+    let tree_map = get_treemap_rectangles(
+        &mut file_tree,
+        Rectangle::new(0f64, 0f64, 150f64, 150f64),
+        total_size,
+        0,
+        &mut Point::new(0.0, 0.0),
+    );
+
+    let response = TreeMapHandlerResponse {
+        file_tree,
+        tree_map,
+    };
+    Ok(json!(response))
 }
