@@ -1,3 +1,9 @@
 .hover-pointer:hover{
     cursor: pointer;
 }
+ul{
+    list-style-type: none;
+}
+.filetree-icon{
+    margin-right: 0.5rem;
+}
