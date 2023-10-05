@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { FileTree } from 'src/app/types/disk-types';
+import { Component, EventEmitter, Input, Output, WritableSignal } from '@angular/core';
+import { FileTree, Rectangle } from 'src/app/types/disk-types';
 
 @Component({
   selector: 'app-treeview',
@@ -11,10 +11,10 @@ import { FileTree } from 'src/app/types/disk-types';
 })
 export class TreeviewComponent {
   @Input() filetree!: FileTree;
-
-  public nested: boolean = true;
+  @Output() eventEmiter = new EventEmitter<any>();
 
   public unnested: string[] = []
+
   ngOnInit(){
     if(!this.filetree.children) return;
     for(let child of this.filetree.children){
@@ -22,10 +22,7 @@ export class TreeviewComponent {
     }
   }
 
-  toggle_nest(){
-    this.nested = !this.nested;
-  }
-
+  //nest and unnested folder content
   toggle_nest_item(dirname: string){
     if(!this.unnested.includes(dirname)){
       this.unnested.push(dirname);
@@ -34,8 +31,12 @@ export class TreeviewComponent {
     }
   }
 
+  //copy the path of this folder-file
   copy_path_to_clipboard(path: string){
     navigator.clipboard.writeText(path);
   }
 
+  back_propagate_highlight(filetree: FileTree){
+    this.eventEmiter.emit(filetree);
+  }
 }

@@ -27,7 +27,7 @@
         style="overflow-y: auto; background-color: rgba(56, 56, 56, 0.062);">
         <ul>
             <li>{{this.filetree.name}}
-                <app-treeview [filetree]="this.filetree"></app-treeview>
+                <app-treeview [filetree]="this.filetree" (eventEmiter)="highlight_rectangle($event)"></app-treeview>
             </li>
         </ul>
     </div>

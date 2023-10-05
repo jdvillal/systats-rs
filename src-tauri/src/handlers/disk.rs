@@ -182,7 +182,7 @@ fn get_treemap_rectangles(
         rectangle
     };
     //Also record individual directory or file rectangle at any level
-    //This is used by the treemap hightlight functionality in the frontend 
+    //This is used by the treemap highlight functionality in the frontend 
     filetree.rectangle = Some(rectangle);
     let mut rectangles: Vec<Rectangle> = Vec::new();
     if filetree.is_leaft() {

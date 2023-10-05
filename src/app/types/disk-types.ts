@@ -14,6 +14,7 @@ export interface FileTree{
     size: number,
     name: string,
     path: string,
+    rectangle: Rectangle,
     children: FileTree[] | null
 }
 

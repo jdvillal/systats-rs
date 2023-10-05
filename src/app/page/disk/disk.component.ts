@@ -19,7 +19,6 @@ export class DiskComponent {
   ){}
 
   ngOnInit(){
-    console.log("Disk index: ===>", this.disk_index);
   }
 
   public go_back(){
