@@ -1,0 +1,6 @@
+<ul *ngIf="this.filetree.children">
+    <li *ngFor="let child of this.filetree.children" >
+        <span class="hover-pointer" (click)="toggle_nest_item(child.name)">{{child.name}}</span>
+        <app-treeview *ngIf="child.children && !this.unnested.includes(child.name)" [filetree]="child"></app-treeview>
+    </li>
+</ul>

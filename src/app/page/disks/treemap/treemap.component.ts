@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { invoke } from '@tauri-apps/api';
 import { FileTree, Rectangle, TreeMap, TreeMapHandlerResponse } from 'src/app/types/disk-types';
+import { TreeviewComponent } from './treeview/treeview.component';
 
 @Component({
   selector: 'app-treemap',
   templateUrl: './treemap.component.html',
   styleUrls: ['./treemap.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, TreeviewComponent]
 })
 export class TreemapComponent {
   @Input() path!: string;
@@ -22,17 +23,12 @@ export class TreemapComponent {
   public width = 400.0;
   public height = 400.0;
 
-  public progress = 0;
-
-  ngOnInit(){
-
-  }
-
   ngAfterViewInit(){
     if (!this.chart) return;
     this.chart_context = this.chart?.nativeElement.getContext("2d") as CanvasRenderingContext2D;
 
     if(!this.path) return;
+    //invoke tauri command to get a disk filetree and treemap rectangles
     invoke<any>("get_treemap_from_path", {path: this.path, maxDepth: 2, width: this.width, height: this.height}).then((res)=>{
       let tree_map_resp = res as TreeMapHandlerResponse;
       this.filetree = tree_map_resp.file_tree;
@@ -42,14 +38,11 @@ export class TreemapComponent {
     })
   }
 
-
-
+  //this function draws the treemap retangles calculated in rust
   private update_chart() {
-    //this.chart_context.clearRect(0, 0, 200, 200);
     this.chart_context.beginPath();
     this.chart_context.lineWidth = 1;
     this.chart_context.strokeStyle = "#ff4797"
-    //this.chart_context.rect(20, 20, 150, 100);
    for (let rectangle of this.treemap_rectangles) {
       this.chart_context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
     }
@@ -57,12 +50,4 @@ export class TreemapComponent {
     this.canvas_ready = true;
   }
 
-
-  public animate_progress_bar(){
-
-  }
-
-  public stop_progress_bar(){
-
-  }
 }

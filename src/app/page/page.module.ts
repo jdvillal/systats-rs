@@ -7,6 +7,7 @@ import { CurrentMulticoreUsageComponent } from './cpu/current-multicore-usage/cu
 import { NgChartsModule } from 'ng2-charts';
 import { TreemapComponent } from './disks/treemap/treemap.component';
 import { DiskComponent } from './disk/disk.component';
+import { TreeviewComponent } from './disks/treemap/treeview/treeview.component';
 
 @NgModule({
     declarations: [

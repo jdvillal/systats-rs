@@ -1,7 +1,4 @@
-
-
 <div class="d-flex flex-row">
-    
     <div class="mx-1">
         <canvas #treemap_chart [width]="this.width" [height]="this.height"
             style="border:1px solid #ff4797; background-color: rgb(255, 199, 225);" class="my-0"></canvas>
@@ -25,5 +22,13 @@
             <span style="margin-left: 2rem;" class="placeholder col-7"></span>
             <span class="placeholder col-4"></span>
         </p>
+    </div>
+    <div *ngIf="this.canvas_ready" class="d-flex flex-column flex-fill" [style.max-height]="this.height+'px'"
+        style="overflow-y: auto; background-color: rgba(56, 56, 56, 0.062);">
+        <ul>
+            <li>{{this.filetree.name}}
+                <app-treeview [filetree]="this.filetree"></app-treeview>
+            </li>
+        </ul>
     </div>
 </div>
