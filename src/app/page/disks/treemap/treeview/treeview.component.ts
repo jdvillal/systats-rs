@@ -34,4 +34,8 @@ export class TreeviewComponent {
     }
   }
 
+  copy_path_to_clipboard(path: string){
+    navigator.clipboard.writeText(path);
+  }
+
 }

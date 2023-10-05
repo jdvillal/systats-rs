@@ -33,7 +33,7 @@ export class TreemapComponent {
       let tree_map_resp = res as TreeMapHandlerResponse;
       this.filetree = tree_map_resp.file_tree;
       this.treemap_rectangles = tree_map_resp.tree_map;
-      console.log(this.treemap_rectangles);
+      console.log(this.filetree);
       this.update_chart();
     })
   }

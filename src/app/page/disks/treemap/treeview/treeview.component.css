@@ -1,6 +1,22 @@
+.option-icon{
+    display: none;
+    margin-left: 0.5rem;
+}
+.option-icon:hover{
+    cursor: pointer;
+    color: rgb(230, 149, 1);
+}
+
 .hover-pointer:hover{
     cursor: pointer;
 }
+
+.hover-show-option-icons:hover{
+    .option-icon{
+        display: block;
+    }
+}
+
 ul{
     list-style-type: none;
 }
