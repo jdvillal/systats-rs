@@ -50,11 +50,12 @@ pub fn get_system_disks_information() -> serde_json::Value {
 
 //Treemap handler
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize)]
 struct FileTree {
     size: u64,
     name: String,
     path: String,
+    rectangle: Option<Rectangle>,
     children: Option<Vec<FileTree>>,
 }
 impl FileTree {
@@ -76,6 +77,7 @@ fn get_filetree(path: &str, name: &str, current_depth: usize, max_depth: usize) 
         size: 0,
         name: name.to_string(),
         path: path.to_string(),
+        rectangle: None,
         children: None,
     };
     if let Ok(entries) = fs::read_dir(path) {
@@ -92,6 +94,7 @@ fn get_filetree(path: &str, name: &str, current_depth: usize, max_depth: usize) 
                         size: entry.metadata().unwrap().len(),
                         name: entry.file_name().to_str().unwrap().to_string(),
                         path: entry.path().to_str().unwrap().to_string(),
+                        rectangle: None,
                         children: None,
                     };
                     dir_tree.size += filetree.size;
@@ -113,6 +116,7 @@ fn get_filetree(path: &str, name: &str, current_depth: usize, max_depth: usize) 
                                 size: size,
                                 name: dir_name,
                                 path: dir_path,
+                                rectangle: None,
                                 children: Some(Vec::new()),
                             };
                             children.push(dir_children);
@@ -135,7 +139,7 @@ impl Point {
         Point { x, y }
     }
 }
-#[derive(Clone, Copy, Serialize)]
+#[derive(Clone, Copy, Serialize, Debug)]
 struct Rectangle {
     x: f64,
     y: f64,
@@ -177,6 +181,9 @@ fn get_treemap_rectangles(
         start_at.y = start_at.y + rectangle.height;
         rectangle
     };
+    //Also record individual directory or file rectangle at any level
+    //This is used by the treemap hightlight functionality in the frontend 
+    filetree.rectangle = Some(rectangle);
     let mut rectangles: Vec<Rectangle> = Vec::new();
     if filetree.is_leaft() {
         rectangles.push(rectangle);
