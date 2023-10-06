@@ -24,3 +24,8 @@ th{
     color: gray;
     /*color: rgb(255, 100, 0);*/
 }
+
+span{
+    display: inline-block;
+    white-space: nowrap;
+}

@@ -115,7 +115,10 @@ pub struct SystemStateInfo{
     avg_load_one: f64,
     avg_load_five: f64,
     avg_load_fifteen: f64,
-    uptime: u64
+    uptime: u64,
+    boot_time: u64,
+    distribution_id: String,
+    os_version: Option<String>
 }
 
 pub fn handle_current_system_state_websocket(
@@ -126,17 +129,23 @@ pub fn handle_current_system_state_websocket(
     loop{
         sys.refresh_all();
         
-        //let boot_time = sys.boot_time();
-        //let distribution_id = sys.distribution_id();
-        //let os_version = sys.os_version();
+        let mut max_freq = 0;
+        for cpu in sys.cpus(){
+            if cpu.frequency() > max_freq {
+                max_freq = cpu.frequency();
+            }
+        }
 
         let sys_state_info = SystemStateInfo{
-            frequency: sys.global_cpu_info().frequency(),
+            frequency: max_freq,
             running_processes: sys.processes().len(),
             avg_load_one: sys.load_average().one,
             avg_load_five: sys.load_average().five,
             avg_load_fifteen: sys.load_average().fifteen,
             uptime: sys.uptime(),
+            boot_time: sys.boot_time(),
+            distribution_id: sys.distribution_id(),
+            os_version: sys.os_version()
         };
         let resp_msg = serde_json::to_string(&sys_state_info).unwrap();
         //let mut current_usage: Vec<f32> = Vec::new();

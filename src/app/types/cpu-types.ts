@@ -14,7 +14,10 @@ export interface SystemStateInfo{
     avg_load_one: number,
     avg_load_five: number,
     avg_load_fifteen: number,
-    uptime: number
+    uptime: number,
+    boot_time: number,
+    distribution_id: string,
+    os_version: string | null
 }
 
 export interface CpuPreferences{

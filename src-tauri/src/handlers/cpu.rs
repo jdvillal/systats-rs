@@ -19,7 +19,7 @@ pub fn get_cpu_information() -> serde_json::Value {
     let cpus = sys.cpus();
 
     let cpu_info = CpuInfo {
-        name: sys.global_cpu_info().name().into(),
+        name: cpus[0].name().into(),
         vendor_id: cpus[0].vendor_id().to_owned(),
         brand: cpus[0].brand().to_owned(),
         //max_frequency: cpus[0].frequency(),

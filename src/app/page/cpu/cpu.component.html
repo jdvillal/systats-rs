@@ -45,64 +45,60 @@
             [core_count]="this.cpu_info.logical_core_count"></app-timelapse-multicore-usage>
     </div>
     <app-current-singlecore-usage></app-current-singlecore-usage>
-    <div class="card px-2 py-2">
+    <div class="card px-3">
             <div class="d-flex flex-row flex-wrap  mb-2">
-                <div class="d-flex">
-                    <table class="mx-1">
+                <div class="mt-3">
+                    <h5>Processor details</h5>
+                    <table class="mx-1" style="font-size: 0.9rem;">
                         <tr>
-                            <th>{{'cpu.Brand'| translate}}</th>
-                            <td>{{cpu_info.brand}}</td>
+                            <th><span>{{'cpu.Brand'| translate}}</span></th>
+                            <td><span>{{cpu_info.brand}}</span></td>
                         </tr>
                         <tr>
-                            <th>{{'cpu.Vendor'| translate}}</th>
-                            <td>{{cpu_info.vendor_id}}</td>
+                            <th><span>{{'cpu.Vendor'| translate}}</span></th>
+                            <td><span>{{cpu_info.vendor_id}}</span></td>
                         </tr>
                         <tr>
-                            <th>{{'cpu.Cores'| translate}}</th>
-                            <td>{{cpu_info.physical_core_count}}</td>
+                            <th><span>{{'cpu.Cores'| translate}}</span></th>
+                            <td><span>{{cpu_info.physical_core_count}}</span></td>
                         </tr>
                         <tr>
-                            <th>{{'cpu.Logical_processors'| translate}}</th>
-                            <td>{{cpu_info.logical_core_count}}</td>
-                        </tr>
-                        <!-- <tr>
-                            <th>{{'cpu.Max_frequency'| translate}}</th>
-                            <td>{{cpu_info.name}} MHz</td>
-                        </tr> -->
-                    </table>
-                    <table class="mx-1">
-                        <tr>
-                            <th>Frequency</th>
-                            <td>{{this.sys_state_info.frequency}}</td>
+                            <th><span>{{'cpu.Logical_processors'| translate}}</span></th>
+                            <td><span>{{cpu_info.logical_core_count}}</span></td>
                         </tr>
                         <tr>
-                            <th>Running processes</th>
-                            <td>{{sys_state_info.running_processes}}</td>
+                            <th><span>Frequency</span></th>
+                            <td><span>{{this.sys_state_info.frequency}} MHz</span></td>
                         </tr>
-                        <tr>
-                            <th>Uptime</th>
-                            <td>{{this.format_uptime(this.sys_state_info.uptime)}}</td>
-                        </tr>
-                        <tr>
-                            <th>Average load (1 min)</th>
-                            <td>{{sys_state_info.avg_load_one}}</td>
-                        </tr>
-                        <!-- <tr>
-                            <th>{{'cpu.Max_frequency'| translate}}</th>
-                            <td>{{cpu_info.name}} MHz</td>
-                        </tr> -->
                     </table>
                 </div>
-                <!-- <div class="d-flex mt-2">
-                    <div  class="d-flex flex-column align-items-center mx-2 px-2 py-2 card">
-                        <span class="value-span">{{cpu_info.physical_core_count}}</span>
-                        <span class="">{{'cpu.Cores'| translate}}</span>
-                    </div>
-                    <div  class="d-flex flex-column align-items-center mx-2 px-2 py-2 card">
-                        <span class="value-span">{{cpu_info.logical_core_count}}</span>
-                        <span class="">{{'cpu.Logical_processors'| translate}}</span>
-                    </div>
-                </div> -->
+                <div class="mt-3">
+                    <h5>System information</h5>
+                    <table class="mx-1" style="font-size: 0.9rem;">
+                        <tr>
+                            <th><span>Running processes</span></th>
+                            <td><span>{{sys_state_info.running_processes}}</span></td>
+                        </tr>
+                        <tr>
+                            <th><span>Up time</span></th>
+                            <td><span>{{this.format_uptime(this.sys_state_info.uptime)}}</span></td>
+                        </tr>
+                        <tr>
+                            <th><span>Average load (1 min)</span></th>
+                            <td><span>{{sys_state_info.avg_load_one}} %</span></td>
+                        </tr>
+                        <tr>
+                            <th><span>Boot time</span></th>
+                            <td><span>{{this.format_boot_time(sys_state_info.boot_time)}}</span></td>
+                        </tr>
+                        <tr>
+                            <th><span>OS version</span></th>
+                            <td><span>{{sys_state_info.distribution_id}} {{sys_state_info.os_version}}</span></td>
+                        </tr>
+                    </table>
+                </div>
+                    
+                    
             </div>
     </div>
 </div>
