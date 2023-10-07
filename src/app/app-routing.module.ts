@@ -14,7 +14,7 @@ const routes: Routes = [
     {path: 'disks', component: DisksComponent},
     {path: 'processes', component: ProcessesComponent},
   ]},
-  {path: 'disk/:index/:mount_point', component: DiskComponent},
+  {path: 'disk/:index', component: DiskComponent},
   {path: '', redirectTo: 'page/cpu', pathMatch: 'full'}
 ];
 
