@@ -29,17 +29,11 @@ export class DisksComponent {
   get_cpu_information(): void {
     invoke<DiskInfo[]>("get_system_disks_information", {}).then((res) => {
       this.disks = res;
-      console.log(this.disks)
       for(let index = 0; index < this.disks.length; index++){
         localStorage.setItem(`disk-${index}`, JSON.stringify(this.disks[index]));
       }
     });
-    //console.log(this.disks)
-    /* invoke<any>("get_filetree_from_path", {path: "/home/daniel/Desktop/Cfiles", maxDepth: 5}).then((res)=>{
-      let file_tree = res as FileTree;
-      console.log(file_tree);
-    }) */
-    
+
   }
 
   public format_disk_space(bytes: number): string{

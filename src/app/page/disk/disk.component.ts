@@ -20,7 +20,6 @@ export class DiskComponent {
   ){}
 
   ngOnInit(){
-    console.log(this.mount_point);
     let disk: DiskInfo = JSON.parse(localStorage.getItem(`disk-${this.disk_index}`) as string);
     this.mount_point = disk.mount_point;
   }

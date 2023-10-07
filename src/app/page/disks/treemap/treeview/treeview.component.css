@@ -1,5 +1,5 @@
 .option-icon{
-    display: none;
+    visibility: hidden;
     margin-left: 0.5rem;
 }
 .option-icon:hover{
@@ -11,10 +11,8 @@
     cursor: pointer;
 }
 
-.hover-show-option-icons:hover{
-    .option-icon{
-        display: block;
-    }
+.hover-show-option-icons:hover .option-icon{
+    visibility: visible;
 }
 
 ul{

@@ -64,7 +64,6 @@ export class AppComponent {
         this.dark_mode = false;
       }
       this.unlisten = await appWindow.onThemeChanged(({ payload: theme }) => {
-        console.log("theme changed");
         this.color_mode = theme;
         this.update_color_mode();
       });
@@ -102,7 +101,6 @@ export class AppComponent {
     invoke<string>("get_app_session_id", {}).then((resp) => {
       AppComponent.app_session_id = resp;
       this.app_id_ready = true;
-      console.log(AppComponent.app_session_id)
     });
   }
 
