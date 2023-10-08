@@ -2,3 +2,7 @@
     color: rgb(230, 149, 1);
     cursor: pointer;
 }
+
+td{
+    padding-left: 1rem;
+}

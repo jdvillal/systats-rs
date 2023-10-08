@@ -17,7 +17,7 @@
     flex-direction: column; 
 }
 
-@media screen and (min-width: calc(1500px + 11rem)) {
+@media screen and (min-width: calc(1500px + 13rem)) {
     .disk-info-card{
         max-width: calc(750px - 4rem);
         overflow-x: auto;

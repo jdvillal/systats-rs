@@ -10,7 +10,7 @@
     "pages": {
         "cpu": "CPU",
         "memory": "MEMORIA",
-        "disks": "DISCOS",
+        "storage": "ALMACENAMIENTO",
         "processes": "PROCESOS"
     },
     "cpu":{
@@ -69,7 +69,7 @@
         }
     },
     "Disks": {
-        "Disks": "Discos",
+        "Storage": "Almacenamiento",
         "Disk": "Disco",
         "used_of": "usado de",
         "Mount_point": "Punto de montaje",

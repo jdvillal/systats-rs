@@ -33,7 +33,6 @@ export class DisksComponent {
         localStorage.setItem(`disk-${index}`, JSON.stringify(this.disks[index]));
       }
     });
-
   }
 
   public format_disk_space(bytes: number): string{
@@ -56,5 +55,6 @@ export class DisksComponent {
   open_disk_info(index: number, mount_point: string){
     this.router.navigate([`disk/${index}`])
   }
+
 
 }

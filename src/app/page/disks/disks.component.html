@@ -1,13 +1,10 @@
 <div class="page-container" >
-    <h1>{{'Disks.Disks'|translate}}</h1>
+    <h1>{{'Disks.Storage'|translate}}</h1>
 
     <div class="d-flex responsv-flex">
         <div *ngFor="let disk of disks; let i = index" class="card my-2 mx-2 px-2 py-3 disk-info-card hover-pointer"
             (click)="open_disk_info(i, disk.mount_point)">
             <div class="d-flex flex-row align-items-center">
-                <!-- <app-treemap
-                    [path]="disk.mount_point"
-                ></app-treemap> -->
 
                 <app-disk-chart [disk_info]="disk"></app-disk-chart>
 

@@ -11,7 +11,10 @@
     padding-left: 1rem;
 }
 th{
-    padding-right: 2rem !important;
+    padding-right: 1rem !important;
+}
+td{
+    padding-right: 1rem;
 }
 .value-span{
     font-size: 1.5rem;
