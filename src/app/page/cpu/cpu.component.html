@@ -48,7 +48,7 @@
     <div class="card px-3">
             <div class="d-flex flex-row flex-wrap  mb-2">
                 <div class="mt-3">
-                    <h5>Processor details</h5>
+                    <h5>{{'cpu.Processor_details'| translate}}</h5>
                     <table class="mx-1" style="font-size: 0.9rem;">
                         <tr>
                             <th><span>{{'cpu.Brand'| translate}}</span></th>
@@ -67,32 +67,32 @@
                             <td><span>{{cpu_info.logical_core_count}}</span></td>
                         </tr>
                         <tr>
-                            <th><span>Frequency</span></th>
+                            <th><span>{{'cpu.Frequency'| translate}}</span></th>
                             <td><span>{{this.sys_state_info.frequency}} MHz</span></td>
                         </tr>
                     </table>
                 </div>
                 <div class="mt-3">
-                    <h5>System information</h5>
+                    <h5>{{'cpu.System_information'| translate}}</h5>
                     <table class="mx-1" style="font-size: 0.9rem;">
                         <tr>
-                            <th><span>Running processes</span></th>
+                            <th><span>{{'cpu.Running_processes'| translate}}</span></th>
                             <td><span>{{sys_state_info.running_processes}}</span></td>
                         </tr>
                         <tr>
-                            <th><span>Up time</span></th>
+                            <th><span>{{'cpu.Up_time'| translate}}</span></th>
                             <td><span>{{this.format_uptime(this.sys_state_info.uptime)}}</span></td>
                         </tr>
                         <tr>
-                            <th><span>Average load (1 min)</span></th>
+                            <th><span>{{'cpu.AVG_load_1min'| translate}}</span></th>
                             <td><span>{{sys_state_info.avg_load_one}} %</span></td>
                         </tr>
                         <tr>
-                            <th><span>Boot time</span></th>
+                            <th><span>{{'cpu.Boot_time'| translate}}</span></th>
                             <td><span>{{this.format_boot_time(sys_state_info.boot_time)}}</span></td>
                         </tr>
                         <tr>
-                            <th><span>OS version</span></th>
+                            <th><span>{{'cpu.OS_version'| translate}}</span></th>
                             <td><span>{{sys_state_info.distribution_id}} {{sys_state_info.os_version}}</span></td>
                         </tr>
                     </table>

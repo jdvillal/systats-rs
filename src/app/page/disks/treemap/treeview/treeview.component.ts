@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, WritableSignal } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { FileTree, Rectangle } from 'src/app/types/disk-types';
 
 @Component({
@@ -7,7 +8,7 @@ import { FileTree, Rectangle } from 'src/app/types/disk-types';
   templateUrl: './treeview.component.html',
   styleUrls: ['./treeview.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, TranslateModule]
 })
 export class TreeviewComponent {
   @Input() filetree!: FileTree;

@@ -23,7 +23,15 @@
         "Utilization_over_60_seconds": "Utilización durante 60 segundos",
         "Current_utilization": "Utilización actual",
         "Current": "Actual",
-        "Last_minute": "Último minuto"
+        "Last_minute": "Último minuto",
+        "Processor_details": "Detalles del procesador",
+        "Frequency": "Frecuencia",
+        "System_information": "Información del sistema",
+        "Running_processes": "Procesos en ejecución",
+        "Up_time": "Tiempo encendido",
+        "AVG_load_1min": "Carga promedio (1 min)",
+        "Boot_time": "Tiempo de arranque",
+        "OS_version": "Version del SO"
     },
     "current_multicore_usage":{
         "appearance_setting": {
@@ -77,6 +85,30 @@
         "Type": "Tipo",
         "Removable": "Removible",
         "Not_removable": "No removible"
+    },
+    "Disk":{
+        "Disk": "Disco",
+        "Back": "Volver",
+        "Information": "Información",
+        "Total_space": "Espacio total",
+        "Available_space": "Espacio libre",
+        "Used_space": "Espacio usado",
+        "Mount_point": "Punto de montaje",
+        "File_system": "Sistema de archivos",
+        "Type": "Tipo",
+        "Removable": "Removible",
+        "removable_yes": "Sí",
+        "removable_no": "No",
+        "available": "disponible",
+        "used": "usado",
+        "Usage": "Uso",
+        "Used_space_composition": "Composición del espacio usado"
+    },
+    "treemap":{
+        "treeview": {
+            "Copy_path": "Copiar ruta",
+            "Highlight_in_treemap": "Resaltar en el treemap"
+        }
     },
     "Processes":{
         "Processes": "Procesos",

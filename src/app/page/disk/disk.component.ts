@@ -3,12 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 import { TreemapComponent } from '../disks/treemap/treemap.component';
 import { DiskInfo } from 'src/app/types/disk-types';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
     selector: 'app-disk',
     templateUrl: './disk.component.html',
     styleUrls: ['./disk.component.css'],
     standalone: true,
-    imports: [CommonModule, TreemapComponent]
+    imports: [CommonModule, TreemapComponent, TranslateModule]
 })
 export class DiskComponent {
   public disk_index = this.route.snapshot.paramMap.get("index");
