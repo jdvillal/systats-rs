@@ -48,4 +48,4 @@ Please consider this as a proof of concept. This is not a production ready softw
 
 If you find a bug, please report it opening a new issue.
 
-Also, ideas for new features and contrinutions are welcome.
+Also, ideas for new features and contributions are welcome.
