@@ -5,8 +5,10 @@ use std::{
     thread,
 };
 
+use serde::Serialize;
 use sysinfo::{ProcessExt, System, SystemExt};
 
+#[derive(Clone, Serialize)]
 pub struct ProcessHistory {
     cpu_usage: Vec<f32>,
     mem_usage: Vec<u64>,
@@ -27,13 +29,16 @@ impl ProcessHistory {
 
 pub fn start_processes_monitor(recorded_processes: Arc<RwLock<HashMap<usize, ProcessHistory>>>) {
     thread::spawn(move || {
-        use rayon::prelude::*;
+        //use rayon::prelude::*;
         let mut sys = System::new_all();
         loop {
             sys.refresh_processes();
-            let processes = sys.processes().par_iter();
-            _ = processes.map(|(pid, process)| {
-                let key: usize = (*pid).into();
+
+            //println!("{}", sys.processes().len());
+            let processes = sys.processes();
+            for (key, process) in processes{
+                let key: usize = (*key).into();
+                
                 let is_new = {
                     let p = recorded_processes.read().unwrap();
                     let p = p.deref();
@@ -43,6 +48,7 @@ pub fn start_processes_monitor(recorded_processes: Arc<RwLock<HashMap<usize, Pro
                         false
                     }
                 };
+
                 if is_new {
                     let mut new_proc_hist = ProcessHistory::new();
                     new_proc_hist.cpu_usage.push(process.cpu_usage());
@@ -63,7 +69,7 @@ pub fn start_processes_monitor(recorded_processes: Arc<RwLock<HashMap<usize, Pro
                     process_hist.disk_usage_read.push(process.disk_usage().read_bytes);
                     process_hist.disk_usage_write.push(process.disk_usage().written_bytes);
                 }
-            });
+            }
             std::thread::sleep(std::time::Duration::from_millis(500));
         }
     });

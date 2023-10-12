@@ -1,8 +1,11 @@
-use std::{net::TcpStream, collections::HashMap};
+use std::{net::TcpStream, collections::HashMap, sync::{RwLock, Arc}, ops::Deref, time::Duration};
 
 use serde::{Serialize, Deserialize};
+use serde_json::json;
 use sysinfo::{System, SystemExt, ProcessExt, Process, Pid};
 use tungstenite::WebSocket;
+
+use crate::monitors::process::ProcessHistory;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ProcessInformation{
@@ -19,7 +22,7 @@ pub struct ProcessInformation{
     pub children_processes: Vec<ProcessInformation>
 }
 
-pub fn return_process_information(processes: &HashMap<Pid, Process>, key: &Pid, cpus_count: usize) -> ProcessInformation{
+fn return_process_information(processes: &HashMap<Pid, Process>, key: &Pid, cpus_count: usize) -> ProcessInformation{
     let process = ProcessInformation{
         pid: processes.get(key).unwrap().pid().into(),
         parent_pid: match processes.get(key).unwrap().parent(){
@@ -90,4 +93,54 @@ pub fn handle_current_processes_websocket(
         //TODO: break loop when socket connection ends
         std::thread::sleep(std::time::Duration::from_millis(500));
     }
+}
+
+
+pub fn handle_process_resource_usage_websocket(
+    mut websocket: WebSocket<TcpStream>,
+    recorded_processes: Arc<RwLock<HashMap<usize, ProcessHistory>>>
+) {
+    //the second received msg should be the pid of the process
+    let msg: String = websocket.read().unwrap().to_string();
+    println!("process_id = {}", &msg.to_string());
+    //try parsing the pid
+    let try_key: Result<usize, _> = msg.parse();
+    let key = match try_key{
+        Ok(k) => k,
+        Err(_) => {
+            //if not a valid pid connection is closed
+            println!("NOT VALID PID");
+            _ = websocket.close(None);
+            return;
+        }
+    };
+
+    loop{
+        let process_hist: ProcessHistory = {
+            let r = recorded_processes.read().unwrap();
+            let data = r.deref();
+            //println!("{:?}", data.keys());
+            let try_process_info = data.get(&key);
+            match try_process_info{
+                Some(p) => {
+                    let p = p.deref().clone();
+                    p
+                },
+                None => {
+                    println!("NOT FOUND");
+                    break;
+                }
+            }
+        };
+    
+        let msg = json!(process_hist);
+        let msg = serde_json::to_string(&msg).unwrap();
+        match websocket.send(msg.into()){
+            Ok(_) => (),
+            Err(_) => break
+        }
+        std::thread::sleep(Duration::from_millis(500));
+    }
+    println!("Closing websocket");
+    _ = websocket.close(None);
 }
