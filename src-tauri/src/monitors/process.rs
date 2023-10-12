@@ -18,28 +18,35 @@ pub struct ProcessHistory {
 
 impl ProcessHistory {
     pub fn new() -> Self {
-        ProcessHistory {
+        let mut ph = ProcessHistory {
             cpu_usage: Vec::with_capacity(120),
             mem_usage: Vec::with_capacity(120),
             disk_read_usage: Vec::with_capacity(120),
             disk_write_usage: Vec::with_capacity(120),
+        };
+        for _ in 0..120{
+            ph.cpu_usage.push(0.0);
+            ph.mem_usage.push(0);
+            ph.disk_read_usage.push(0);
+            ph.disk_write_usage.push(0);
         }
+        ph
     }
     pub fn push_cpu_usage(&mut self, value: f32){
         self.cpu_usage.rotate_left(1);
-        self.cpu_usage.push(value);
+        self.cpu_usage[119] = value;
     }
     pub fn push_memory_usage(&mut self, value: u64){
         self.mem_usage.rotate_left(1);
-        self.mem_usage.push(value);
+        self.mem_usage[119] = value;
     }
     pub fn push_disk_read_usage(&mut self, value: u64){
         self.disk_read_usage.rotate_left(1);
-        self.disk_read_usage.push(value);
+        self.disk_read_usage[119] = value;
     }
     pub fn push_disk_write_usage(&mut self, value: u64){
         self.disk_write_usage.rotate_left(1);
-        self.disk_write_usage.push(value);
+        self.disk_write_usage[119] = value;
     }
 }
 
