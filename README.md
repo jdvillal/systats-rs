@@ -1,27 +1,51 @@
-# SystatsRs
+# Systats-rs
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
+Cross platform resource monitor.
 
-## Development server
+![Screenshot from 2023-10-10 08-08-01](https://github.com/jdvillal/systats-rs/assets/57422146/923caec8-794b-4261-9e30-71538e6c2984)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Dark mode is also supported.
 
-## Code scaffolding
+![Screenshot from 2023-10-10 08-09-03](https://github.com/jdvillal/systats-rs/assets/57422146/69bf7a0c-1f94-49c1-b149-eeeb0703ca9b)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Systats-rs allows you to visualize the utilization of your computer resources the same way in different platforms.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+##
+Currently, with systats-rs you can monitor:
+*  CPU usage
+*  Memory usage
+*  Storage usage
+*  Runnig processes
 
-## Running unit tests
+Individual process and GPU monitoring are not supported yet, but are on the way.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+I'm also working on a mobile version. 
 
-## Running end-to-end tests
+## Developed with Tauri
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+NodeJS and Rust-Cargo are required for building.
+
+Install dependencies with
+```
+npm install
+```
+Then you can start the app in developing mode with
+```
+npm run tauri dev
+```
+Or build in release mode with
+```
+npm run tauri build
+```
+
+On linux, you might need to install other dependencies. Check https://tauri.app/v1/guides/getting-started/prerequisites#setting-up-linux for more information.
+
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Please consider this as a proof of concept. This is not a production ready software and there a lot of things that can be improved, so use it at your own risk.
+
+If you find a bug, please report it opening a new issue.
+
+Also, ideas for new features and contributions are welcome.
