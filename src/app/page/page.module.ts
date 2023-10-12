@@ -8,9 +8,12 @@ import { NgChartsModule } from 'ng2-charts';
 import { TreemapComponent } from './disks/treemap/treemap.component';
 import { DiskComponent } from './disk/disk.component';
 import { TreeviewComponent } from './disks/treemap/treeview/treeview.component';
+import { ProcessComponent } from './process/process.component';
 
 @NgModule({
     declarations: [
+  
+    ProcessComponent
   ],
     exports: [RouterModule],
     imports: [

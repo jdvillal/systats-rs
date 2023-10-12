@@ -6,6 +6,7 @@ import { MemoryComponent } from './page/memory/memory.component';
 import { ProcessesComponent } from './page/processes/processes.component';
 import { DisksComponent } from './page/disks/disks.component';
 import { DiskComponent } from './page/disk/disk.component';
+import { ProcessComponent } from './page/process/process.component';
 
 const routes: Routes = [
   {path: 'page', component: PageComponent, children:[
@@ -15,6 +16,7 @@ const routes: Routes = [
     {path: 'processes', component: ProcessesComponent},
   ]},
   {path: 'disk/:index', component: DiskComponent},
+  {path: 'process/:pid', component: ProcessComponent},
   {path: '', redirectTo: 'page/cpu', pathMatch: 'full'}
 ];
 

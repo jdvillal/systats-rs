@@ -126,6 +126,6 @@ export class ProcessesComponent {
   }
 
   show_process_details(pid: number){
-    this.router.navigate([`pages/process/${pid}`]);
+    this.router.navigate([`process/${pid}`]);
   }
 }

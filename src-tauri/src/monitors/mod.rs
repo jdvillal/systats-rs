@@ -7,6 +7,7 @@ use self::{cpu::start_cpu_monitor, memory::start_memory_monitor};
 
 pub mod cpu;
 pub mod memory;
+pub mod process;
 
 enum MonitoringRequestType{
     CpuCurrentSingleCoreUsage,
