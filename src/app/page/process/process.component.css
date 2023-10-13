@@ -1,26 +1,55 @@
-.back-btn:hover{
+.back-btn:hover {
     color: rgb(230, 149, 1);
     cursor: pointer;
 }
-.overflow-x-scroll{
-    overflow-x: scroll;
+
+.overflow-x-scroll {
+    overflow-x: auto;
 }
-.overflow-y-scroll{
-    overflow-y: scroll;
+
+.overflow-y-scroll {
+    overflow-y: auto;
 }
-#children-div{
+
+#children-div {
     max-height: 9rem;
     min-height: 9rem;
     background-color: rgba(80, 80, 80, 0.13);
+    overflow-y: scroll;
 }
 
-.tiny-font{
+.tiny-font {
     font-size: 0.9rem;
 }
-.pright-1{
+
+.pright-1 {
     padding-right: 0.5rem;
 }
-.child-tr:hover{
+
+.child-tr:hover {
     background-color: rgba(119, 119, 119, 0.226);
     cursor: pointer;
+}
+
+.inline {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* scrollbar width */
+.custom-scrollbar-css::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+/* scrollbar track */
+.custom-scrollbar-css::-webkit-scrollbar-track {
+    background: #e7e7e73a;
+}
+
+/* scrollbar handle */
+.custom-scrollbar-css::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: #00d2ff;
+    background-image: linear-gradient(to top, #a0a0a0 0%, #b4b4b4 100%);
 }

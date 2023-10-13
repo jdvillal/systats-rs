@@ -11,7 +11,7 @@ import { ProcessPreferencesService } from 'src/app/services/process-preferences.
   templateUrl: './process-disk-usage.component.html',
   styleUrls: ['./process-disk-usage.component.css'],
   standalone: true,
-  imports: [CommonModule, NgChartsModule, ColorPickerModule]
+  imports: [CommonModule,ColorPickerModule, NgChartsModule, ]
 })
 export class ProcessDiskUsageComponent {
   private onDataUpdateEventSubscription!: Subscription;
@@ -72,10 +72,10 @@ export class ProcessDiskUsageComponent {
   }
 
   /*********************chart appearance settings ************** */
-
-  public demo_read_lines_color = this.preferences.disk_usage_chart.read_line_chart_color;
-  public demo_write_lines_color = this.preferences.disk_usage_chart.write_line_chart_color;
-  public demo_background_color = this.preferences.disk_usage_chart.background_color;
+  demo: string = '#000000'
+  public demo_read_lines_color: string = this.preferences.disk_usage_chart.read_line_chart_color;
+  public demo_write_lines_color: string = this.preferences.disk_usage_chart.write_line_chart_color;
+  public demo_background_color: string = this.preferences.disk_usage_chart.background_color;
 
   reset_settings(){
     this.demo_read_lines_color = this.preferences.disk_usage_chart.read_line_chart_color;
@@ -89,5 +89,4 @@ export class ProcessDiskUsageComponent {
     this.preferences.disk_usage_chart.background_color = this.demo_background_color;
     this.process_preferences.save();
   }
-
 }
