@@ -1,6 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
 import { ProcessHistory, ProcessInformation } from 'src/app/types/process';
@@ -37,7 +37,8 @@ export class ProcessComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private router: Router
   ){}
 
   ngOnInit(){
@@ -81,6 +82,13 @@ export class ProcessComponent {
 
   public go_back(){
     this.location.back();
+  }
+
+  //TODO: Fixme, this is changing the param but not reloading the page
+  public go_to_process(pid: number){
+    /* this.router.navigate([`process/${pid}`])
+    window.location.reload(); */
+    //this.location.go(`process/${pid}`);
   }
 
 }

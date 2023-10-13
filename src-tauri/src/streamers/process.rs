@@ -62,7 +62,8 @@ fn return_process_information(processes: &HashMap<Pid, Process>, key: &Pid, cpus
     let mut children: Vec<ChildProcessInformation> = Vec::new();
     for (child_pid, child_process) in processes{
         if child_process.parent().is_some(){
-            if child_process.parent().unwrap() == *child_pid{
+            let parent_pid: usize = child_process.parent().unwrap().into();
+            if parent_pid == process.pid{
                 let child_info = ChildProcessInformation{
                     pid: (*child_pid).into(),
                     name: child_process.name().into()

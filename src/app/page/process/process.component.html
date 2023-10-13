@@ -1,4 +1,4 @@
-<div class="page-container">
+<div class="page-container" style="min-height: 100%; max-height: 100%; min-width: 100%; overflow-y: scroll;">
     <div class="d-flex align-items-center mb-2">
         <div class="back-btn" title="Back" (click)="go_back()">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
@@ -12,37 +12,55 @@
             </h2>
         </div>
     </div>
-    <div class="d-flex flex-column" *ngIf="this.process_info">
-        <table>
-            <tr>
-                <th>pid</th>
-                <td>{{this.process_info.pid}}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{this.process_info.name}}</td>
-            </tr>
-            <tr>
-                <th>Executable path</th>
-                <td>{{this.process_info.executable_path}}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{this.process_info.status}}</td>
-            </tr>
-            <tr>
-                <th>Parent pid</th>
-                <td>{{this.process_info.parent_pid}}</td>
-            </tr>
-            <tr>
-                <th>Parent name</th>
-                <td>{{this.process_info.parent_name}}</td>
-            </tr>
-            
-        </table>
+    <div class="d-flex" *ngIf="this.process_info">
+        <div style="min-width: 50%;">
+            <h5>Information</h5>
+            <table class="tiny-font">
+                <tr>
+                    <th class="pright-1">pid</th>
+                    <td>{{this.process_info.pid}}</td>
+                </tr>
+                <tr>
+                    <th class="pright-1">Name</th>
+                    <td>{{this.process_info.name}}</td>
+                </tr>
+                <tr>
+                    <th class="pright-1">Executable path</th>
+                    <td>{{this.process_info.executable_path}}</td>
+                </tr>
+                <tr>
+                    <th class="pright-1">Status</th>
+                    <td>{{this.process_info.status}}</td>
+                </tr>
+                <tr>
+                    <th class="pright-1">Parent pid</th>
+                    <td>{{this.process_info.parent_pid}}</td>
+                </tr>
+                <tr>
+                    <th class="pright-1">Parent name</th>
+                    <td>{{this.process_info.parent_name}}</td>
+                </tr>
+                
+            </table>
+        </div>
+        <div style="min-width: 50%;">
+            <h5>Children</h5>
+            <div id="children-div" class="overflow-y-scroll overflow-x-scroll px-2 py-1">
+                <span *ngIf="this.process_info.children_processes.length == 0">
+                    This process has no child
+                </span>
+                <table class="children-table tiny-font">
+                    <tr *ngFor="let child of this.process_info.children_processes" class="child-tr" (click)="go_to_process(child.pid)">
+                        <td class="pright-1">({{child.pid}})</td>
+                        <td>{{child.name}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
     </div>
     <div *ngIf="this.process_history" class="d-flex flex-column">
-        <app-process-cpu-usage
+        <app-process-cpu-usage class="mt-2"
             [data]="this.process_history.cpu_usage"
             [data_update_observable]="data_update_subject.asObservable()"
         ></app-process-cpu-usage>

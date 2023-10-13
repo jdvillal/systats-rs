@@ -27,3 +27,24 @@ export interface ProcessHistory{
     disk_read_usage: number[],
     disk_write_usage: number[],
 }
+
+export interface ProcessPreferences{
+    version: number,
+    cpu_usage_chart:{
+        process_lines_color: string,
+        total_lines_color: string,
+        background_color: string,
+        show_total: boolean
+    },
+    memory_usage_chart:{
+        process_lines_color: string,
+        total_lines_color: string,
+        background_color: string,
+        show_total: boolean
+    },
+    disk_usage_chart:{
+        read_line_chart_color: string,
+        write_line_chart_color: string
+        background_color: string,
+    }
+}

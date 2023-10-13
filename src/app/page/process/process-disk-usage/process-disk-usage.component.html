@@ -1,7 +1,67 @@
-<span class="title">Disk usage</span>
-<canvas baseChart style="min-height: 15vh; max-height:15vh; min-width: 100%; max-width: 100%"
-      [type]="'line'"
-      [data]="lineChartData"
-      [options]="lineChartOptions"
-      [legend]="lineChartLegend">
-    </canvas>
+<div [style.background-color]="this.preferences.disk_usage_chart.background_color" class="px-1 py-1">
+  <div class="d-flex flex-row justify-content-between">
+    <div class="mx-1">
+        <span class="title">CPU usage</span>
+        <span class="title">&nbsp;&nbsp;%</span>
+    </div>
+    <div class="btn-icon" data-bs-toggle="modal" data-bs-target="#process-disk-usage-setting-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+            class="bi bi-sliders2 settings-icon" viewBox="0 0 15 15">
+            <path fill-rule="evenodd"
+                d="M10.5 1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4H1.5a.5.5 0 0 1 0-1H10V1.5a.5.5 0 0 1 .5-.5ZM12 3.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Zm-6.5 2A.5.5 0 0 1 6 6v1.5h8.5a.5.5 0 0 1 0 1H6V10a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM1 8a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2A.5.5 0 0 1 1 8Zm9.5 2a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V13H1.5a.5.5 0 0 1 0-1H10v-1.5a.5.5 0 0 1 .5-.5Zm1.5 2.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5Z" />
+        </svg>
+    </div>
+
+  </div>
+  <canvas baseChart style="min-height: 15vh; max-height:15vh; min-width: 100%; max-width: 100%" [type]="'line'"
+    [data]="lineChartData" [options]="lineChartOptions" [legend]="lineChartLegend">
+  </canvas>
+</div>
+
+
+
+<div class="modal fade" id="process-disk-usage-setting-modal" tabindex="-1" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fs-5" id="exampleModalLabel">
+          Disk usage chart settings
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="d-flex align-items-center mt-1">
+          <input #line_color_picker id="line_color_input" class="form-control-sm color-input"
+            [(colorPicker)]="this.demo_read_lines_color" [style.background]="demo_read_lines_color" />
+          <label for="line_color_input">
+            Read
+          </label>
+        </div>
+
+        <div class="d-flex align-items-center mt-1">
+          <input #line_color_picker id="line_color_input" class="form-control-sm color-input"
+            [(colorPicker)]="this.demo_write_lines_color" [style.background]="demo_write_lines_color" />
+          <label for="line_color_input">
+            Write
+          </label>
+        </div>
+
+        <div class="d-flex align-items-center mt-1">
+          <input #line_color_picker id="line_color_input" class="form-control-sm color-input"
+            [(colorPicker)]="this.demo_background_color" [style.background]="demo_background_color" />
+          <label for="line_color_input">
+            Background
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal" (click)="reset_settings()">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal" (click)="apply_settings()">
+          Apply
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
