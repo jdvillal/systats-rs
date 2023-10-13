@@ -32,22 +32,22 @@
             </div>
             <div class="modal-body">
                 <div class="d-flex align-items-center mt-1">
-
-                    <input #line_color_picker id="line_color_input" class="form-control-sm color-input"
+                    <input id="line_color_input" class="form-control-sm color-input"
                         [(colorPicker)]="demo_process_lines_color" [style.background]="demo_process_lines_color" />
                     <label for="line_color_input">
                         Process
                     </label>
                 </div>
-                <div class="d-flex align-items-center mt-1">
 
-                    <input #line_color_picker id="line_color_input" class="form-control-sm color-input"
+                <div class="d-flex align-items-center mt-1">
+                    <input id="background_color_input" class="form-control-sm color-input"
                         [(colorPicker)]="demo_background_color" [style.background]="demo_background_color" />
-                    <label for="line_color_input">
+                    <label for="background_color_input">
                         Background
                     </label>
                 </div>
             </div>
+            
             <div class="modal-footer">
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal" (click)="reset_settings()">
                     Cancel
