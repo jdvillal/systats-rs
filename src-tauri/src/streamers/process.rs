@@ -155,6 +155,7 @@ pub fn handle_process_information_websocket(
         }else{
             break;
         }
+        std::thread::sleep(std::time::Duration::from_millis(500));
     }
     _ = websocket.close(None);
 }
