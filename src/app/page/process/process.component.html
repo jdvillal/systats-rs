@@ -1,1 +1,18 @@
-<p>Process {{this.pid}}</p>
+<div class="page-container">
+    <p>Process {{this.pid}}</p>
+    <div *ngIf="this.process_history" class="d-flex flex-column">
+        <app-process-cpu-usage
+            [data]="this.process_history.cpu_usage"
+            [data_update_observable]="data_update_subject.asObservable()"
+        ></app-process-cpu-usage>
+        <app-process-memory-usage
+            [total_mem]="this.total_memory"
+            [data]="this.process_history.mem_usage"
+            [data_update_observable]="data_update_subject.asObservable()"
+        ></app-process-memory-usage>
+        <app-process-disk-usage
+            [data]="this.process_history.disk_read_usage"
+            [data_update_observable]="this.data_update_subject.asObservable()"
+        ></app-process-disk-usage>
+    </div>
+</div>

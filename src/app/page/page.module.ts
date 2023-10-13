@@ -2,18 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PageRoutingModule } from './page-routing.module';
-import { ProcessesComponent } from './processes/processes.component';
 import { CurrentMulticoreUsageComponent } from './cpu/current-multicore-usage/current-multicore-usage.component';
 import { NgChartsModule } from 'ng2-charts';
-import { TreemapComponent } from './disks/treemap/treemap.component';
-import { DiskComponent } from './disk/disk.component';
-import { TreeviewComponent } from './disks/treemap/treeview/treeview.component';
-import { ProcessComponent } from './process/process.component';
+import { ProcessDiskUsageComponent } from './process/process-disk-usage/process-disk-usage.component';
 
 @NgModule({
     declarations: [
   
-    ProcessComponent
+    ProcessDiskUsageComponent
   ],
     exports: [RouterModule],
     imports: [

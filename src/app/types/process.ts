@@ -13,3 +13,10 @@ export interface ProcessInformation{
 }
 
 export type ProcessesOrderBy =  'process_name' | 'pid' | 'parent_pid' | 'cpu_usage' | 'memory_usage';
+
+export interface ProcessHistory{
+    cpu_usage: number[],
+    mem_usage: number[],
+    disk_read_usage: number[],
+    disk_write_usage: number[],
+}
