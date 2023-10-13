@@ -45,7 +45,6 @@ export class ProcessCpuUsageComponent {
       plugins: { legend: { display: false } }
     };
     this.onDataUpdateEventSubscription = this.data_update_observable.subscribe(() => {
-      console.log(this.data)
       this.update_chart();
     })
   }

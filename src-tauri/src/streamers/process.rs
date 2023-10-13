@@ -11,24 +11,40 @@ use crate::monitors::process::ProcessHistory;
 pub struct ProcessInformation{
     pub pid: usize,
     pub parent_pid: Option<usize>,
+    pub parent_name: Option<String>,
     pub name: String,
     pub executable_path: String,
     pub status: String,
     pub cpu_usage: f32,
     pub memory_usage: u64,
     pub virtual_memory_usage: u64,
-    pub timelapse_cpu_usage: Option<Vec<f32>>,
-    pub timelapse_memory_usage: Option<Vec<u64>>,
-    pub children_processes: Vec<ProcessInformation>
+    pub children_processes: Vec<ChildProcessInformation>
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct ChildProcessInformation{
+    pid: usize,
+    name: String
+}
+
+#[inline]
 fn return_process_information(processes: &HashMap<Pid, Process>, key: &Pid, cpus_count: usize) -> ProcessInformation{
-    let process = ProcessInformation{
+    let mut process = ProcessInformation{
         pid: processes.get(key).unwrap().pid().into(),
         parent_pid: match processes.get(key).unwrap().parent(){
             Some(p) => {
-                let pid: usize = p.into();
-                Some(pid)
+                Some(p.into())
+            },
+            None => None,
+        },
+        parent_name: match processes.get(key).unwrap().parent(){
+            Some(parent_pid) => {
+                let parent_process = processes.get(&parent_pid);
+                if parent_process.is_none(){
+                    None
+                }else{
+                    Some(parent_process.unwrap().name().into())
+                }
             },
             None => None,
         },
@@ -42,9 +58,20 @@ fn return_process_information(processes: &HashMap<Pid, Process>, key: &Pid, cpus
         memory_usage: processes.get(key).unwrap().memory(),
         virtual_memory_usage: processes.get(key).unwrap().virtual_memory(),
         children_processes: Vec::new(),
-        timelapse_cpu_usage: Some(Vec::new()),
-        timelapse_memory_usage: Some(Vec::new()),
     };
+    let mut children: Vec<ChildProcessInformation> = Vec::new();
+    for (child_pid, child_process) in processes{
+        if child_process.parent().is_some(){
+            if child_process.parent().unwrap() == *child_pid{
+                let child_info = ChildProcessInformation{
+                    pid: (*child_pid).into(),
+                    name: child_process.name().into()
+                };
+                children.push(child_info);
+            }
+        }
+    }
+    process.children_processes = children;
     process
 }
 
@@ -93,6 +120,43 @@ pub fn handle_current_processes_websocket(
         //TODO: break loop when socket connection ends
         std::thread::sleep(std::time::Duration::from_millis(500));
     }
+}
+
+
+pub fn handle_process_information_websocket(
+    mut websocket: WebSocket<TcpStream>,
+) {
+    let msg: String = websocket.read().unwrap().to_string();
+    println!("process_id = {}", &msg.to_string());
+    //try parsing the pid
+    let try_key: Result<usize, _> = msg.parse();
+    let key = match try_key{
+        Ok(k) => k,
+        Err(_) => {
+            //if not a valid pid connection is closed
+            println!("NOT VALID PID");
+            _ = websocket.close(None);
+            return;
+        }
+    };
+    let mut sys = System::new_all();
+    sys.refresh_cpu();
+    let cpus_count = sys.cpus().len();
+    loop{
+        let exists = sys.refresh_process(Pid::from(key));
+        if exists{
+            let process_info = return_process_information(sys.processes(), &Pid::from(key), cpus_count);
+            let resp = json!(process_info);
+            let resp = serde_json::to_string(&resp).unwrap();
+            match websocket.send(resp.into()){
+                Ok(_) => (),
+                Err(_) => break,
+            }
+        }else{
+            break;
+        }
+    }
+    _ = websocket.close(None);
 }
 
 

@@ -9,10 +9,11 @@ use std::{
 use serde::Serialize;
 use sysinfo::{ProcessExt, System, SystemExt};
 
-use crate::handlers::cpu;
-
 #[derive(Clone, Serialize)]
 pub struct ProcessHistory {
+    pid: usize,
+    parent_pid: Option<usize>,
+    name: String,
     cpu_usage: Vec<f32>,
     mem_usage: Vec<u64>,
     disk_read_usage: Vec<u64>,
@@ -20,8 +21,11 @@ pub struct ProcessHistory {
 }
 
 impl ProcessHistory {
-    pub fn new() -> Self {
+    pub fn new(pid: usize, parent_pid: Option<usize>, name: String) -> Self {
         let mut ph = ProcessHistory {
+            pid,
+            parent_pid,
+            name,
             cpu_usage: Vec::with_capacity(120),
             mem_usage: Vec::with_capacity(120),
             disk_read_usage: Vec::with_capacity(120),
@@ -79,7 +83,11 @@ pub fn start_processes_monitor(recorded_processes: Arc<RwLock<HashMap<usize, Pro
                 };
 
                 if is_new {
-                    let mut new_proc_hist = ProcessHistory::new();
+                    let parent_pid: Option<usize> = match process.parent(){
+                        Some(pid) => Some(pid.into()),
+                        None => None,
+                    };
+                    let mut new_proc_hist = ProcessHistory::new(process.pid().into(), parent_pid, process.name().into());
                     new_proc_hist.push_cpu_usage(process.cpu_usage() / cpu_count);
                     new_proc_hist.push_memory_usage(process.memory());
                     new_proc_hist.push_disk_read_usage(process.disk_usage().read_bytes);

@@ -19,6 +19,7 @@ enum MonitoringRequestType{
     CurrentRunningProcesses,
     SystemStateInformation,
     ProcessResourcesUsage,
+    ProcessInformation,
     Unknown
 }
 
@@ -42,6 +43,8 @@ impl MonitoringRequestType{
             return Self::SystemStateInformation
         }else if msg == "process_resources_usage"{
             return Self::ProcessResourcesUsage
+        }else if msg == "process_information"{
+            return Self::ProcessInformation
         }
         return Self::Unknown;
     }
@@ -124,6 +127,9 @@ pub fn initialize_monitors(app_session_id: Arc<Uuid>){
                     },
                     MRT::ProcessResourcesUsage =>{
                         streamers::process::handle_process_resource_usage_websocket(websocket, recorded_processes);
+                    }
+                    MRT::ProcessInformation => {
+                        streamers::process::handle_process_information_websocket(websocket);
                     }
                     MRT::Unknown => {
                         println!("Unkown request, closing socket!");
