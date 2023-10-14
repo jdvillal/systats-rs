@@ -128,7 +128,6 @@ pub fn handle_process_information_websocket(
     mut websocket: WebSocket<TcpStream>,
 ) {
     let msg: String = websocket.read().unwrap().to_string();
-    println!("process_id = {}", &msg.to_string());
     //try parsing the pid
     let try_key: Result<usize, _> = msg.parse();
     let key = match try_key{
@@ -151,7 +150,7 @@ pub fn handle_process_information_websocket(
             let resp = serde_json::to_string(&resp).unwrap();
             match websocket.send(resp.into()){
                 Ok(_) => (),
-                Err(_) => break,
+                Err(_e) => break
             }
         }else{
             break;
@@ -168,14 +167,12 @@ pub fn handle_process_resource_usage_websocket(
 ) {
     //the second received msg should be the pid of the process
     let msg: String = websocket.read().unwrap().to_string();
-    println!("process_id = {}", &msg.to_string());
     //try parsing the pid
     let try_key: Result<usize, _> = msg.parse();
     let key = match try_key{
         Ok(k) => k,
         Err(_) => {
             //if not a valid pid connection is closed
-            println!("NOT VALID PID");
             _ = websocket.close(None);
             return;
         }
@@ -207,6 +204,5 @@ pub fn handle_process_resource_usage_websocket(
         }
         std::thread::sleep(Duration::from_millis(500));
     }
-    println!("Closing websocket");
     _ = websocket.close(None);
 }

@@ -44,7 +44,6 @@ export class ProcessCpuUsageComponent {
   ngOnInit() {}
 
   ngAfterViewInit(){
-    console.log(this.preferences);
     this.lineChartOptions = {
       animation: false,
       scales: { x: { display: false }, y: { max: 100 } },

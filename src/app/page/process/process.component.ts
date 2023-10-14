@@ -61,6 +61,10 @@ export class ProcessComponent {
     }
     this.information_socket.onmessage = (event) =>{
       this.process_info = JSON.parse(event.data);
+      console.log(this.process_info)
+    }
+    this.information_socket.onclose = () =>{
+      console.log("CLOSED")
     }
   }
 
@@ -74,9 +78,6 @@ export class ProcessComponent {
     this.resources_socket.onmessage = (event) => {
       this.process_history = JSON.parse(event.data);
       this.data_update_subject.next();
-    }
-    this.resources_socket.onclose = ()=>{
-      console.log("CLOSED")
     }
   }
 

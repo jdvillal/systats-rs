@@ -1,8 +1,8 @@
 <div [style.background-color]="this.preferences.disk_usage_chart.background_color" class="px-1 py-1">
     <div class="d-flex flex-row justify-content-between">
       <div class="mx-1">
-          <span class="title">CPU usage</span>
-          <span class="title">&nbsp;&nbsp;%</span>
+          <span class="title">I/O usage</span>
+          <span class="title">&nbsp;&nbsp;{{format_disk_usage(data[data.length - 1])}}</span>
       </div>
       <div class="btn-icon" data-bs-toggle="modal" data-bs-target="#process-disk-usage-setting-modal">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"

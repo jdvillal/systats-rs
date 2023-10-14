@@ -86,9 +86,16 @@ export class ProcessMemoryUsageComponent {
     this.chart.update();
   }
 
-  get_current_usage(){
-    let usage = this.data[this.data.length - 1];
-    return usage;
+  public format_memory_usage(bytes: number): string{
+    if(bytes < 1024){
+      return `bytes ${bytes}`
+    }else if(bytes >= 1024 && bytes < (1024*1024)){
+      return Math.round((bytes/ (1024)) * 10) / 10 + ' KiB';
+    }else if(bytes >= (1024*1024) && bytes < (1024*1024*1024)){
+      return Math.round((bytes/ (1024 * 1024)) * 10) / 10 + ' MiB'
+    }else{
+      return Math.round((bytes/ (1024 * 1024 * 1024)) * 10) / 10 + ' GiB'
+    }
   }
 
   /****************Appearance settings logic*****************/
