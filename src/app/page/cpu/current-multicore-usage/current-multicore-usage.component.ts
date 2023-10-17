@@ -1,5 +1,5 @@
 import { Component, ViewChild, HostListener, Input, EventEmitter } from '@angular/core';
-import { event } from '@tauri-apps/api';
+import { event, invoke } from '@tauri-apps/api';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription } from 'rxjs';
@@ -7,6 +7,8 @@ import { AppearanceSettingComponent } from './appearance-setting/appearance-sett
 import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from 'src/app/app.component';
+import { listen } from '@tauri-apps/api/event';
+import { CoreBuffer } from 'src/app/types/cpu-types';
 @Component({
   selector: 'app-current-multicore-usage',
   templateUrl: './current-multicore-usage.component.html',
@@ -56,14 +58,22 @@ export class CurrentMulticoreUsageComponent {
     plugins: { legend: { display: false } }
   };
 
+  private unlisten_update_event: any;
   ngOnInit() {
     if(this.core_count){
-      this.onCoreCountReady(this.core_count);
-      return
+      this.barChartData.labels = [];
+      for(let i = 0; i < this.core_count; i++){
+        this.barChartData.labels.push(`CPU ${i + 1}`);
+      }
+      invoke<any>("try_emit_cpu_updates", { }).then(async ()=>{
+        this.unlisten_update_event = await listen('cpu_update', (event) => {
+          this.update_chart(event.payload as CoreBuffer[]);
+        })
+      })
     }
-    this.eventsSubscription = this.core_count_ready_event.subscribe((core_count) => {
+/*     this.eventsSubscription = this.core_count_ready_event.subscribe((core_count) => {
       this.onCoreCountReady(core_count);
-    });
+    }); */
   }
 
   public onCoreCountReady(core_count: number) {
@@ -93,4 +103,16 @@ export class CurrentMulticoreUsageComponent {
       this.socket.close();
     }
   }
+
+  private update_chart(data: CoreBuffer[]){
+    let chart_data: number[] = [];
+    for(let corebuffer of data){
+      let n = corebuffer.buffer[corebuffer.buffer.length - 1];
+      chart_data.push(n);
+    }
+    this.barChartData.datasets[0].data = chart_data;
+    this.barChartData.datasets[0].backgroundColor = this.bars_color;
+    this.chart.update();
+  }
+
 }

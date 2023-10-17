@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppColorMode, OS_type } from './types/app-types';
 import { appWindow } from '@tauri-apps/api/window';
 import { invoke } from '@tauri-apps/api';
+import { emit, listen } from '@tauri-apps/api/event'
 
 @Component({
   selector: 'app-root',
@@ -48,6 +49,27 @@ export class AppComponent {
       this.color_mode = "OS";
     }
     this.update_color_mode();
+
+    /* invoke<any>("emit_cpu_updates", { }).then((response) => {
+      //this.greetingMessage = text;
+      console.log(response)
+    }); */
+    /* invoke<any>("emit_memory_updates", { }).then((response) => {
+      //this.greetingMessage = text;
+      console.log(response)
+    }); */
+
+    /* const unlisten_cpu = await listen('cpu_update', (event) => {
+      // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
+      // event.payload is the payload object
+      console.log("cpu ====>", event.payload)
+    }) */
+
+    /* const unlisten_mem = await listen('mem_update', (event) => {
+      // event.event is the event name (useful if you want to use a single callback fn for multiple event types)
+      // event.payload is the payload object
+      console.log("memory ===>", event.payload)
+    }) */
     
   }
 

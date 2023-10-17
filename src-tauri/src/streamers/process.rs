@@ -186,7 +186,7 @@ pub fn handle_process_resource_usage_websocket(
             let try_process_info = data.get(&key);
             match try_process_info{
                 Some(p) => {
-                    let p = p.deref().clone();
+                    let p = p.clone();
                     p
                 },
                 None => {

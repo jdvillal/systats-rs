@@ -37,11 +37,9 @@
             </div>
             <span class="cpu-brand-span">{{cpu_info.brand}}</span>
         </div>
-        <app-current-multicore-usage *ngIf="current_chart_type=='current'"
-            [core_count_ready_event]="core_count_ready_subject.asObservable()"
+        <app-current-multicore-usage *ngIf="current_chart_type=='current' && this.cpu_info.logical_core_count != 0"
             [core_count]="this.cpu_info.logical_core_count"></app-current-multicore-usage>
-        <app-timelapse-multicore-usage *ngIf="current_chart_type=='timelapse'"
-            [core_count_ready_event]="core_count_ready_subject.asObservable()"
+        <app-timelapse-multicore-usage *ngIf="current_chart_type=='timelapse' && this.cpu_info.logical_core_count != 0"
             [core_count]="this.cpu_info.logical_core_count"></app-timelapse-multicore-usage>
     </div>
     <app-current-singlecore-usage></app-current-singlecore-usage>
