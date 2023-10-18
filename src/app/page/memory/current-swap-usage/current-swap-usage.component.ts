@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, Input, ViewChild } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { invoke } from '@tauri-apps/api';
+import { listen } from '@tauri-apps/api/event';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
-import { Observable, Subscription } from 'rxjs';
-import { AppComponent } from 'src/app/app.component';
-import { MemoryInfo } from 'src/app/types/memory-types';
 
 @Component({
   selector: 'app-current-swap-usage',
@@ -15,8 +14,6 @@ import { MemoryInfo } from 'src/app/types/memory-types';
   imports: [NgChartsModule, CommonModule, TranslateModule]
 })
 export class CurrentSwapUsageComponent {
-  private eventsSubscription!: Subscription;
-  @Input() mem_info_ready_observable!: Observable<MemoryInfo>;
   @Input() total_swap!: number;
 
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
@@ -48,33 +45,25 @@ export class CurrentSwapUsageComponent {
       this.on_memInfo_ready(this.total_swap);
       return;
     }
-    this.eventsSubscription = this.mem_info_ready_observable.subscribe((memInfo) => {
-      this.on_memInfo_ready(memInfo.total_swap);
-    });
+
   }
   ngOnDestroy() {
-    if (this.eventsSubscription) {
-      this.eventsSubscription.unsubscribe();
-    }
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.close();
-    }
+
+    this.unlisten_update_event();
+    invoke<any>('stop_current_swap_usage');
   }
 
-  private on_memInfo_ready(total_mem: number){
-    this.socket = new WebSocket('ws://127.0.0.1:9001');
-    this.socket.onopen = () => {
-      this.socket.send(AppComponent.app_session_id);
-      this.socket.send("memory_swap_current_usage");
-    }
-    this.socket.onmessage = (event) => {
-      let data = JSON.parse(event.data) as number[];
-      this.used = data[1];
-      this.used_perc = total_mem - data[1];
-      this.doughnutChartDatasets[0].data = [data[1], total_mem - data[1]]
-      this.chart.update();
+  private unlisten_update_event: any;
 
-    }
+  private on_memInfo_ready(total_mem: number){
+    invoke<any>('emit_current_swap_usage').then(async ()=>{
+      this.unlisten_update_event = await listen('current_swap_usage', (event)=>{
+        this.used = event.payload as number;
+        this.used_perc = total_mem - this.used;
+        this.doughnutChartDatasets[0].data = [this.used, total_mem - this.used]
+        this.chart.update();
+      })
+    })
   }
 
   public format_meassure_unit(bytes: number): string{

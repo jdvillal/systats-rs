@@ -26,7 +26,6 @@ export class CurrentMulticoreUsageComponent {
     this.chart.chart?.resize();
   }
 
-  socket!: WebSocket;
   public barChartLegend = false;
   public barChartPlugins = [];
   

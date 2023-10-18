@@ -3,12 +3,16 @@ use std::{collections::HashMap, sync::{Mutex, Arc}, ops::{Deref, DerefMut}};
 use tauri::State;
 
 pub mod cpu;
+pub mod memory;
 
 #[derive(PartialEq, Eq, Hash)]
 pub enum StreamEvent{
     CpuMulticoreHistoricalUsage,
     CpuSinglecoreCurrentUsage,
-    SystemInformation
+    SystemInformation,
+    MemoryHistoricalUsage,
+    CurrentMemoryUsage,
+    CurrentSwapUsage
 }
 
 macro_rules! generate_counters {
@@ -26,14 +30,20 @@ impl StreamEvent{
         match self{
             Self::CpuMulticoreHistoricalUsage => "cpu_multicore_historical_usage",
             Self::CpuSinglecoreCurrentUsage => "cpu_singlecore_current_usage",
-            Self::SystemInformation => "system_information"
+            Self::SystemInformation => "system_information",
+            Self::MemoryHistoricalUsage => "memory_historical_usage",
+            Self::CurrentMemoryUsage => "current_memory_usage",
+            Self::CurrentSwapUsage => "current_swap_usage"
         }
     }
     pub fn get_counters() -> HashMap<StreamEvent, Mutex<u8>> {
         generate_counters!(
             CpuMulticoreHistoricalUsage,
             CpuSinglecoreCurrentUsage,
-            SystemInformation
+            SystemInformation,
+            MemoryHistoricalUsage,
+            CurrentMemoryUsage,
+            CurrentSwapUsage
         )
         // DO NOT REMOVE THIS COMMENT
         //TODO: If you modify the StreamEvent enum, make sure to update this function.

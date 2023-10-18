@@ -22,7 +22,6 @@ export class TimelapseMulticoreUsageComponent {
   @Input() core_count_ready_event!: Observable<number>;
   @Input() core_count!: number;
 
-  public socket!: WebSocket;
   public cores_data:number[][] = [];
 
   x_scale = 1.5;
@@ -52,8 +51,6 @@ export class TimelapseMulticoreUsageComponent {
         })
       })
     }
-  }
-  ngAfterViewInit(){
   }
 
   ngOnDestroy() {

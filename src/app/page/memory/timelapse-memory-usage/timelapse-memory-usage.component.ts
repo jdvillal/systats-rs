@@ -2,12 +2,13 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartOptions, Tick } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription } from 'rxjs';
-import { MemoryInfo } from 'src/app/types/memory-types';
+import { MemBuffer, MemoryInfo } from 'src/app/types/memory-types';
 import { AppearanceSettingComponent } from './appearance-setting/appearance-setting.component';
 import { MemoryPreferencesService } from 'src/app/services/memory-preferences.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { AppComponent } from 'src/app/app.component';
+import { invoke } from '@tauri-apps/api';
+import { listen } from '@tauri-apps/api/event';
 
 @Component({
   selector: 'app-timelapse-memory-usage',
@@ -17,12 +18,7 @@ import { AppComponent } from 'src/app/app.component';
   imports: [NgChartsModule, AppearanceSettingComponent, CommonModule, TranslateModule]
 })
 export class TimelapseMemoryUsageComponent {
-  private eventsSubscription!: Subscription;
-  @Input() mem_info_ready_observable!: Observable<MemoryInfo>;
   @Input() total_memory!: number;
-
-  private socket!: WebSocket;
-
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
 
   public line_color = '';
@@ -54,18 +50,13 @@ export class TimelapseMemoryUsageComponent {
       this.on_memInfo_ready(this.total_memory);
       return;
     }
-    this.eventsSubscription = this.mem_info_ready_observable.subscribe((memInfo) => {
-      this.on_memInfo_ready(memInfo.total);
-    });
   }
   ngOnDestroy() {
-    if (this.eventsSubscription) {
-      this.eventsSubscription.unsubscribe();
-    }
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.close();
-    }
+    this.unlisten_update_event();
+    invoke<any>('stop_memory_historical_usage');
   }
+
+  private unlisten_update_event: any; 
 
   private on_memInfo_ready(total_mem: number) {
     this.lineChartOptions = {
@@ -83,23 +74,21 @@ export class TimelapseMemoryUsageComponent {
       },
       plugins: { legend: { display: false }}
     };
-
-    this.socket = new WebSocket("ws://127.0.0.1:9001");
-    this.socket.onopen = () => {
-      this.socket.send(AppComponent.app_session_id);
-      this.socket.send("memory_timelapse_usage");
-    }
-    this.socket.onmessage = (event) => {
-      let data: number[] = JSON.parse(event.data) as number[];
-      let labels = []
-      for (let i = 0; i < data.length; i++) {
-        labels.push('')
-      }
-      this.lineChartData.labels = labels;
-      this.lineChartData.datasets[0].data = data;
-      this.lineChartData.datasets[0].borderColor = this.line_color;
-      this.chart.update();
-    }
+    
+    
+    invoke<any>('emit_memory_historical_usage').then(async()=>{
+      this.unlisten_update_event = await listen('memory_historical_usage', (event)=>{
+        let data = (event.payload as MemBuffer).buffer;
+        let labels = []
+        for (let i = 0; i < data.length; i++) {
+          labels.push('')
+        }
+        this.lineChartData.labels = labels;
+        this.lineChartData.datasets[0].data = data;
+        this.lineChartData.datasets[0].borderColor = this.line_color;
+        this.chart.update();
+      })
+    })
   }
 
   public format_meassure_unit(bytes: number): string{

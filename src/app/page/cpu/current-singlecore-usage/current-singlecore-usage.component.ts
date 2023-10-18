@@ -3,7 +3,6 @@ import { Component, NgZone } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { invoke } from '@tauri-apps/api';
 import { listen } from '@tauri-apps/api/event';
-import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-current-singlecore-usage',
@@ -13,7 +12,7 @@ import { AppComponent } from 'src/app/app.component';
   imports: [TranslateModule, CommonModule]
 })
 export class CurrentSinglecoreUsageComponent {
-  private socket!: WebSocket;
+
   public current_utilization!: number;
 
   private unlisten_update_event: any;
@@ -21,8 +20,8 @@ export class CurrentSinglecoreUsageComponent {
   constructor(private ngZone: NgZone){}
 
   ngOnInit() {
-    this.unlisten_update_event = invoke<any>("emit_cpu_singlecore_current_usage", { }).then(async ()=>{
-        this.unlisten_update_event = listen('cpu_singlecore_current_usage', (event) => {
+    invoke<any>("emit_cpu_singlecore_current_usage", { }).then(async ()=>{
+        this.unlisten_update_event = await listen('cpu_singlecore_current_usage', (event) => {
           this.update_ui(event.payload as number);
         });
     })
@@ -35,7 +34,7 @@ export class CurrentSinglecoreUsageComponent {
   }
 
   ngOnDestroy(){
-    this.unlisten_update_event();
+    this.unlisten_update_event()
     invoke<any>("stop_cpu_singlecore_current_usage", { });
   }
 

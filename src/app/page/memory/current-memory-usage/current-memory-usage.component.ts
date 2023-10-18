@@ -1,5 +1,7 @@
 import { Component, HostListener, Input, QueryList, ViewChild } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { invoke } from '@tauri-apps/api';
+import { listen } from '@tauri-apps/api/event';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription } from 'rxjs';
@@ -14,8 +16,6 @@ import { MemoryInfo } from 'src/app/types/memory-types';
   imports: [NgChartsModule, TranslateModule]
 })
 export class CurrentMemoryUsageComponent {
-  private eventsSubscription!: Subscription;
-  @Input() mem_info_ready_observable!: Observable<MemoryInfo>;
   @Input() total_memory!: number;
 
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
@@ -47,34 +47,24 @@ export class CurrentMemoryUsageComponent {
       this.on_memInfo_ready(this.total_memory);
       return;
     }
-    this.eventsSubscription = this.mem_info_ready_observable.subscribe((memInfo) => {
-      this.on_memInfo_ready(memInfo.total);
-    });
+
   }
   ngOnDestroy() {
-    if (this.eventsSubscription) {
-      this.eventsSubscription.unsubscribe();
-    }
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.close();
-    }
+    this.unlisten_update_event();
+    invoke<any>('stop_current_memory_usage');
   }
 
-  private on_memInfo_ready(total_mem: number){
-    this.socket = new WebSocket('ws://127.0.0.1:9001');
-    this.socket.onopen = () => {
-      this.socket.send(AppComponent.app_session_id);
-      this.socket.send("memory_swap_current_usage");
-    }
-    this.socket.onmessage = (event) => {
-      let data = JSON.parse(event.data) as number[];
-      this.used = data[0];
-      this.used_perc = total_mem - data[0];
-      this.doughnutChartDatasets[0].data = [data[0], total_mem - data[0]]
-      //this.doughnutChartDatasets[1].data = [data[1], total_mem - data[1]]
-      this.chart.update();
+  private unlisten_update_event : any;
 
-    }
+  private on_memInfo_ready(total_mem: number){
+    invoke<any>('emit_current_memory_usage').then(async ()=>{
+      this.unlisten_update_event = await listen('current_memory_usage', (event)=>{
+        this.used = event.payload as number;
+        this.used_perc = total_mem - this.used;
+        this.doughnutChartDatasets[0].data = [this.used, total_mem - this.used]
+        this.chart.update();
+      })
+    })
   }
 
   public format_meassure_unit(bytes: number): string{
