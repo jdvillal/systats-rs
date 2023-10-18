@@ -1,14 +1,14 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { TimelapseSingleUsageComponent } from './timelapse-single-usage/timelapse-single-usage.component';
 import { CommonModule } from '@angular/common';
 import { CpuDataUpdateNotifierService } from './service/cpu-data-update-notifier.service';
 import { NgChartsModule } from 'ng2-charts';
-import { ChartConfiguration } from 'chart.js';
 import { AppearanceSettingComponent } from './appearance-setting/appearance-setting.component';
-import { CpuPreferences } from 'src/app/types/cpu-types';
+import { CoreBuffer} from 'src/app/types/cpu-types';
 import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
-import { AppComponent } from 'src/app/app.component';
+import { invoke } from '@tauri-apps/api';
+import { listen } from '@tauri-apps/api/event';
 
 @Component({
   selector: 'app-timelapse-multicore-usage',
@@ -22,7 +22,6 @@ export class TimelapseMulticoreUsageComponent {
   @Input() core_count_ready_event!: Observable<number>;
   @Input() core_count!: number;
 
-  public socket!: WebSocket;
   public cores_data:number[][] = [];
 
   x_scale = 1.5;
@@ -39,52 +38,34 @@ export class TimelapseMulticoreUsageComponent {
     this.line_color = pref.timelapse.line_color;
   }
 
+  unlisten_update_event: any;//function to 'unsubscribe' from update event
+
   ngOnInit(){
     if(this.core_count){
-      this.onCoreCountReady(this.core_count)
-      return;
+      for(let i = 0; i < this.core_count; i++){
+        this.cores_data.push([])
+      }
+      invoke<any>("emit_cpu_mulitcore_historical_usage", { }).then(async ()=>{
+        this.unlisten_update_event = await listen('cpu_multicore_historical_usage', (event) => {
+          this.update_chart(event.payload as CoreBuffer[]);
+        })
+      })
     }
-    this.eventsSubscription = this.core_count_ready_event.subscribe((core_count) => {
-      this.onCoreCountReady(core_count);
-    });
-  }
-  ngAfterViewInit(){
   }
 
   ngOnDestroy() {
-    if(this.eventsSubscription){
-      this.eventsSubscription.unsubscribe();
-    }
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.close();
-    }
+    this.unlisten_update_event();
+    invoke<any>("stop_cpu_mulitcore_historical_usage", { });
   }
 
-  private onCoreCountReady(core_count: number){
-    //this.cores_data = [];
-    for(let i = 0; i < core_count; i++){
-      this.cores_data.push([])
-    }
-    this.socket = new WebSocket("ws://127.0.0.1:9001");
-    this.socket.onopen = () => {
-      this.socket.send(AppComponent.app_session_id);
-      this.socket.send("cpu_timelapse_multicore_usage");
-    }
-    this.socket.onmessage = (event) => {
-      let data: number[][] = JSON.parse(event.data) as number[][];
-      //TODO: instead of sending 120 arrays (from rust-tauri) of 'core_count' len each, try and test 
-      //sending 'core_count' arrays of 120 numbers to avoid doing the following data
-      //manipulation in js  
-      let lectures_count = data.length;
-      
-      for(let i = 0; i < core_count; i++){
-        this.cores_data[i].length = 0;
-        for(let j = 0; j < lectures_count; j++){
-          this.cores_data[i].push(data[j][i]);
-        }
+  private update_chart(data: CoreBuffer[]){
+    for(let i = 0; i < this.core_count; i++){
+      this.cores_data[i].length = 0;
+      for(let n of data[i].buffer){
+        this.cores_data[i].push(n)
       }
-      this.core_data_update_notifier.notifyAll();
     }
+    this.core_data_update_notifier.notifyAll();
   }
 
 }

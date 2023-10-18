@@ -3,6 +3,10 @@ export interface MemoryInfo{
     total_swap: number
 }
 
+export interface MemBuffer{
+    buffer: number[]
+}
+
 export interface MemoryPreferences{
     version: number,
     general: {},

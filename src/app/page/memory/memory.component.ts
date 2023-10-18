@@ -22,12 +22,8 @@ import { TranslateModule } from '@ngx-translate/core';
   ]
 })
 export class MemoryComponent {
-  public memory_info_ready_subject: Subject<MemoryInfo> = new Subject<MemoryInfo>();
-  public memInfo!: MemoryInfo;
-  public total_memory!: number;
-  public total_swap!: number;
 
-  public current_chart_type: 'current' | 'timelapse' = 'timelapse';
+  public memInfo!: MemoryInfo;
 
   ngOnInit(){
     this.get_memory_information();
@@ -36,14 +32,7 @@ export class MemoryComponent {
   get_memory_information(): void {
     invoke<MemoryInfo>("get_memory_information", {}).then((res) => {
       this.memInfo = res as MemoryInfo;
-      this.total_memory = this.memInfo.total;
-      this.total_swap = this.memInfo.total_swap;
-      this.memory_info_ready_subject.next(this.memInfo);
     });
-  }
-
-  set_current_chart_type(chart_type: 'current' | 'timelapse'){
-    this.current_chart_type = chart_type;
   }
 
 }

@@ -28,6 +28,11 @@ export interface ProcessHistory{
     disk_write_usage: number[],
 }
 
+export interface ProcessHistPayload{
+    status: boolean,
+    data: ProcessHistory
+}
+
 export interface ProcessPreferences{
     version: number,
     cpu_usage_chart:{
@@ -47,4 +52,9 @@ export interface ProcessPreferences{
         write_line_chart_color: string
         background_color: string,
     }
+}
+
+export interface ProcessInfoPayload{
+    status: boolean,
+    data: ProcessInformation
 }

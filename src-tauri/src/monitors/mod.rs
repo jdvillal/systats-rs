@@ -1,9 +1,9 @@
-use std::{sync::{Arc, Mutex, RwLock}, net::{TcpListener, TcpStream}, thread, collections::HashMap};
+use std::{sync::{Arc, Mutex}, net::{TcpListener, TcpStream}, thread};
 use tungstenite::{accept, WebSocket};
 use uuid::Uuid;
 use crate::streamers;
 
-use self::{cpu::start_cpu_monitor, memory::start_memory_monitor, process::{ProcessHistory, start_processes_monitor}};
+use self::{cpu::start_cpu_monitor, memory::start_memory_monitor};
 
 pub mod cpu;
 pub mod memory;
@@ -73,19 +73,19 @@ pub fn initialize_monitors(app_session_id: Arc<Uuid>){
     let memory_timelapse_data: Vec<u64> = Vec::new();
     let memory_timelapse_data_arc = Arc::new(Mutex::new(memory_timelapse_data));
 
-    let recorded_processes: HashMap<usize, ProcessHistory> = HashMap::new();
-    let recorded_processes_arc = Arc::new(RwLock::new(recorded_processes));
+    /* let recorded_processes: HashMap<usize, ProcessHistory> = HashMap::new();
+    let recorded_processes_arc = Arc::new(RwLock::new(recorded_processes)); */
 
     start_cpu_monitor(Arc::clone(&cpu_timelapse_data_arc));
     start_memory_monitor(Arc::clone(&memory_timelapse_data_arc));
-    start_processes_monitor(Arc::clone(&recorded_processes_arc));
+    /* start_processes_monitor(Arc::clone(&recorded_processes_arc)); */
 
     let server = TcpListener::bind("127.0.0.1:9001").unwrap();
     thread::spawn(move ||{
         for stream in server.incoming(){
             let cpu_timelapse_data_arc = Arc::clone(&cpu_timelapse_data_arc);
             let memory_timelapse_data_arc = Arc::clone(&memory_timelapse_data_arc);
-            let recorded_processes = Arc::clone(&recorded_processes_arc);
+            //let recorded_processes = Arc::clone(&recorded_processes_arc);
             let app_session_id = Arc::clone(&app_session_id);
             thread::spawn(move||{
                 let mut websocket = accept(stream.unwrap()).unwrap();
@@ -126,7 +126,7 @@ pub fn initialize_monitors(app_session_id: Arc<Uuid>){
                         streamers::cpu::handle_current_system_state_websocket(websocket);
                     },
                     MRT::ProcessResourcesUsage =>{
-                        streamers::process::handle_process_resource_usage_websocket(websocket, recorded_processes);
+                        //streamers::process::handle_process_resource_usage_websocket(websocket, recorded_processes);
                     }
                     MRT::ProcessInformation => {
                         streamers::process::handle_process_information_websocket(websocket);

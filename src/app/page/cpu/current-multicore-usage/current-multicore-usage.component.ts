@@ -1,5 +1,5 @@
 import { Component, ViewChild, HostListener, Input, EventEmitter } from '@angular/core';
-import { event } from '@tauri-apps/api';
+import { event, invoke } from '@tauri-apps/api';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { Observable, Subscription } from 'rxjs';
@@ -7,6 +7,8 @@ import { AppearanceSettingComponent } from './appearance-setting/appearance-sett
 import { CpuPreferencesService } from 'src/app/services/cpu-preferences.service';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from 'src/app/app.component';
+import { listen } from '@tauri-apps/api/event';
+import { CoreBuffer } from 'src/app/types/cpu-types';
 @Component({
   selector: 'app-current-multicore-usage',
   templateUrl: './current-multicore-usage.component.html',
@@ -15,8 +17,6 @@ import { AppComponent } from 'src/app/app.component';
   imports: [NgChartsModule, AppearanceSettingComponent, CommonModule]
 })
 export class CurrentMulticoreUsageComponent {
-  private eventsSubscription!: Subscription;
-  @Input() core_count_ready_event!: Observable<number>;
   @Input() core_count!: number;
 
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
@@ -26,7 +26,6 @@ export class CurrentMulticoreUsageComponent {
     this.chart.chart?.resize();
   }
 
-  socket!: WebSocket;
   public barChartLegend = false;
   public barChartPlugins = [];
   
@@ -56,41 +55,35 @@ export class CurrentMulticoreUsageComponent {
     plugins: { legend: { display: false } }
   };
 
+  private unlisten_update_event: any;
   ngOnInit() {
     if(this.core_count){
-      this.onCoreCountReady(this.core_count);
-      return
-    }
-    this.eventsSubscription = this.core_count_ready_event.subscribe((core_count) => {
-      this.onCoreCountReady(core_count);
-    });
-  }
-
-  public onCoreCountReady(core_count: number) {
-    this.barChartData.labels = [];
-    for (let i = 0; i < core_count; i++) {
-      this.barChartData.labels.push(`CPU ${i + 1}`);
-    }
-    this.socket = new WebSocket("ws://127.0.0.1:9001");
-    this.socket.onopen = () => {
-      this.socket.send(AppComponent.app_session_id);
-      this.socket.send("cpu_current_multicore_usage")
-    }
-    this.socket.onmessage = (event) => {
-      let data = JSON.parse(event.data) as number[]
-      this.barChartData.datasets[0].data = data;
-      this.barChartData.datasets[0].backgroundColor = this.bars_color;
-      this.chart.update();
+      this.barChartData.labels = [];
+      for(let i = 0; i < this.core_count; i++){
+        this.barChartData.labels.push(`CPU ${i + 1}`);
+      }
+      invoke<any>("emit_cpu_mulitcore_historical_usage", { }).then(async ()=>{
+        this.unlisten_update_event = await listen('cpu_multicore_historical_usage', (event) => {
+          this.update_chart(event.payload as CoreBuffer[]);
+        })
+      })
     }
   }
 
   ngOnDestroy(){
-    if(this.eventsSubscription){
-      this.eventsSubscription.unsubscribe();
-    }
-    //TODO: check why this close operation thows an error on console
-    if(this.socket && this.socket.readyState === WebSocket.OPEN){
-      this.socket.close();
-    }
+    this.unlisten_update_event();
+    invoke<any>("emit_cpu_mulitcore_historical_usage", { });
   }
+
+  private update_chart(data: CoreBuffer[]){
+    let chart_data: number[] = [];
+    for(let corebuffer of data){
+      let n = corebuffer.buffer[corebuffer.buffer.length - 1];
+      chart_data.push(n);
+    }
+    this.barChartData.datasets[0].data = chart_data;
+    this.barChartData.datasets[0].backgroundColor = this.bars_color;
+    this.chart.update();
+  }
+
 }

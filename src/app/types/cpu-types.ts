@@ -20,6 +20,10 @@ export interface SystemStateInfo{
     os_version: string | null
 }
 
+export interface CoreBuffer{
+    buffer: number[]
+}
+
 export interface CpuPreferences{
     version: number,
     general: {
