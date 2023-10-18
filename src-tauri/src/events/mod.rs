@@ -14,7 +14,9 @@ pub enum StreamEvent{
     MemoryHistoricalUsage,
     CurrentMemoryUsage,
     CurrentSwapUsage,
-    CurrentRunningProcesses
+    CurrentRunningProcesses,
+    ProcessHistoricalResourceUsage,
+    ProcessInformation
 }
 
 macro_rules! generate_counters {
@@ -36,7 +38,9 @@ impl StreamEvent{
             Self::MemoryHistoricalUsage => "memory_historical_usage",
             Self::CurrentMemoryUsage => "current_memory_usage",
             Self::CurrentSwapUsage => "current_swap_usage",
-            Self::CurrentRunningProcesses => "current_running_processes"
+            Self::CurrentRunningProcesses => "current_running_processes",
+            Self::ProcessHistoricalResourceUsage => "process_historical_resource_usage",
+            Self::ProcessInformation => "process_information"
         }
     }
     pub fn get_counters() -> HashMap<StreamEvent, Mutex<u8>> {
@@ -47,7 +51,9 @@ impl StreamEvent{
             MemoryHistoricalUsage,
             CurrentMemoryUsage,
             CurrentSwapUsage,
-            CurrentRunningProcesses
+            CurrentRunningProcesses,
+            ProcessHistoricalResourceUsage,
+            ProcessInformation
         )
         // DO NOT REMOVE THIS COMMENT
         //TODO: If you modify the StreamEvent enum, make sure to update this function.

@@ -52,7 +52,7 @@ export class ProcessesComponent {
 
   private update_ui(value: ProcessInformation[]){
     this.ngZone.run(() => {
-      if(this.order_by == 'name'){
+      if(this.order_by == 'process_name'){
         value.sort(this.compare_by_name);
       }else if(this.order_by == 'parent_pid'){
         value.sort(this.compare_by_parent_pid);

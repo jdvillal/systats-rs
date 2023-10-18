@@ -1,12 +1,14 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AppComponent } from 'src/app/app.component';
-import { ProcessHistory, ProcessInformation } from 'src/app/types/process';
+import { ProcessHistPayload, ProcessHistory, ProcessInfoPayload, ProcessInformation } from 'src/app/types/process';
 import { ProcessCpuUsageComponent } from './process-cpu-usage/process-cpu-usage.component';
 import { ProcessMemoryUsageComponent } from './process-memory-usage/process-memory-usage.component';
 import { ProcessDiskUsageComponent } from './process-disk-usage/process-disk-usage.component';
+import { invoke } from '@tauri-apps/api';
+import { listen } from '@tauri-apps/api/event';
 
 @Component({
     selector: 'app-process',
@@ -23,12 +25,7 @@ import { ProcessDiskUsageComponent } from './process-disk-usage/process-disk-usa
 export class ProcessComponent {
   public pid = this.route.snapshot.paramMap.get("pid");
 
-  // Stream of historic resource utilization of the process
-  private resources_socket!: WebSocket;
   public process_info!: ProcessInformation;
-
-  // Stream of current resource state
-  private information_socket!: WebSocket;
   public process_history!: ProcessHistory;
 
   public data_update_subject: Subject<void> = new Subject();
@@ -36,39 +33,63 @@ export class ProcessComponent {
   public total_memory! :number;
 
   constructor(
+    private ngZone: NgZone,
     private route: ActivatedRoute,
     private location: Location,
-    private router: Router
   ){}
 
   ngOnInit(){
-    this.start_info_socket();
-    this.start_resource_socket();
+    this.listen_resource_usage();
+    this.listen_process_info();
 
   }
   ngOnDestroy(){
-    if (this.resources_socket){
-      this.resources_socket.close();
-    }
+    this.unlisten_resource_updates();
+    invoke<any>('stop_process_historical_resource_usage');
+    this.unlisten_process_info();
+    invoke<any>('stop_process_information');
   }
 
-  start_info_socket(){
-    this.information_socket = new WebSocket("ws://127.0.0.1:9001");
-    this.information_socket.onopen = () => {
-      this.information_socket.send(AppComponent.app_session_id);
-      this.information_socket.send("process_information");
-      this.information_socket.send(String(this.pid));
-    }
-    this.information_socket.onmessage = (event) =>{
-      this.process_info = JSON.parse(event.data);
-      console.log(this.process_info)
-    }
-    this.information_socket.onclose = () =>{
-      console.log("CLOSED")
-    }
+  private unlisten_resource_updates: any;
+  private listen_resource_usage(){
+    if(!this.pid){return}
+    invoke<any>('emit_process_historical_resource_usage', {pid: Number.parseInt(this.pid)}).then(async ()=>{
+      this.unlisten_resource_updates = await listen('process_historical_resource_usage', (event)=>{
+        this.ngZone.run(()=>{
+          let resp = JSON.parse(event.payload as string) as ProcessHistPayload;
+          if(resp.status){
+            this.process_history = resp.data;
+            this.data_update_subject.next();
+          }else{
+            //TODO: show error when procces has terminated
+          }
+        })
+      })
+    })
   }
 
-  start_resource_socket(){
+  private unlisten_process_info!: any;
+  private listen_process_info(){
+    if(!this.pid){return}
+    invoke<any>('emit_process_information', {pid: Number.parseInt(this.pid)}).then(async ()=>{
+      this.unlisten_process_info = await listen('process_information', (event)=>{
+        console.log("received");
+        this.ngZone.run(()=>{
+          let resp = event.payload  as ProcessInfoPayload;
+          if(resp.status){
+            this.process_info = resp.data;
+          }else{
+            //TODO: show error when procces has terminated
+          }
+        })
+      })
+    })
+  }
+
+
+
+
+  /* start_resource_socket(){
     this.resources_socket = new WebSocket("ws://127.0.0.1:9001");
     this.resources_socket.onopen = () =>{
       this.resources_socket.send(AppComponent.app_session_id);
@@ -79,7 +100,7 @@ export class ProcessComponent {
       this.process_history = JSON.parse(event.data);
       this.data_update_subject.next();
     }
-  }
+  } */
 
   public go_back(){
     this.location.back();
