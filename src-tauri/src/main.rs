@@ -47,7 +47,9 @@ fn main() {
             events::memory::emit_current_memory_usage,
             events::memory::stop_curent_memory_usage,
             events::memory::emit_current_swap_usage,
-            events::memory::stop_curent_swap_usage
+            events::memory::stop_curent_swap_usage,
+            events::process::emit_current_running_processes,
+            events::process::stop_current_running_processes
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

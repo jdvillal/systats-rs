@@ -4,6 +4,7 @@ use tauri::State;
 
 pub mod cpu;
 pub mod memory;
+pub mod process;
 
 #[derive(PartialEq, Eq, Hash)]
 pub enum StreamEvent{
@@ -12,7 +13,8 @@ pub enum StreamEvent{
     SystemInformation,
     MemoryHistoricalUsage,
     CurrentMemoryUsage,
-    CurrentSwapUsage
+    CurrentSwapUsage,
+    CurrentRunningProcesses
 }
 
 macro_rules! generate_counters {
@@ -33,7 +35,8 @@ impl StreamEvent{
             Self::SystemInformation => "system_information",
             Self::MemoryHistoricalUsage => "memory_historical_usage",
             Self::CurrentMemoryUsage => "current_memory_usage",
-            Self::CurrentSwapUsage => "current_swap_usage"
+            Self::CurrentSwapUsage => "current_swap_usage",
+            Self::CurrentRunningProcesses => "current_running_processes"
         }
     }
     pub fn get_counters() -> HashMap<StreamEvent, Mutex<u8>> {
@@ -43,7 +46,8 @@ impl StreamEvent{
             SystemInformation,
             MemoryHistoricalUsage,
             CurrentMemoryUsage,
-            CurrentSwapUsage
+            CurrentSwapUsage,
+            CurrentRunningProcesses
         )
         // DO NOT REMOVE THIS COMMENT
         //TODO: If you modify the StreamEvent enum, make sure to update this function.
