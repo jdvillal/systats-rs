@@ -46,8 +46,8 @@ export class TimelapseMulticoreUsageComponent {
       for(let i = 0; i < this.core_count; i++){
         this.cores_data.push([])
       }
-      invoke<any>("try_emit_cpu_updates", { }).then(async ()=>{
-        this.unlisten_update_event = await listen('cpu_update', (event) => {
+      invoke<any>("emit_cpu_mulitcore_historical_usage", { }).then(async ()=>{
+        this.unlisten_update_event = await listen('cpu_multicore_historical_usage', (event) => {
           this.update_chart(event.payload as CoreBuffer[]);
         })
       })
@@ -58,7 +58,7 @@ export class TimelapseMulticoreUsageComponent {
 
   ngOnDestroy() {
     this.unlisten_update_event();
-    invoke<any>("try_stop_emitting_cpu_updates", { });
+    invoke<any>("stop_cpu_mulitcore_historical_usage", { });
   }
 
   private update_chart(data: CoreBuffer[]){

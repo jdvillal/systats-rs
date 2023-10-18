@@ -158,3 +158,7 @@ pub fn handle_current_system_state_websocket(
     println!("websocket closed");
 }
 //END SYSTEM GENERAL INFO
+
+
+/*********************** EVENT IMPLEMENTATION**********************/
+

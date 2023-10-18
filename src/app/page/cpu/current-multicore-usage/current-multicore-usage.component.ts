@@ -17,8 +17,6 @@ import { CoreBuffer } from 'src/app/types/cpu-types';
   imports: [NgChartsModule, AppearanceSettingComponent, CommonModule]
 })
 export class CurrentMulticoreUsageComponent {
-  private eventsSubscription!: Subscription;
-  @Input() core_count_ready_event!: Observable<number>;
   @Input() core_count!: number;
 
   @ViewChild(BaseChartDirective) chart!: BaseChartDirective;
@@ -65,43 +63,17 @@ export class CurrentMulticoreUsageComponent {
       for(let i = 0; i < this.core_count; i++){
         this.barChartData.labels.push(`CPU ${i + 1}`);
       }
-      invoke<any>("try_emit_cpu_updates", { }).then(async ()=>{
-        this.unlisten_update_event = await listen('cpu_update', (event) => {
+      invoke<any>("emit_cpu_mulitcore_historical_usage", { }).then(async ()=>{
+        this.unlisten_update_event = await listen('cpu_multicore_historical_usage', (event) => {
           this.update_chart(event.payload as CoreBuffer[]);
         })
       })
     }
-/*     this.eventsSubscription = this.core_count_ready_event.subscribe((core_count) => {
-      this.onCoreCountReady(core_count);
-    }); */
-  }
-
-  public onCoreCountReady(core_count: number) {
-    this.barChartData.labels = [];
-    for (let i = 0; i < core_count; i++) {
-      this.barChartData.labels.push(`CPU ${i + 1}`);
-    }
-    this.socket = new WebSocket("ws://127.0.0.1:9001");
-    this.socket.onopen = () => {
-      this.socket.send(AppComponent.app_session_id);
-      this.socket.send("cpu_current_multicore_usage")
-    }
-    this.socket.onmessage = (event) => {
-      let data = JSON.parse(event.data) as number[]
-      this.barChartData.datasets[0].data = data;
-      this.barChartData.datasets[0].backgroundColor = this.bars_color;
-      this.chart.update();
-    }
   }
 
   ngOnDestroy(){
-    if(this.eventsSubscription){
-      this.eventsSubscription.unsubscribe();
-    }
-    //TODO: check why this close operation thows an error on console
-    if(this.socket && this.socket.readyState === WebSocket.OPEN){
-      this.socket.close();
-    }
+    this.unlisten_update_event();
+    invoke<any>("stop_cpu_singlecore_current_usage", { });
   }
 
   private update_chart(data: CoreBuffer[]){

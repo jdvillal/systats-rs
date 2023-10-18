@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { invoke } from '@tauri-apps/api';
+import { listen } from '@tauri-apps/api/event';
 import { AppComponent } from 'src/app/app.component';
 
 @Component({
@@ -8,31 +10,33 @@ import { AppComponent } from 'src/app/app.component';
   templateUrl: './current-singlecore-usage.component.html',
   styleUrls: ['./current-singlecore-usage.component.css'],
   standalone: true,
-  imports: [TranslateModule]
+  imports: [TranslateModule, CommonModule]
 })
 export class CurrentSinglecoreUsageComponent {
   private socket!: WebSocket;
-  public current_utilization = 0;
+  public current_utilization!: number;
 
+  private unlisten_update_event: any;
+
+  constructor(private ngZone: NgZone){}
 
   ngOnInit() {
-    this.socket = new WebSocket("ws://127.0.0.1:9001");
+    this.unlisten_update_event = invoke<any>("emit_cpu_singlecore_current_usage", { }).then(async ()=>{
+        this.unlisten_update_event = listen('cpu_singlecore_current_usage', (event) => {
+          this.update_ui(event.payload as number);
+        });
+    })
+  }
 
-    this.socket.onopen = () => {
-      this.socket.send(AppComponent.app_session_id);
-      this.socket.send("cpu_current_singlecore_usage");
-    }
-
-    this.socket.onmessage = (event) => {
-      let data = JSON.parse(event.data) as number[];
-      this.current_utilization = Math.round(data[0] * 10) / 10
-    }
+  update_ui(value: number){
+    this.ngZone.run(() => {
+      this.current_utilization = Math.round(value * 100) / 100;
+    })
   }
 
   ngOnDestroy(){
-    if(this.socket && this.socket.readyState === WebSocket.OPEN){
-      this.socket.close();
-    }
+    this.unlisten_update_event();
+    invoke<any>("stop_cpu_singlecore_current_usage", { });
   }
 
 }
