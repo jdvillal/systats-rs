@@ -72,7 +72,7 @@ export class CurrentMulticoreUsageComponent {
 
   ngOnDestroy(){
     this.unlisten_update_event();
-    invoke<any>("stop_cpu_singlecore_current_usage", { });
+    invoke<any>("emit_cpu_mulitcore_historical_usage", { });
   }
 
   private update_chart(data: CoreBuffer[]){
