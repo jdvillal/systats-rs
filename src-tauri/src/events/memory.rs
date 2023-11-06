@@ -111,7 +111,7 @@ pub fn emit_current_memory_usage(
 
 /// Try to stop emitting CPU historical data updates by decreasing the counter
 #[tauri::command]
-pub fn stop_curent_memory_usage(
+pub fn stop_current_memory_usage(
     counters_state: State<Arc<HashMap<StreamEvent, Mutex<u8>>>>,
 ) {
     let mut counter = counters_state
@@ -163,7 +163,7 @@ pub fn emit_current_swap_usage(
 
 /// Try to stop emitting CPU historical data updates by decreasing the counter
 #[tauri::command]
-pub fn stop_curent_swap_usage(
+pub fn stop_current_swap_usage(
     counters_state: State<Arc<HashMap<StreamEvent, Mutex<u8>>>>,
 ) {
     let mut counter = counters_state

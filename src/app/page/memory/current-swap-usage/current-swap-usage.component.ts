@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, NgZone, ViewChild } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { invoke } from '@tauri-apps/api';
 import { listen } from '@tauri-apps/api/event';
@@ -40,6 +40,8 @@ export class CurrentSwapUsageComponent {
     plugins: {legend: {position: 'top', align: 'center'}}
   };
 
+  constructor(private ngZone: NgZone){}
+
   ngOnInit(){
     if (this.total_swap) {
       this.on_memInfo_ready(this.total_swap);
@@ -58,10 +60,12 @@ export class CurrentSwapUsageComponent {
   private on_memInfo_ready(total_mem: number){
     invoke<any>('emit_current_swap_usage').then(async ()=>{
       this.unlisten_update_event = await listen('current_swap_usage', (event)=>{
-        this.used = event.payload as number;
-        this.used_perc = total_mem - this.used;
-        this.doughnutChartDatasets[0].data = [this.used, total_mem - this.used]
-        this.chart.update();
+        this.ngZone.run(() => {
+          this.used = event.payload as number;
+          this.used_perc = total_mem - this.used;
+          this.doughnutChartDatasets[0].data = [this.used, total_mem - this.used]
+          this.chart.update();
+        })
       })
     })
   }
