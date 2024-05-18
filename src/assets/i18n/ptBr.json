@@ -1,0 +1,121 @@
+{
+    "app":{
+        "light_mode": "Modo Claro",
+        "dark_mode": "Modo Escuro",
+        "Auto": "Auto",
+        "Language_settings": "Configuração de idiomas",
+        "Cancel": "Cancelar",
+        "Close": "Fechar"
+    },
+    "pages": {
+        "cpu": "CPU",
+        "memory": "MEMÓRIA",
+        "storage": "ARMAZENAMENTO",
+        "processes": "PROCESSOS"
+    },
+    "cpu":{
+        "CPU": "CPU",
+        "Brand":"Modelo",
+        "Vendor": "Fabricante",
+        "Max_frequency": "Freq. máxima",
+        "Cores": "Núcleos",
+        "Logical_processors": "Processadores lógicos",
+        "Utilization_over_60_seconds": "Utilização durante 60 segundos",
+        "Current_utilization": "Utilização atual",
+        "Current": "Atual",
+        "Last_minute": "Último minuto",
+        "Processor_details": "Detalhes do processador",
+        "Frequency": "Frequência",
+        "System_information": "Informação do sistema",
+        "Running_processes": "Processos em execução",
+        "Up_time": "Tempo excedido",
+        "AVG_load_1min": "Carga média (1 min)",
+        "Boot_time": "Tempo de inicialização",
+        "OS_version": "Versão do SO"
+    },
+    "current_multicore_usage":{
+        "appearance_setting": {
+            "Chart_appearance": "Aparência do gráfico",
+            "Bars_color": "Cores das barras",
+            "Background": "Fundo",
+            "Cancel": "Cancelar",
+            "Apply_changes": "Aplicar alterações"
+        }
+    },
+    "current_singlecore_usage": {
+        "AVG_utilization": "Uso médio"
+    },
+    "timelapse_multicore_usage": {
+        "appearance_setting":{
+            "Chart_appearance": "Aparência do gráfico",
+            "Lines_color": "Cor das linhas",
+            "X_axis": "eixo X",
+            "Y_axis": "eixo Y",
+            "Cancel": "Cancelar",
+            "Apply_changes": "Aplicar alterações"
+        }
+    },
+    "Memory": {
+        "Memory": "Memória"
+    },
+    "current_memory_usage": {
+        "Memory": "Memória",
+        "used_of": "usado de"
+    },
+    "current_swap_usage":{
+        "Swap": "Swap",
+        "used_of": "usado de"
+    },
+    "timelapse_memory_usage":{
+        "Utilization_over_60_seconds": "Utilização durante 60 segundos",
+        "appearance_setting":  {
+            "Chart_appearance": "Aparência do gráfico",
+            "Line_color": "Cor das linhas",
+            "Background": "Fundo",
+            "Cancel": "Cancelar",
+            "Apply_changes": "Aplicar alterações"
+        }
+    },
+    "Disks": {
+        "Storage": "Armazenamento",
+        "Disk": "Disco",
+        "used_of": "usado de",
+        "Mount_point": "Ponto de montagem",
+        "File_system": "Sistema de arquivos",
+        "Type": "Tipo",
+        "Removable": "Removível",
+        "Not_removable": "Não removível"
+    },
+    "Disk": {
+        "Disk": "Disco",
+        "Back": "Voltar",
+        "Information": "Informação",
+        "Total_space": "Espaço total",
+        "Available_space": "Espaço disponível",
+        "Used_space": "Espaço usado",
+        "Mount_point": "Ponto de montagem",
+        "File_system": "Sistema de arquivos",
+        "Type": "Tipo",
+        "Removable": "Removível",
+        "removable_yes": "Sim",
+        "removable_no": "Não",
+        "available": "disponível",
+        "used": "usado",
+        "Usage": "Uso",
+        "Used_space_composition": "Composição do espaço usado"
+    },
+    "treemap":{
+        "treeview": {
+            "Copy_path": "Copiar caminho para a área de transferência",
+            "Highlight_in_treemap": "Destaque no mapa de árvore"
+        }
+    },
+    "Processes":{
+        "Processes": "Processos",
+        "Name": "Nome",
+        "PID": "PID",
+        "Parent_PID": "PID pai",
+        "CPU_usage": "Uso de CPU",
+        "Memory_usage": "Uso de memória"
+    }
+}

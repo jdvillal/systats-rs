@@ -23,7 +23,8 @@ export class AppComponent {
 
   supported_languages = [
     {language: 'English', abbreviation: 'en'},
-    {language: 'Español', abbreviation: 'es'}
+    {language: 'Español', abbreviation: 'es'},
+    {language: 'Português', abbreviation: 'ptBr'}
   ]
 
   
